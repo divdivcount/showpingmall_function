@@ -1,8 +1,36 @@
-<?php require_once('modules/db.php'); ?>
+<?php
+	require_once('modules/db.php');
+?>
 <!doctype html>
 <html>
 	<head>
 		<?php require_once('modules/form_head.php'); ?>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<style>
+				.slider .indicators .indicator-item {
+					background-color: #666666;
+					border: 3px solid #ffffff;
+					-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+					-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+					box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+				}
+				.slider .indicators .indicator-item.active {
+					background-color: #ffffff;
+				}
+				.slider {
+					width: 100%;
+					margin: 0 auto;
+				}
+				.slider .indicators {
+					bottom: 60px;
+					z-index: 100;
+				/* text-align: left; */
+				}
+				.caption{
+					margin-top:100px;
+				}
+		</style>
 		<title></title>
 	</head>
 	<body>
@@ -22,16 +50,34 @@
 					?>
 					<table>
 						<tr>
-							<td><?php echo $mb['mb_num'] ?><td>
+							<td style="width:auto; height:0">
+								<a href="index.php"><img src="files/Noimg/noimg.png" width="64px" height="64px;"/></a>
+							</td>
 								<?php
 									 	if($mb['mb_num']){
-											echo "<td>".$mb['mb_name']."님 어서오세요"."\t<a href=./register.php?mode=modify>회원정보수정</a>"."&nbsp;<a href='./logout.php'>로그아웃</a>"."&nbsp;<a href='./User_page.php'>마이페이지</a>"."</td>";
+											echo "<td style='float:right; margin-top:20px;'>".$mb['mb_name']."님 어서오세요"."\t<a href=./register.php?mode=modify>회원정보수정</a>"."&nbsp;<a href='./logout.php'>로그아웃</a>"."&nbsp;<a href='./User_page.php'>마이페이지</a>"."</td>";
 										}else {
-											echo "<td><a href='./login.php'>login</a></td>";
+											echo "<td style='float:right; margin-top:20px;'><a href='./login.php'>login</a></td>";
 										}
 								 ?>
 						</tr>
 					</table>
+					<?php
+					$galleryObj = new Gallery;
+					$result = $galleryObj ->SelectGallery();
+				 ?>
+					<div class="slider">
+				     <ul class="slides">
+							 <?php foreach($result as $row) : ?>
+				       <li>
+								 <img src="files/gallery/<?= $row['file'] ?>" alt="" width="100%" height="auto">
+				         <div class="caption center-align">
+				           <h3><?= $row['description'] ?></h3>
+				         </div>
+				       </li>
+							 <?php endforeach ?>
+				     </ul>
+				   </div>
 					<div class="click_box">
 						<div>
 							<iframe id="main_frame" src="list.php?var=cpu" height="800px" width="70%"></iframe>
@@ -75,6 +121,9 @@
 		function changeIframeUrl(url){
 			document.getElementById("main_frame").src = url;
 		}
+		$(document).ready(function(){
+		  $('.slider').slider();
+		});
 		</script>
 
 	</body>

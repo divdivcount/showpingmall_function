@@ -137,7 +137,7 @@ $query->execute();
 $fetch = $query->fetch(PDO::FETCH_ASSOC);
 $fname = $fetch['file'];
 if($fname != '') {
-	if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or $this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value)
+	if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or $this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value or $this->quTable == "gallery")
 		{
 		if(file_exists(`files/$this->quTable/`.$fname)) {
 			unlink(`files/$this->quTable/`.$fname);
@@ -213,6 +213,8 @@ if($fname != '') {
 				else{
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
+		}else if(!$this->quTable){
+			$sql ="SELECT * FROM ALL_COL_COMMENTS WHERE TABLE_NAME='cpu'";
 		}else{
 			echo "없는 값이 들어왔다.";
 		}
@@ -235,6 +237,164 @@ if($fname != '') {
 		  }
 	}
 
+
+	public function SelectGallery($select = '*', $where = null) {
+    $this->openDB();
+    if($where) $query = $this->db->prepare("select $select from $this->quTable where $where");
+    else $query = $this->db->prepare("select file, description from $this->quTable limit 0, 3");
+    $query->execute();
+    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+    if($fetch) return $fetch;
+    else return null;
+  }
+
+	public function ModifyGallery($id, $datArray) {
+		$dfield = '';
+		$first = true;
+		foreach($datArray as $key => $val) {
+			$dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
+			$first = false;
+		}
+
+		$this->openDB();
+		$query = $this->db->prepare("update $this->quTable set $dfield where $this->quTableId=:id");
+		$query->bindValue(':id', $id);
+		foreach($datArray as $key => $val) {
+			if(is_string($val)) {
+				$query->bindValue(":$key", $val);
+			}
+			else if(is_int($val)) {
+				$query->bindValue(":$key", $val, PDO::PARAM_INT);
+			}
+			else {
+				$query->bindValue(":$key", $val);
+			}
+		}
+		$query->execute();
+	}
+
+	protected function fileUploader($fdat) {
+		//$ftime
+		$ftime = time();
+		$fnslice = explode('.', $fdat['name']);
+		$ftype = end($fnslice);
+		$ftslice = explode('/', $fdat['tmp_name']);
+		if(count($ftslice) <= 1) {
+			$ftslice = explode('\\', $fdat['tmp_name']);
+		}
+		$ftemp = end($ftslice);
+		$fname_save = "file$ftime$ftemp.$ftype";
+		if($fdat['name'] != '' && $fdat['error'] == 0) {
+			// 업로드 파일 확장자 검사 (필요시 확장자 추가)
+			if($ftype=="html" ||
+			$ftype=="htm" ||
+			$ftype=="php" ||
+			$ftype=="php3" ||
+			$ftype=="inc" ||
+			$ftype=="pl" ||
+			$ftype=="cgi" ||
+			$ftype=="txt" ||
+			$ftype=="TXT" ||
+			$ftype=="asp" ||
+			$ftype=="jsp" ||
+			$ftype=="phtml" ||
+			$ftype=="js" ||
+			$ftype=="") {
+				throw new CommonException('허용되지 않은 파일 형식입니다.');
+			}
+			// 파일 용량을 검사합니다
+			if($fdat['size'] > $this->fsize_limit) {
+				throw new CommonException('파일 용량이 허가 용량을 넘습니다.');
+			}
+			// 임시 파일을 ../../upload_file 로 옮겨서 저장합니다.
+			if(!move_uploaded_file($fdat['tmp_name'], $this->fdir.'/'.$fname_save)) {
+				throw new CommonException('파일 저장에 실패했습니다.');
+			}
+
+			// 리턴값 만들기
+			$farray = array();
+			if($this->quTableFname) {
+				$farray[$this->quTableFname] = $fname_save;
+			}
+			if($this->quTableFrname) {
+				$farray[$this->quTableFrname] = $fdat['name'];
+			}
+			if($this->quTableFdate) {
+				$farray[$this->quTableFdate] = date('Y-m-d');
+			}
+			return $farray;
+		}
+		return null;
+	}
+
+	public function Upload($fparam, $fnum, $datArray) {
+		if(!is_array($datArray)) throw new CommonException('잘못된 인수');
+		$farray = null;
+		if(is_string($fparam) && ($fparam != '')) {
+			if(isset($_FILES[$fparam]) && $this->quTableFname != '') {
+				if(is_array($_FILES[$fparam]['name'])) {
+					$farray = $this->fileUploader([
+						'name' => $_FILES[$fparam]['name'][$fnum],
+						'tmp_name' => $_FILES[$fparam]['tmp_name'][$fnum],
+						'size' => $_FILES[$fparam]['size'][$fnum],
+						'type' => $_FILES[$fparam]['type'][$fnum],
+						'error' => $_FILES[$fparam]['error'][$fnum]
+					]);
+				}
+				else {
+					$farray = $this->fileUploader([
+						'name' => $_FILES[$fparam]['name'],
+						'tmp_name' => $_FILES[$fparam]['tmp_name'],
+						'size' => $_FILES[$fparam]['size'],
+						'type' => $_FILES[$fparam]['type'],
+						'error' => $_FILES[$fparam]['error']
+					]);
+				}
+			}
+		}
+		if($farray === null) {
+			$farray = array();
+		}
+		$dfield = '';
+		$dvalue = '';
+		$first = true;
+		foreach($datArray as $key => $val) {
+			$dfield = ($first)?($dfield.$key):($dfield.','.$key);
+			$dvalue = ($first)?($dvalue.':'.$key):($dvalue.',:'.$key);
+			$first = false;
+		}
+		foreach($farray as $key => $val) {
+			$dfield = ($first)?($dfield.$key):($dfield.','.$key);
+			$dvalue = ($first)?($dvalue.':'.$key):($dvalue.',:'.$key);
+			$first = false;
+		}
+
+		$this->openDB();
+		$query = $this->db->prepare("insert into $this->quTable ($dfield) values ($dvalue)");
+		foreach($datArray as $key => $val) {
+			if(is_string($val)) {
+				$query->bindValue(":$key", $val);
+			}
+			else if(is_int($val)) {
+				$query->bindValue(":$key", $val, PDO::PARAM_INT);
+			}
+			else {
+				$query->bindValue(":$key", $val);
+			}
+		}
+		foreach($farray as $key => $val) {
+			if(is_string($val)) {
+				$query->bindValue(":$key", $val);
+			}
+			else if(is_int($val)) {
+				$query->bindValue(":$key", $val, PDO::PARAM_INT);
+			}
+			else {
+				$query->bindValue(":$key", $val);
+			}
+		}
+		$query->execute();
+	}
 
 
 }

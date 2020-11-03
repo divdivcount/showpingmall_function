@@ -31,6 +31,7 @@
       <button class="btn1"  onclick = "location.href = 'admin_list.php?var=graphicscard' "/>admin_GraphicsCard</button>
       <button class="btn1"  onclick = "location.href = 'admin_list.php?var=odd' "/>admin_Odd</button>
       <button class="btn1"  onclick = "location.href = 'admin_list.php?var=storage' "/>admin_Storage</button>
+      <iframe id="main_frame" src="gallery_list.php" height="800px" width="70%"></iframe>
 			</div>
 		</div>
 		<div id="footer">

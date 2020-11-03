@@ -11,6 +11,7 @@
 	require_once('modules/case_dao.php');
 	require_once('modules/graphicscard_dao.php');
 	require_once('modules/dbconn.php');
+	require_once('modules/db_gallery.php');
 	class ProLogin extends ProDAO {
 		private $session = false;
 		private function PasswordVerify($id, $pw) {
