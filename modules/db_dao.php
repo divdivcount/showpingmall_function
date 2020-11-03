@@ -137,10 +137,11 @@ $query->execute();
 $fetch = $query->fetch(PDO::FETCH_ASSOC);
 $fname = $fetch['file'];
 if($fname != '') {
-	if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or $this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value or $this->quTable == "gallery")
+	if($this->quTable == "cpu" or $this->quTable == "mainboard" or $this->quTable == "cases" or $this->quTable == "power" or $this->quTable == "memory" or $this->quTable == "odd" or $this->quTable == "storage" or $this->quTable == "graphicscard" or $this->quTable == "cooler" or $this->quTable == "gallery")
 		{
-		if(file_exists(`files/$this->quTable/`.$fname)) {
-			unlink(`files/$this->quTable/`.$fname);
+		if(file_exists("files/$this->quTable/".$fname)) {
+			echo $this->quTable;
+			unlink("files/$this->quTable/".$fname);
 			}
 		}
 	}
@@ -213,8 +214,6 @@ if($fname != '') {
 				else{
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
-		}else if(!$this->quTable){
-			$sql ="SELECT * FROM ALL_COL_COMMENTS WHERE TABLE_NAME='cpu'";
 		}else{
 			echo "없는 값이 들어왔다.";
 		}
@@ -240,8 +239,8 @@ if($fname != '') {
 
 	public function SelectGallery($select = '*', $where = null) {
     $this->openDB();
-    if($where) $query = $this->db->prepare("select $select from $this->quTable where $where");
-    else $query = $this->db->prepare("select file, description from $this->quTable limit 0, 3");
+    if($where) $query = $this->db->prepare("select * from $this->quTable where $where");
+    else $query = $this->db->prepare("select * from $this->quTable");
     $query->execute();
     $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
     if($fetch) return $fetch;
@@ -306,7 +305,7 @@ if($fname != '') {
 			if($fdat['size'] > $this->fsize_limit) {
 				throw new CommonException('파일 용량이 허가 용량을 넘습니다.');
 			}
-			// 임시 파일을 ../../upload_file 로 옮겨서 저장합니다.
+
 			if(!move_uploaded_file($fdat['tmp_name'], $this->fdir.'/'.$fname_save)) {
 				throw new CommonException('파일 저장에 실패했습니다.');
 			}

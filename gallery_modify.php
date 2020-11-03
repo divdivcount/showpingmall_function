@@ -17,7 +17,7 @@ $description = Post('description', null);
 
 // Process
 try {
-  $galleryObj = new Gallery($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
+  $galleryObj = new Gallery;
   if($id && $description) {
     $galleryObj->ModifyGallery($id, ['description' => $description]);
   }

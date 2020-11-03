@@ -16,7 +16,7 @@ $ids = Post('id', null);
 
 // Process
 try {
-  $galleryObj = new Gallery;
+  $galleryObj = new Gallery($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
   if($ids) {
     foreach ($ids as $id) {
       $galleryObj->Delete($id);
@@ -26,5 +26,5 @@ try {
   echo $e->getMessage();
   exit();
 }
-userGoNow('gallery_list.php');
+// userGoNow('gallery_list.php');
 ?>
