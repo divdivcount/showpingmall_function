@@ -26,5 +26,5 @@ try {
   echo $e->getMessage();
   exit();
 }
-// userGoNow('gallery_list.php');
+userGoNow('gallery_list.php');
 ?>

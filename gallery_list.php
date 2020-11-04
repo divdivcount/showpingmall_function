@@ -44,6 +44,7 @@ $result = $galleryObj ->SelectGallery();
         <form id="deleteForm" action="gallery_delete.php" method="post">
           <div id="gallery">
               <?php $i = 0; ?>
+              <?php if($result) : ?>
               <?php foreach($result as $row) : ?>
                 <div>
                   <input type="checkbox" name="id[]" value="<?= $row['id'] ?>">
@@ -53,6 +54,11 @@ $result = $galleryObj ->SelectGallery();
                   <button type="button" name="button" onclick="list.modify(<?= $i++ ?>)" disabled>설명 수정</button>
                 </div>
               <?php endforeach ?>
+            <?php else : ?>
+              <div>
+                <h2 style="width:300px;">사진을 등록해주세요.</h2>
+              </div>
+          <?php endif ?>
           </div>
         </form>
 

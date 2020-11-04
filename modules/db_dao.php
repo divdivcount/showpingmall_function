@@ -140,7 +140,6 @@ if($fname != '') {
 	if($this->quTable == "cpu" or $this->quTable == "mainboard" or $this->quTable == "cases" or $this->quTable == "power" or $this->quTable == "memory" or $this->quTable == "odd" or $this->quTable == "storage" or $this->quTable == "graphicscard" or $this->quTable == "cooler" or $this->quTable == "gallery")
 		{
 		if(file_exists("files/$this->quTable/".$fname)) {
-			echo $this->quTable;
 			unlink("files/$this->quTable/".$fname);
 			}
 		}

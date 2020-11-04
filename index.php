@@ -68,6 +68,7 @@
 				 ?>
 					<div class="slider">
 				     <ul class="slides">
+							 <?php if($result) : ?>
 							 <?php foreach($result as $row) : ?>
 				       <li>
 								 <img src="files/gallery/<?= $row['file'] ?>" alt="" width="100%" height="auto">
@@ -76,6 +77,14 @@
 				         </div>
 				       </li>
 							 <?php endforeach ?>
+						 <?php else : ?>
+							 <li>
+								 <img src="files/Noimg/noimg.png" alt="" width="100%" height="auto">
+								 <div class="caption center-align">
+									 <h3>이미지가 없습니다.</h3>
+								 </div>
+							 </li>
+						 <?php endif ?>
 				     </ul>
 				   </div>
 					<div class="click_box">
