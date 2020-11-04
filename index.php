@@ -98,26 +98,28 @@
 										if (empty($_SESSION["cart"])) {
 										    $_SESSION["cart"] = "";
 										}
-										$_SESSION["cart"] .= "구분코드,물품이,수량,가격"
+										$_SESSION["cart"] .= "구분코드(테이블이),물품이,수량,가격"
 
 										$cart = explode(',', $_SESSION["cart"]);
 
-										for ($i = 0; $i < count($cart); $i+=3) {
+										for ($i = 0; $i < count($cart); $i+=4) {
 										    if ($cart[$i] == "CPU") {
 										        echo $cart[$i + 1]; // 물품코드
 										        echo $cart[$i + 2]; // 수량
+														echo $cart[$i + 2]; // 수량
+														echo $cart[$i + 2]; // 수량
 										    }
 										}
 									-->
-										<li><a class="clicker" href="#" onclick="changeIframeUrl('list.php?var=cpu')">cpu</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=mainboard')">mainboard</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=power')">power</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=case')">case</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=cooler')">cooler</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=odd')">Odd</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=memory')">memory</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=graphicscard')">graphicscard</a></li>
-										<li><a class ="clicker" href="#" onclick="changeIframeUrl('list.php?var=storage')">storage</a></li>
+										<li><a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('list.php?var=cpu')">cpu</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=mainboard')">mainboard</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=power')">power</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=case')">case</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=cooler')">cooler</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=odd')">Odd</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=memory')">memory</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=graphicscard')">graphicscard</a></li>
+										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=storage')">storage</a></li>
 								</ul>
 							</div>
 						</div>
@@ -125,6 +127,16 @@
 			</div>
 		</div>
 		<div id="footer">
+			<?php
+			$cart = explode(',', $_SESSION["cart"]);
+			for ($i = 0; $i < count($cart); $i+=3) {
+					if ($cart[$i] == "cpu") {
+							echo $cart[$i + 1]; // 물품코드
+							echo $cart[$i + 2]; // 수량
+							echo $cart[$i + 3]; // 수량
+					}
+			}
+			 ?>
 		</div>
 		<script>
 		function changeIframeUrl(url){

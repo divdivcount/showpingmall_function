@@ -39,7 +39,7 @@ $pid = Get('p', 1);
 						<li class="list-li  date_text">등록일시 :<?= $row["date_format(date,'%Y-%m')"] ?></li>
 					</div>
 						<li class="vertical"><?= $row['price'] ?>원</li>
-						<input type="button" class="button vertical" id="obj" value="담기" />
+						<input type="button" class="button vertical" id="obj" value="담기" onclick="cart.php?c=<?=$link?>&id=<?= $row['id'] ?>&price=<?= $row['price'] ?>"/>
 					</ul>
 				<?php endforeach ?>
 			</div>
@@ -50,6 +50,16 @@ $pid = Get('p', 1);
         </div>
 		</div>
 		<div id="footer">
+			<?php
+			$cart = explode(',', $_SESSION["cart"]);
+			for ($i = 0; $i < count($cart); $i+=3) {
+					if ($cart[$i] == "cpu") {
+							echo $cart[$i + 1]; // 물품코드
+							echo $cart[$i + 2]; //
+							echo $cart[$i + 3]; //
+					}
+			}
+			 ?>
 		</div>
 	</body>
 </html>
