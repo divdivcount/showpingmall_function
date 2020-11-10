@@ -25,9 +25,7 @@ $mb_password_re		= trim($_POST['mb_password_re']); // 두번째 입력 패스워
 $mb_name				= trim($_POST['mb_name']); // 이름
 $mb_email				= trim($_POST['mb_email']); // 이메일
 $mb_gender				= $_POST['mb_gender']; // 성별
-$mb_job					= $_POST['mb_job']; // 직업
 $mb_ip					= $_SERVER['REMOTE_ADDR']; // 접속 아이피
-$mb_language			= implode(",", $_POST['mb_language']); // 관심언어 (,) 구분으로 저장
 $mb_datetime			= date('Y-m-d H:i:s', time()); // 가입일
 $mb_modify_datetime	= date('Y-m-d H:i:s', time()); // 수정일
 

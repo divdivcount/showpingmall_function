@@ -68,13 +68,15 @@ $pid = Get('p', 1);
 							$d[$var][$id]["qty"]++;
 						}
 					}
-
-				 foreach ($d as $cat_key => $cat_arr) {
-				     foreach ($cat_arr as $id_key => $id_val) {
-				          echo $cat_key, ",", $id_key, ",",$id_val["name"],",", $id_val["price"]*$id_val["qty"], ",", $id_val["qty"], "<br>";
-				     }
-				 }
-
+				if(!$d){
+					echo "장바구니를 담아주세요";
+				}else{
+					foreach ($d as $cat_key => $cat_arr) {
+							foreach ($cat_arr as $id_key => $id_val) {
+										 echo $cat_key, ",", $id_key, ",",$id_val["name"],",", $id_val["price"]*$id_val["qty"], ",", $id_val["qty"], "<br>";
+							}
+					}
+				}
 			 ?>
 		</div>
 	</body>

@@ -5,8 +5,6 @@
 <html>
 	<head>
 		<?php require_once('modules/form_head.php'); ?>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<style>
 				.slider .indicators .indicator-item {
 					background-color: #666666;
@@ -55,7 +53,7 @@
 							</td>
 								<?php
 									 	if($mb['mb_num']){
-											echo "<td style='float:right; margin-top:20px;'>".$mb['mb_name']."님 어서오세요"."\t<a href=./register.php?mode=modify>회원정보수정</a>"."&nbsp;<a href='./logout.php'>로그아웃</a>"."&nbsp;<a href='./User_page.php'>마이페이지</a>"."</td>";
+											echo "<td style='float:right; margin-top:20px;'>".$mb['mb_name']."님"."&nbsp;<a href='./logout.php'>로그아웃</a>"."&nbsp;<a href='./User_page.php'>마이페이지</a>"."</td>";
 										}else {
 											echo "<td style='float:right; margin-top:20px;'><a href='./login.php'>login</a></td>";
 										}
