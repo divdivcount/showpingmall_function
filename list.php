@@ -53,23 +53,25 @@ $pid = Get('p', 1);
 			<?php
 			$cart = explode(',', $_SESSION["cart"]);
 			for ($i = 0; $i < count($cart); $i+=4) {
-							echo $cart[$i];
-			        echo $cart[$i + 1]; // 품목
-			        echo $cart[$i + 2]; // 제품 아이디
-			        echo $cart[$i + 3]; // 제품 가격
+							echo $cart[$i]; // 품목
+			        echo $cart[$i + 1]; // 제품 아이디
+			        echo $cart[$i + 2]; // 제품 가격
+			        echo $cart[$i + 3]; // 이름
 							echo "<br>";
 							$var = $cart[$i];
 							if(!empty($var)){
 							$id = $cart[$i + 1];
 							$price = $cart[$i + 2];
+							$name = $cart[$i + 3];
 							$d[$var][$id]["price"] = $price;
+							$d[$var][$id]["name"] = $name;
 							$d[$var][$id]["qty"]++;
 						}
 					}
 
 				 foreach ($d as $cat_key => $cat_arr) {
 				     foreach ($cat_arr as $id_key => $id_val) {
-				          echo $cat_key, ",", $id_key, ",", $id_val["price"]*$id_val["qty"], ",", $id_val["qty"], "<br>";
+				          echo $cat_key, ",", $id_key, ",",$id_val["name"],",", $id_val["price"]*$id_val["qty"], ",", $id_val["qty"], "<br>";
 				     }
 				 }
 

@@ -50,8 +50,8 @@
 					?>
 					<table>
 						<tr>
-							<td style="width:auto; height:0">
-								<a href="index.php"><img src="files/Noimg/noimg.png" width="64px" height="64px;"/></a>
+							<td style="width:200px; height:83px;">
+								<a href="index.php"><img src="files/logo/logo.png" width="100%" height="64px;"/></a>
 							</td>
 								<?php
 									 	if($mb['mb_num']){
