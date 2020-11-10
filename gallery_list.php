@@ -28,7 +28,7 @@ $result = $galleryObj ->SelectGallery();
   <body>
 
     <header>
-      <h1>갤러리 관리</h1>
+      <h1>배너 관리</h1>
     </header>
     <main>
       <div>

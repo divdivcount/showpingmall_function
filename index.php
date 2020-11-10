@@ -127,16 +127,6 @@
 			</div>
 		</div>
 		<div id="footer">
-			<?php
-			$cart = explode(',', $_SESSION["cart"]);
-			for ($i = 0; $i < count($cart); $i+=3) {
-					if ($cart[$i] == "cpu") {
-							echo $cart[$i + 1]; // 물품코드
-							echo $cart[$i + 2]; // 수량
-							echo $cart[$i + 3]; // 수량
-					}
-			}
-			 ?>
 		</div>
 		<script>
 		function changeIframeUrl(url){
