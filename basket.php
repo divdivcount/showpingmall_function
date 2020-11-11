@@ -73,19 +73,19 @@ session_start();
         <?php
           $d = $_SESSION["cart"];
 
-        // if(!$d){
+        if(!$d){
           ?>
-          <!-- <tr>
+          <tr>
             <td colspan="6"><img src="files/gibon/jangba.png"></td>
-          </tr> -->
+          </tr>
           <?php
-        // }else{
+        }else{
           $k = 0;
         foreach ($d as $cat_key => $cat_arr) {
             foreach ($cat_arr as $id_key => $id_val) {
                 $k++;
               ?>
-      <?php if(empty($d)): ?>
+      <?php if(empty($cat_arr)): ?>
         <tr>
           <td colspan="6"><img src="files/gibon/jangba.png"></td>
         </tr>
@@ -128,7 +128,7 @@ session_start();
                 }
               }
               echo $sum."총금액";
-            // }
+            }
             ?>
       </table>
       <button id="check_module" type="button">결제</button>
