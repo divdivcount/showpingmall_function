@@ -24,8 +24,8 @@ if (isset($_SESSION["cart"][$var][$id])){
     $_SESSION["cart"][$var][$id] = array();
     $_SESSION["cart"][$var][$id]["price"] = $price;
     $_SESSION["cart"][$var][$id]["name"] = $name;
-
-     = 1;
+    $_SESSION["cart"][$var][$id]["qty"] = 1;
 }
+// unset($_SESSION["cart"]);
 header("Location:list.php?var=$var");
 ?>

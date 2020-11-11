@@ -72,20 +72,24 @@ session_start();
         </th>
         <?php
           $d = $_SESSION["cart"];
-          print_r( $d);
-        if(!$d){
+
+        // if(!$d){
           ?>
-          <tr>
-            <td>장바구니를 담아주세요</td>
-          </tr>
+          <!-- <tr>
+            <td colspan="6"><img src="files/gibon/jangba.png"></td>
+          </tr> -->
           <?php
-        }else{
+        // }else{
           $k = 0;
         foreach ($d as $cat_key => $cat_arr) {
             foreach ($cat_arr as $id_key => $id_val) {
                 $k++;
               ?>
-
+      <?php if(empty($d)): ?>
+        <tr>
+          <td colspan="6"><img src="files/gibon/jangba.png"></td>
+        </tr>
+      <?php else :?>
         <tr>
           <td>
           <?= $cat_key ?>
@@ -114,21 +118,17 @@ session_start();
           <input type="button" class="button vertical" id="obj" value="삭제" onclick="javascript:location.href='cart_del.php?var=<?= $cat_key ?>&id=<?= $id_key ?>&name=<?= $id_val["name"] ?>'"/>
           </td>
         </tr>
+      <?php endif ?>
           <?php
           $total = [$id_val["price"]*$id_val["qty"]];
 
           for($i = 0; $i < count($total); $i++){
              $sum += $total[$i];
             }
-          ?>
-        <?php
                 }
               }
               echo $sum."총금액";
-            }
-            function qty_down(){
-              $d[$var][$id]["qty"]--;
-            }
+            // }
             ?>
       </table>
       <button id="check_module" type="button">결제</button>

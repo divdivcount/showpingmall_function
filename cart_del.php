@@ -30,7 +30,7 @@ if(!($id && $var && $name)){
   //       }
   //     }
   //   }
-    echo $_SESSION["cart"];
+    header("Location:basket.php");
 }
 
 ?>
