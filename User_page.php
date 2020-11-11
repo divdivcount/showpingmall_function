@@ -57,7 +57,7 @@ if(!$mb_id){
               <a href="./register.php?mode=modify">나의 맴버쉽</a>
               </li>
               <li>
-                <a href="./register.php?mode=modify">장바구니</a>
+                <a href="./basket.php">장바구니</a>
               </li>
               <li>
                 <a href="#">구매목록</a>
