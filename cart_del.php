@@ -19,18 +19,26 @@ $name =$_REQUEST["name"];
 
 // unset($d[$var][$id]);
 // $_SESSION["cart"] = "";
+// if(!($id && $var && $name)){
+//   header("Location:basket.php");
+// }else{
+//  unset($_SESSION["cart"][$var][$id]);
+//   // foreach ($d as $cat_key => $cat_arr) {
+//   //     foreach ($cat_arr as $id_key => $id_val) {
+//   //       for ($i = 0; $i < $id_val["qty"]; $i++) {
+//   //           $_SESSION["cart"] .= "$cat_key,$id_key,$id_val[price],$id_val[name],";
+//   //       }
+//   //     }
+//   //   }
+//     header("Location:basket.php");
+// }
 if(!($id && $var && $name)){
   header("Location:basket.php");
 }else{
- unset($_SESSION["cart"][$var][$id]);
-  // foreach ($d as $cat_key => $cat_arr) {
-  //     foreach ($cat_arr as $id_key => $id_val) {
-  //       for ($i = 0; $i < $id_val["qty"]; $i++) {
-  //           $_SESSION["cart"] .= "$cat_key,$id_key,$id_val[price],$id_val[name],";
-  //       }
-  //     }
-  //   }
-    header("Location:basket.php");
+  unset($_SESSION["cart"][$var][$id]);
+  if(empty($_SESSION["cart"][$var])) {
+    unset($_SESSION["cart"][$var]);
+  }
+  header("Location:basket.php");
 }
-
 ?>

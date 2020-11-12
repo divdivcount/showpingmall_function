@@ -73,7 +73,7 @@ session_start();
         <?php
           $d = $_SESSION["cart"];
 
-        if(!$d){
+        if(empty($d)){
           ?>
           <tr>
             <td colspan="6"><img src="files/gibon/jangba.png"></td>
@@ -84,10 +84,11 @@ session_start();
         foreach ($d as $cat_key => $cat_arr) {
             foreach ($cat_arr as $id_key => $id_val) {
                 $k++;
+                print_r($cat_arr);
               ?>
-      <?php if(empty($cat_arr)): ?>
+      <?php if(!$d): ?>
         <tr>
-          <td colspan="6"><img src="files/gibon/jangba.png"></td>
+          <td colspan="6"><p>123</p><img src="files/gibon/jangba.png"></td>
         </tr>
       <?php else :?>
         <tr>
