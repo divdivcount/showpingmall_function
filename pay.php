@@ -1,24 +1,13 @@
-
-
 <!doctype html>
 <html>
 <head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
-
-
   <style>
-
   </style>
-
-
 </head>
-
-
 <body>
 <p>
-
     <p>아임 서포트 결제 모듈 테스트 해보기</p>
     <button id="check_module" type="button">아임 서포트 결제 모듈 테스트 해보기</button>
 </p>
@@ -26,6 +15,7 @@
 
 </body>
 <script>
+
 $("#check_module").click(function () {
 var IMP = window.IMP; // 생략가능
 IMP.init('imp70544914');
@@ -68,7 +58,7 @@ buyer_name: '구매자이름',
 buyer_tel: '010-1234-5678',
 buyer_addr: '서울특별시 강남구 삼성동',
 buyer_postcode: '123-456',
-m_redirect_url: 'https://www.yourdomain.com/payments/complete'
+m_redirect_url: 'https://localhost/ky_project/basket.php'
 /*
 모바일 결제시,
 결제가 끝나고 랜딩되는 URL을 지정
