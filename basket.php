@@ -59,6 +59,9 @@ session_start();
         품목 아이디
         </th>
         <th>
+          이미지
+        </th>
+        <th>
         제품 이름
         </th>
         <th>
@@ -76,7 +79,7 @@ session_start();
         if(empty($d)){
           ?>
           <tr>
-            <td colspan="6"><img src="files/gibon/jangba.png"></td>
+            <td colspan="7"><img src="files/gibon/jangba.png"></td>
           </tr>
           <?php
         }else{
@@ -84,19 +87,16 @@ session_start();
         foreach ($d as $cat_key => $cat_arr) {
             foreach ($cat_arr as $id_key => $id_val) {
                 $k++;
-                print_r($cat_arr);
               ?>
-      <?php if(!$d): ?>
-        <tr>
-          <td colspan="6"><p>123</p><img src="files/gibon/jangba.png"></td>
-        </tr>
-      <?php else :?>
         <tr>
           <td>
           <?= $cat_key ?>
           </td>
           <td>
           <?= $id_key ?>
+          </td>
+          <td>
+            <img src="<?= $id_val["img"] ?>" width="75px" height= "75px" />
           </td>
           <td>
           <?= $id_val["name"] ?>
@@ -108,18 +108,16 @@ session_start();
           <form action="changeqty.php?" method="get">
           <input type="hidden" name="var" value="<?=$cat_key?>">
           <input type="hidden" name="id" value="<?= $id_key ?>">
-          <input type="text" id="qty<?= $k ?>" name="qty" value="<?= $id_val["qty"] ?>">
-          <input type="button" name="" value="^" onclick="document.getElementById('qty<?= $k ?>').value++" />
+          <input type="text" id="qty<?= $k ?>" name="qty" value="<?= $id_val["qty"] ?>" readonly/>
+          <input type="button" name="" value="^" onclick="document.getElementById('qty<?= $k ?>').value++"/>
           <input type="button" name="" value="v" onclick="document.getElementById('qty<?= $k ?>').value--"/>
-
           <input type="submit" value="수량변경" />
-        </form>
+          </form>
           </td>
           <td>
           <input type="button" class="button vertical" id="obj" value="삭제" onclick="javascript:location.href='cart_del.php?var=<?= $cat_key ?>&id=<?= $id_key ?>&name=<?= $id_val["name"] ?>'"/>
           </td>
         </tr>
-      <?php endif ?>
           <?php
           $total = [$id_val["price"]*$id_val["qty"]];
 

@@ -39,7 +39,7 @@ $pid = Get('p', 1);
 						<li class="list-li  date_text">등록일시 :<?= $row["date_format(date,'%Y-%m')"] ?></li>
 					</div>
 						<li class="vertical"><?= $row['price'] ?>원</li>
-						<input type="button" class="button vertical" id="obj" value="담기" onclick="javascript:location.href='cart.php?var=<?=$link?>&id=<?= $row['id'] ?>&price=<?= $row['price'] ?>&name=<?= $row['name'] ?>'"/>
+						<input type="button" class="button vertical" id="obj" value="담기" onclick="javascript:location.href='cart.php?var=<?=$link?>&img=<?= $dir.$row['file'] ?>&id=<?= $row['id'] ?>&price=<?= $row['price'] ?>&name=<?= $row['name'] ?>'"/>
 					</ul>
 				<?php endforeach ?>
 			</div>

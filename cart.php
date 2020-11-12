@@ -4,6 +4,7 @@ $var =$_REQUEST["var"];
 $id = $_REQUEST["id"];
 $price = $_REQUEST["price"];
 $name = $_REQUEST["name"];
+$img = $_REQUEST["img"];
 echo $var;
 // unset($_SESSION["cart"]);
 // if (empty($_SESSION["cart"])) {
@@ -22,6 +23,7 @@ if (isset($_SESSION["cart"][$var][$id])){
     $_SESSION["cart"][$var][$id]["qty"]++;
 } else {
     $_SESSION["cart"][$var][$id] = array();
+    $_SESSION["cart"][$var][$id]["img"] = $img;
     $_SESSION["cart"][$var][$id]["price"] = $price;
     $_SESSION["cart"][$var][$id]["name"] = $name;
     $_SESSION["cart"][$var][$id]["qty"] = 1;
