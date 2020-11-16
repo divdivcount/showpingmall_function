@@ -120,31 +120,19 @@ session_start();
                   </td>
                 </tr>
                   <?php
-
-
                     $total= array($k =>$id_val["price"]*$id_val["qty"]);
                     foreach($total as $key => $value) {
                       // echo "$key : $value".'<br />';
                     }
                     echo $num+= $value;
-
-
-
-
-
                   // $total= $id_val["price"]*$id_val["qty"];
                   // $num = implode(", ", $total);
                   // $name_array = explode(" ", $total);
                   //
                   // echo $name_array[0][1];
-
-
                   echo "<pre>";
                   print_r($total);
                   echo "</pre>";
-
-
-
                   // $sum = 0;
                   // for($ie = 0; $ie < sizeof($total, 1); $ie++){
                   //
