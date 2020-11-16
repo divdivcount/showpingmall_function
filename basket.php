@@ -86,50 +86,78 @@ session_start();
           $k = 0;
         foreach ($d as $cat_key => $cat_arr) {
             foreach ($cat_arr as $id_key => $id_val) {
+
                 $k++;
               ?>
-        <tr>
-          <td>
-          <?= $cat_key ?>
-          </td>
-          <td>
-          <?= $id_key ?>
-          </td>
-          <td>
-            <img src="<?= $id_val["img"] ?>" width="75px" height= "75px" />
-          </td>
-          <td>
-          <?= $id_val["name"] ?>
-          </td>
-          <td>
-          <?= $id_val["price"]*$id_val["qty"] ?>
-          </td>
-          <td>
-          <form action="changeqty.php?" method="get">
-          <input type="hidden" name="var" value="<?=$cat_key?>">
-          <input type="hidden" name="id" value="<?= $id_key ?>">
-          <input type="text" id="qty<?= $k ?>" name="qty" value="<?= $id_val["qty"] ?>" readonly/>
-          <input type="button" name="" value="^" onclick="document.getElementById('qty<?= $k ?>').value++"/>
-          <input type="button" name="" value="v" onclick="document.getElementById('qty<?= $k ?>').value--"/>
-          <input type="submit" value="수량변경" />
-          </form>
-          </td>
-          <td>
-          <input type="button" class="button vertical" id="obj" value="삭제" onclick="javascript:location.href='cart_del.php?var=<?= $cat_key ?>&id=<?= $id_key ?>&name=<?= $id_val["name"] ?>'"/>
-          </td>
-        </tr>
-          <?php
-          $total = [$id_val["price"]*$id_val["qty"]];
-          $sum = 0;
-          for($i = 0; $i < count($total); $i++){
-             $sum += $total[$i];
-            }
+                <tr>
+                  <td>
+                  <?= $cat_key ?>
+                  </td>
+                  <td>
+                  <?= $id_key ?>
+                  </td>
+                  <td>
+                    <img src="<?= $id_val["img"] ?>" width="75px" height= "75px" />
+                  </td>
+                  <td>
+                  <?= $id_val["name"] ?>
+                  </td>
+                  <td>
+                  <?= $id_val["price"]*$id_val["qty"] ?>
+                  </td>
+                  <td>
+                  <form action="changeqty.php?" method="get">
+                  <input type="hidden" name="var" value="<?=$cat_key?>">
+                  <input type="hidden" name="id" value="<?= $id_key ?>">
+                  <input type="text" id="qty<?= $k ?>" name="qty" value="<?= $id_val["qty"] ?>" readonly/>
+                  <input type="button" name="" value="^" onclick="document.getElementById('qty<?= $k ?>').value++"/>
+                  <input type="button" name="" value="v" onclick="document.getElementById('qty<?= $k ?>').value--"/>
+                  <input type="submit" value="수량변경" />
+                  </form>
+                  </td>
+                  <td>
+                  <input type="button" class="button vertical" id="obj" value="삭제" onclick="javascript:location.href='cart_del.php?var=<?= $cat_key ?>&id=<?= $id_key ?>&name=<?= $id_val["name"] ?>'"/>
+                  </td>
+                </tr>
+                  <?php
+
+
+                    $total= array($k =>$id_val["price"]*$id_val["qty"]);
+                    foreach($total as $key => $value) {
+                      // echo "$key : $value".'<br />';
+                    }
+                    echo $num+= $value;
+
+
+
+
+
+                  // $total= $id_val["price"]*$id_val["qty"];
+                  // $num = implode(", ", $total);
+                  // $name_array = explode(" ", $total);
+                  //
+                  // echo $name_array[0][1];
+
+
+                  echo "<pre>";
+                  print_r($total);
+                  echo "</pre>";
+
+
+
+                  // $sum = 0;
+                  // for($ie = 0; $ie < sizeof($total, 1); $ie++){
+                  //
+                  //   $sum += $total[$ie];
+                  //
+                  //
+                  //   }
                 }
               }
-              echo $sum."총금액";
+              echo $num."총금액";
             }
             ?>
       </table>
-      <button id="check_module" type="button" onclick="javascript:location.href='pay.php?var=<?= $cat_key ?>&img=<?= $id_val["img"] ?>&id=<?= $id_key ?>&price=<?= $sum ?>&name=<?= $id_val["name"] ?>'">결제</button>
+      <button id="check_module" type="button" onclick="javascript:location.href='pay.php?price=<?= $num ?>'">결제</button>
     </body>
     </html>
