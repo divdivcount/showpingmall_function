@@ -1,4 +1,6 @@
 <?php
+$pay = $_REQUEST["price"];
+echo "$pay";
 
 ?>
 <!doctype html>
@@ -11,7 +13,7 @@
 </head>
 <body>
 <p>
-    <p>아임 서포트 결제 모듈 테스트 해보기</p>
+
     <button id="check_module" type="button">아임 서포트 결제 모듈 테스트 해보기</button>
 </p>
 
@@ -54,7 +56,7 @@ https://docs.iamport.kr/implementation/payment
 */
 name: '주문명:결제테스트',
 //결제창에서 보여질 이름
-amount: 1000,
+amount: <?=$pay ?>,
 //가격
 buyer_email: 'iamport@siot.do',
 buyer_name: '구매자이름',
