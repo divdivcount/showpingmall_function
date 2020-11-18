@@ -394,6 +394,38 @@ if($fname != '') {
 		$query->execute();
 	}
 
+	public function SelectHistory($select = '*', $where = null) {
+		$this->openDB();
+		if($where) $query = $this->db->prepare("select * from $this->quTable where $where");
+		else $query = $this->db->prepare("select * from $this->quTable");
+		$query->execute();
+		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+		if($fetch) return $fetch;
+		else return null;
+	}
+
+	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
+    $this->openDB();
+    $query = $this->db->prepare("insert into $this->quTable values (:cat_key, :id_key, :pr_img, :pr_name, :pa,:pr_qty,:mb_num,:pr_num,:pr_now,0)");
+		$query -> bindValue(":cat_key", $cat_key, PDO::PARAM_STR);
+		$query -> bindValue(":id_key", $id_key, PDO::PARAM_STR);
+		$query -> bindValue(":pr_img", $pr_img, PDO::PARAM_STR);
+		$query -> bindValue(":pr_name", $pr_name, PDO::PARAM_STR);
+		$query -> bindValue(":pa", $pa, PDO::PARAM_STR);
+		$query -> bindValue(":pr_qty", $pr_qty, PDO::PARAM_STR);
+		$query -> bindValue(":mb_num", $mb_num, PDO::PARAM_STR);
+		$query -> bindValue(":pr_num", $num, PDO::PARAM_STR);
+		$query -> bindValue(":pr_now", $now, PDO::PARAM_STR);
+    $query->execute();
+		if($last_id == 0){
+			$last_id = $this->db->lastInsertId();//오토 인크리먼트로 가장 최근 값
+		}
+		// "update $this->quTable set order_id = {$last_id} where pu_id =$last_id = " . $this->db->lastInsertId();
+		$this->db->exec("update $this->quTable set order_id = {$last_id} where pu_id = " . $this->db->lastInsertId());
+		// echo "update $this->quTable set order_id = {$last_id} where pu_id = " . $this->db->lastInsertId();
+		// exit;
+		return $last_id;
+  }
 
 }
 ?>
