@@ -161,9 +161,12 @@ if($fname != '') {
 	//페이지 내이션
   	public function SelectPageLength($cPage, $viewLen, $s_value) {
 		$this->openDB();
-		if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or $this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value){
+		if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or
+		$this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value){
 				$query = $this->db->prepare("select count(*) from $this->quTable where name  like  :s_value");
-		}else{
+	}else if($this->quTable == "puhistory"){
+					$query = $this->db->prepare("select count(*) from $this->quTable where pr_name  like  :s_value");
+	}else{
 			$query = $this->db->prepare("select count(*) from $this->quTable");
 		}
 
@@ -206,15 +209,22 @@ if($fname != '') {
 	public function SelectPageList($cPage, $viewLen,$s_value) {
 
 		$start = ($cPage * $viewLen) - $viewLen;
-		if($this->quTable == "cpu" || $this->quTable == "mainboard" || $this->quTable == "cases" || $this->quTable == "power" || $this->quTable == "memory" || $this->quTable == "odd" ||  $this->quTable == "cooler" || $this->quTable == "storage" || $this->quTable == "graphicscard" ){
+		if($this->quTable == "cpu" || $this->quTable == "mainboard" || $this->quTable == "cases" || $this->quTable == "power" || $this->quTable == "memory" || $this->quTable == "odd" ||  $this->quTable == "cooler" ||
+		$this->quTable == "storage" || $this->quTable == "graphicscard"){
 				if($s_value){
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  where name  like  :s_value or manufacturer like :s_value order by $this->quTableId asc limit :start, :viewLen";
-				}
-				else{
+				}else{
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{
 			echo "없는 값이 들어왔다.";
+		}
+		if($this->quTable == "puhistory"){
+				echo 1;
+				$sql= "select * from $this->quTable  where pr_name  like  :s_value or pr_now like :s_value order by $this->quTableId asc limit :start, :viewLen";
+		}else{
+			echo "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
+			$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 		}
 		$this->openDB();
 		$query = $this->db->prepare($sql);
@@ -394,15 +404,17 @@ if($fname != '') {
 		$query->execute();
 	}
 
-	public function SelectHistory($select = '*', $where = null) {
+
+	public function SelectHistory() {
 		$this->openDB();
 		if($where) $query = $this->db->prepare("select * from $this->quTable where $where");
-		else $query = $this->db->prepare("select * from $this->quTable");
+		else echo "select * from $this->quTable"; $query = $this->db->prepare("select * from $this->quTable");
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		if($fetch) return $fetch;
 		else return null;
 	}
+
 
 	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
     $this->openDB();

@@ -10,7 +10,7 @@ require_once('db_dao.php');
 //전체 출력 GraphicsCard정보
 class Pay_history extends ProDAO {
 protected $quTable = 'puhistory';
-protected $quTableId = 'id';
+protected $quTableId = 'pu_id';
 }
 
 

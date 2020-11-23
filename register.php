@@ -21,7 +21,30 @@ if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있
 <html>
 <head>
 	<title>Register</title>
-	<link href="./tyle.css" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(e) {
+		$(".check").on("keyup", function(){ //check라는 클래스에 입력을 감지
+			var self = $(this);
+			var mb_id;
+			if(self.attr("id") === "mb_id"){
+				mb_id = self.val();
+			}
+			$.post( //post방식으로 register_update.php에 입력한 userid값을 넘깁니다
+				"./register_update.php",
+				{ mb_ids : mb_id },
+				function(data){
+					if(data){ //만약 data값이 전송되면
+
+						self.parent().parent().find("div").html(data); //div태그를 찾아 html방식으로 data를 뿌려줍니다.
+						self.parent().parent().find("div").css("color", "#F00"); //div 태그를 찾아 css효과로 빨간색을 설정합니다
+					}
+				}
+			);
+		});
+	});
+	</script>
 </head>
 <body>
 
@@ -33,7 +56,7 @@ if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있
 	<table>
 		<tr>
 			<th>아이디</th>
-			<td><input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" <?php echo $modify_mb_info ?>></td>
+			<td><input type="text" name="mb_id" id="mb_id"  class="check" value="<?php echo $mb['mb_id'] ?>" <?php echo $modify_mb_info ?>><div id="id_check"></div></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
