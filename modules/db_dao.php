@@ -161,21 +161,33 @@ if($fname != '') {
 	//페이지 내이션
   	public function SelectPageLength($cPage, $viewLen, $s_value) {
 		$this->openDB();
-		if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or
-		$this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value){
-				$query = $this->db->prepare("select count(*) from $this->quTable where name  like  :s_value");
-	}else if($this->quTable == "puhistory"){
-					$query = $this->db->prepare("select count(*) from $this->quTable where pr_name  like  :s_value");
-	}else{
-			$query = $this->db->prepare("select count(*) from $this->quTable");
-		}
 
-		if($s_value){
-			$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);
-		}
-		else{
-		}
-		$query->execute();
+	if (empty($s_value)){
+		$query = $this->db->prepare("select count(*) from $this->quTable");
+    } else {
+		$where_field = ($this->quTable == "puhistory") ? "pr_now" : "name";
+		$query = $this->db->prepare("select count(*) from $this->quTable where $where_field like :s_value");
+		$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);
+	}
+    $query->execute();
+		// if($this->quTable == "cpu" && $s_value or $this->quTable == "mainboard" && $s_value or $this->quTable == "cases"&& $s_value or $this->quTable == "power" && $s_value or $this->quTable == "memory" && $s_value or
+		// $this->quTable == "odd" && $s_value or $this->quTable == "storage"  && $s_value or $this->quTable == "graphicscard" && $s_value or $this->quTable == "cooler"  && $s_value){
+		// 		$query = $this->db->prepare("select count(*) from $this->quTable where name  like  :s_value");
+		// 	}else if($this->quTable == "puhistory"){
+		// 			$query = $this->db->prepare("select count(*) from $this->quTable where pr_name  like  :s_value");
+		// 			echo 4;
+		// 	}else{
+		// 	$query = $this->db->prepare("select count(*) from $this->quTable");
+		// 	echo 3;
+		// 	}
+		//
+		// if($s_value){
+		// 	$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);
+		// }
+		// else{
+		//
+		// }
+		// $query->execute();
 		$fetch = $query->fetch(PDO::FETCH_ASSOC);
 		$countLen = $fetch['count(*)'];
 
@@ -217,14 +229,17 @@ if($fname != '') {
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{
-			echo "없는 값이 들어왔다.";
-		}
-		if($this->quTable == "puhistory"){
-				echo 1;
-				$sql= "select * from $this->quTable  where pr_name  like  :s_value or pr_now like :s_value order by $this->quTableId asc limit :start, :viewLen";
-		}else{
-			echo "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
-			$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
+			if($this->quTable == "puhistory"){
+				if($s_value){
+					$sql= "select * from $this->quTable  where pr_name  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+
+				}else{
+					$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
+
+				}
+			}else{
+				$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
+			}
 		}
 		$this->openDB();
 		$query = $this->db->prepare($sql);
@@ -407,14 +422,12 @@ if($fname != '') {
 
 	public function SelectHistory() {
 		$this->openDB();
-		if($where) $query = $this->db->prepare("select * from $this->quTable where $where");
-		else echo "select * from $this->quTable"; $query = $this->db->prepare("select * from $this->quTable");
+		$query = $this->db->prepare("select * from $this->quTable");
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		if($fetch) return $fetch;
 		else return null;
 	}
-
 
 	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
     $this->openDB();
