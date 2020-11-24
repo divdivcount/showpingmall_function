@@ -218,8 +218,7 @@ if($fname != '') {
 	}
 
 
-	public function SelectPageList($cPage, $viewLen,$s_value) {
-
+	public function SelectPageList($cPage, $viewLen,$s_value,$start_s_value = null) {
 		$start = ($cPage * $viewLen) - $viewLen;
 		if($this->quTable == "cpu" || $this->quTable == "mainboard" || $this->quTable == "cases" || $this->quTable == "power" || $this->quTable == "memory" || $this->quTable == "odd" ||  $this->quTable == "cooler" ||
 		$this->quTable == "storage" || $this->quTable == "graphicscard"){
@@ -230,12 +229,18 @@ if($fname != '') {
 				}
 		}else{
 			if($this->quTable == "puhistory"){
-				if($s_value){
-					$sql= "select * from $this->quTable  where pr_name  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
-
+				if($s_value && !$start_s_value){
+					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+				}elseif(!$s_value && $start_s_value){
+					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc limit :start, :viewLen";
+					$s_value ="";
+				}elseif($s_value && $start_s_value){
+					// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+					//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
+					$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
+					$s_value ="";
 				}else{
-					$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
-
+					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
 				}
 			}else{
 				$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
@@ -246,7 +251,7 @@ if($fname != '') {
 		$query->bindValue(":start", $start, PDO::PARAM_INT);
 		$query->bindValue(":viewLen", $viewLen, PDO::PARAM_INT);
 		if($s_value)$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);
-
+		// if($start_s_value)$query->bindValue(":start_s_value", "%$start_s_value%",  PDO::PARAM_STR);
 
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -422,12 +427,13 @@ if($fname != '') {
 
 	public function SelectHistory() {
 		$this->openDB();
-		$query = $this->db->prepare("select * from $this->quTable");
+		$query = $this->db->prepare("select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable");
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		if($fetch) return $fetch;
 		else return null;
 	}
+
 
 	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
     $this->openDB();

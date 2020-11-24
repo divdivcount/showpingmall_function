@@ -10,7 +10,6 @@ $link = "test";
 $dao = new Pay_history();
 $result = $dao ->SelectHistory();
 $pid = Get('p', 1);
-$current_id = 0;
 if(!$mb['mb_num']){
 ?>
   <script>
@@ -37,12 +36,17 @@ if(!$mb['mb_num']){
     		<div>
     			<form action="test.php" method="get">
     				<input id="kk" type="hidden"  name="var" value="<?=$link?>">
-    				<input id="kk" type="date"  name="s_value">
+            <input id="kk" type="month" name="start_s_value" value=""><span>~</span>
+    				<input id="kk" type="month" id="currnetMonth" name="s_value" value="">
     				<input type="submit" value="검색">
     		  </form>
+          <!-- <script>
+            document.getElementById('currnetMonth').value= new Date().toISOString().slice(0, 7);
+          </script> -->
     		</div>
         <?php $priv_order_id = 0; ?>
     				<?php foreach ($list as $row) : ?>
+
               <!--current_id = 0 -->
               <?php
               // if ($priv_order_id != $row["order_id"]) {
@@ -53,7 +57,7 @@ if(!$mb['mb_num']){
               		if ($priv_order_id != 0) {
               			echo "이 주문 건의 총액: ", $priv_total."<br>";
               		}
-              		echo "새 주문 건 시작"."<br>";
+              		echo "새 주문 건 시작"."\t<span class=''>구매 일시:".$row["date_format(pr_now,'%Y-%m')"]."</span>"."<br>";
               	}
                   $priv_order_id = $row["order_id"];
                   $priv_total = $row["pr_num"];
@@ -67,7 +71,7 @@ if(!$mb['mb_num']){
     					<div class="text_field">
     						<li class="list-li name_field"><?= $row['pr_name'] ?></li>
     						<li class="list-li info_text">주문수량 :<?= $row['pr_qty'] ?></li>
-    						<li class="list-li  date_text">등록일시 :<?= $row["date_format(pr_now,'%Y-%m')"] ?></li>
+
     					</div>
     						<li class="vertical"><?= $row['pa'] ?>원</li>
     					</ul>
@@ -76,7 +80,7 @@ if(!$mb['mb_num']){
 			</div>
 			<div class="center">
           <?php for($i=$result['start']; $i<=$result['end']; $i++): ?>
-            <a class="abtn <?php if($i === (int)$result['current']) echo 'current' ?>" href="?var=<?=$link?>&p=<?= $i ?>&s_value=<?=$s_value?>"><?= $i ?></a>
+            <a class="abtn <?php if($i === (int)$result['current']) echo 'current' ?>" href="?var=<?=$link?>&p=<?= $i ?>&start_s_value=<?=$start_s_value?>&s_value=<?=$s_value?>"><?= $i ?></a>
           <?php endfor ?>
       </div>
 		</div>
@@ -85,5 +89,6 @@ if(!$mb['mb_num']){
 			 ?>
 		</div>
   <?php }?>
+
 	</body>
 </html>

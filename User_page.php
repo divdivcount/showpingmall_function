@@ -60,7 +60,7 @@ if(!$mb_id){
                 <a href="./basket.php">장바구니</a>
               </li>
               <li>
-                <a href="#">구매목록</a>
+                <a href="./test.php">구매목록</a>
               </li>
             </ul>
         </div>
