@@ -8,7 +8,9 @@ $mb = mysqli_fetch_assoc($result);
 mysqli_close($conn); // 데이터베이스 접속 종료
 $link = "test";
 $dao = new Pay_history();
-$result = $dao ->SelectHistory();
+$start_s_value = empty($_REQUEST["start_s_value"]) ? "" : $_REQUEST["start_s_value"];
+$s_value = empty($_REQUEST["s_value"]) ? "" : $_REQUEST["s_value"];
+$result = $dao ->SelectHistory($s_value, $start_s_value);
 $pid = Get('p', 1);
 if(!$mb['mb_num']){
 ?>
@@ -32,9 +34,8 @@ if(!$mb['mb_num']){
 
 			</div>
 			<div>
-        <?php require_once('modules/page_search.php'); ?>
     		<div>
-    			<form action="test.php" method="get">
+    			<form action="payhistory.php" method="get">
     				<input id="kk" type="hidden"  name="var" value="<?=$link?>">
             <input id="kk" type="month" name="start_s_value" value=""><span>~</span>
     				<input id="kk" type="month" id="currnetMonth" name="s_value" value="">
@@ -45,7 +46,7 @@ if(!$mb['mb_num']){
           </script> -->
     		</div>
         <?php $priv_order_id = 0; ?>
-    				<?php foreach ($list as $row) : ?>
+    				<?php foreach ($result as $row) : ?>
 
               <!--current_id = 0 -->
               <?php

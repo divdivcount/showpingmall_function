@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<?php require_once('modules/form_head.php'); ?>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 		<style>
 				.slider .indicators .indicator-item {
 					background-color: #666666;

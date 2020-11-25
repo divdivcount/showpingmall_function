@@ -1,5 +1,6 @@
 <?php
 	require_once('modules/parameter.php');
+	require_once('modules/db_consulting.php');
 	require_once('modules/db_dao.php');
 	require_once('modules/cpu_dao.php');
 	require_once('modules/mainboard_dao.php');
