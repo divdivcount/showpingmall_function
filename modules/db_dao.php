@@ -228,23 +228,23 @@ if($fname != '') {
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{
-			if($this->quTable == "puhistory"){
-				if($s_value && !$start_s_value){
-					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
-				}elseif(!$s_value && $start_s_value){
-					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc limit :start, :viewLen";
-					$s_value ="";
-				}elseif($s_value && $start_s_value){
-					// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
-					//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
-					$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
-					$s_value ="";
-				}else{
-					$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
-				}
-			}else{
-				$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
-			}
+			// if($this->quTable == "puhistory"){
+			// 	if($s_value && !$start_s_value){
+			// 		$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+			// 	}elseif(!$s_value && $start_s_value){
+			// 		$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc limit :start, :viewLen";
+			// 		$s_value ="";
+			// 	}elseif($s_value && $start_s_value){
+			// 		// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+			// 		//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
+			// 		$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
+			// 		$s_value ="";
+			// 	}else{
+			// 		$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  order by date_format(pr_now,'%Y-%m') asc limit :start, :viewLen";
+			// 	}
+			// }else{
+			// 	$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
+			// }
 		}
 		$this->openDB();
 		$query = $this->db->prepare($sql);
@@ -264,7 +264,6 @@ if($fname != '') {
 			exit($e ->getMessage());
 		  }
 	}
-
 
 	public function SelectGallery($select = '*', $where = null) {
     $this->openDB();
@@ -425,9 +424,27 @@ if($fname != '') {
 	}
 
 
-	public function SelectHistory() {
+	public function SelectHistory($s_value,$start_s_value) {
 		$this->openDB();
-		$query = $this->db->prepare("select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable");
+		if($this->quTable == "puhistory"){
+			if($s_value && !$start_s_value){
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc";
+			}elseif(!$s_value && $start_s_value){
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc";
+				$s_value ="";
+			}elseif($s_value && $start_s_value){
+				// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
+				//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
+				$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc";
+				$s_value ="";
+			}else{
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  order by date_format(pr_now,'%Y-%m') asc";
+			}
+		}else{
+			$sql= "select * from $this->quTable  order by $this->quTableId asc";
+		}
+		$query = $this->db->prepare($sql);
+		if($s_value)$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		if($fetch) return $fetch;
