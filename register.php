@@ -3,12 +3,10 @@ require_once("modules/db.php"); // DB연결을 위한 같은 경로의 dbconn.ph
 
 if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있고 회원수정 mode라면 회원 정보를 가져옴
 	$mb_id = $_SESSION['ss_mb_id'];
-
 	$sql = " SELECT * FROM member WHERE mb_id = '$mb_id' "; // 회원 정보를 조회
 	$result = mysqli_query($conn, $sql);
 	$mb = mysqli_fetch_assoc($result);
 	mysqli_close($conn); // 데이터베이스 접속 종료
-
 	$mode = "modify";
 	$title = "회원수정";
 	$modify_mb_info = "readonly";
@@ -17,13 +15,14 @@ if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있
 	$title = "회원가입";
 	$modify_mb_info = '';
 }
+echo $mode;
 ?>
 <html>
 <head>
 	<title>Register</title>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script>
+	<!-- <script>
 	$(document).ready(function(e) {
 		$(".check").on("keyup", function(){ //check라는 클래스에 입력을 감지
 			var self = $(this);
@@ -44,19 +43,19 @@ if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있
 			);
 		});
 	});
-	</script>
+	</script> -->
 </head>
 <body>
 
-<h1><?php echo $title ?></h1>
+<h1><?php echo $title; ?></h1>
 
-<form action="./register_update.php" onsubmit="return fregisterform_submit(this);" method="post">
-	<input type="hidden" name="mode" value="<?php echo $mode ?>">
+<form action="./register_update.php" onsubmit="return fregisterform_submit(this);" method="get">
+	<input type="hidden" name="mode" value="<?php echo $mode; ?>">
 
 	<table>
 		<tr>
 			<th>아이디</th>
-			<td><input type="text" name="mb_id" id="mb_id"  class="check" value="<?php echo $mb['mb_id'] ?>" <?php echo $modify_mb_info ?>><div id="id_check"></div></td>
+			<td><input type="text" name="mb_id" id="mb_id"  class="check" value="<?php echo isset($mb['mb_id']); ?>" <?php echo $modify_mb_info; ?>><div id="id_check"></div></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
@@ -68,17 +67,17 @@ if(isset($_SESSION['ss_mb_id']) && $_GET['mode'] == 'modify') { // 세션이 있
 		</tr>
 		<tr>
 			<th>이름</th>
-			<td><input type="text" name="mb_name" value="<?php echo $mb['mb_name'] ?>" <?php echo $modify_mb_info ?>></td>
+			<td><input type="text" name="mb_name" value="<?php echo isset($mb['mb_name']) ?>" <?php echo $modify_mb_info ?>></td>
 		</tr>
 		<tr>
 			<th>이메일</th>
-			<td><input type="text" name="mb_email" value="<?php echo $mb['mb_email'] ?>"></td>
+			<td><input type="text" name="mb_email" value="<?php echo isset($mb['mb_email']) ?>"></td>
 		</tr>
 		<tr>
 			<th>성별</th>
 			<td>
-				<label><input type="radio" name="mb_gender" value="남자" <?php echo ($mb['mb_gender'] == "남자") ? "checked" : "";?> >남자</label>
-				<label><input type="radio" name="mb_gender" value="여자" <?php echo ($mb['mb_gender'] == "여자") ? "checked" : "";?> >여자</label>
+				<label><input type="radio" name="mb_gender" value="남자" <?php echo (isset($mb['mb_gender']) == "남자") ? "checked" : "";?> >남자</label>
+				<label><input type="radio" name="mb_gender" value="여자" <?php echo (isset($mb['mb_gender']) == "여자") ? "checked" : "";?> >여자</label>
 			</td>
 		</tr>
 		<tr>

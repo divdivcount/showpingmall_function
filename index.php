@@ -39,13 +39,17 @@
 		<div id="content_container">
 			<div id="navigation">
 					<?php
+							if(empty($_SESSION['ss_mb_id'])){
+								echo "";
+							}else{
+								$mb_id = $_SESSION['ss_mb_id'];
+								$sql = " select * from member where mb_id = TRIM('$mb_id') ";
+								$result = mysqli_query($conn, $sql);
+								$mb = mysqli_fetch_assoc($result);
 
-							$mb_id = $_SESSION['ss_mb_id'];
-							$sql = " select * from member where mb_id = TRIM('$mb_id') ";
-							$result = mysqli_query($conn, $sql);
-							$mb = mysqli_fetch_assoc($result);
+								mysqli_close($conn); // 데이터베이스 접속 종료
+							}
 
-							mysqli_close($conn); // 데이터베이스 접속 종료
 					?>
 					<table>
 						<tr>
@@ -53,7 +57,7 @@
 								<a href="index.php"><img src="files/logo/logo.png" width="100%" height="64px;"/></a>
 							</td>
 								<?php
-									 	if($mb['mb_num']){
+									 	if(isset($mb['mb_num'])){
 											echo "<td style='float:right; margin-top:20px;'>".$mb['mb_name']."님"."&nbsp;<a href='./logout.php'>로그아웃</a>"."&nbsp;<a href='./User_page.php'>마이페이지</a>"."</td>";
 										}else {
 											echo "<td style='float:right; margin-top:20px;'><a href='./login.php'>login</a></td>";

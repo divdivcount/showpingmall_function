@@ -1,31 +1,36 @@
 <?php
     require_once('modules/db.php');
     require_once('modules/notification.php');
-    $mb_id = $_SESSION['ss_mb_id'];
-    $sql = " select * from member where mb_id = TRIM('$mb_id') ";
-    $result = mysqli_query($conn, $sql);
-    $mb = mysqli_fetch_assoc($result);
-    mysqli_close($conn); // 데이터베이스 접속 종료
+    if(empty($_SESSION['ss_mb_id'])){
+      echo "";
+    }else{
+      $mb_id = $_SESSION['ss_mb_id'];
+      $sql = " select * from member where mb_id = TRIM('$mb_id') ";
+      $result = mysqli_query($conn, $sql);
+      $mb = mysqli_fetch_assoc($result);
 
-if(!$mb_id){
+      mysqli_close($conn); // 데이터베이스 접속 종료
+    }
+
+if(empty($mb_id)){
 ?>
+<script type="text/javascript">
+  alert("로그인이 필요합니다.");
+  location.href = "login.php";
+</script>
 <table>
   <tr>
     <td style="width:200px; height:83px;">
       <a href="index.php"><img src="files/logo/logo.png" width="100%" height="64px;"/></a>
     </td>
       <?php
-          if($mb['mb_num']){
+          if(isset($mb['mb_num'])){
           }else {
             echo "<td style='float:right; margin-top:20px;'><a href='./login.php'>login</a></td>";
           }
        ?>
   </tr>
 </table>
-<script type="text/javascript">
-  alert("로그인이 필요합니다.");
-  location.href = "login.php";
-</script>
 <?php
 }else{
 ?>
