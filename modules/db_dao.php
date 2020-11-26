@@ -270,7 +270,6 @@ if($fname != '') {
 				if($s_value){
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  where name  like  :s_value or manufacturer like :s_value order by $this->quTableId asc limit :start, :viewLen";
 				}else{
-					echo "888";
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{
