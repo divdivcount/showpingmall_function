@@ -19,7 +19,7 @@ $pw = Post('pw', null);
 if(!$id || !$pw) {
   userGoto('모든 입력란을 입력하십시오.', '');
 }
-$loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
+$loginObj = new ProLogin();
 if($loginObj->SignIn($id, $pw)) {
   userGoNow('admin_index.php');
 }

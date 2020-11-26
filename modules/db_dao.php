@@ -179,14 +179,7 @@ if($fname != '') {
 		if(isset($s_value)){
 			$query = $this->db->prepare("select count(*) from $this->quTable where $where_field like :s_value");
 			if($this->quTable == "consulting"){
-				if($where){
-					$query = $this->db->prepare("select count(*) from $this->quTable where $where");
-
-				}else{
 					$query = $this->db->prepare("select count(*) from $this->quTable");
-
-				}
-
 			}
 		}
 		$query->bindValue(":s_value", "%$s_value%",  PDO::PARAM_STR);

@@ -24,7 +24,7 @@ if(!$old || !$new || !$newre) {
 if($new != $newre) {
   userGoto('비밀번호 변경 실패', '');
 }
-$loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
+$loginObj = new ProLogin();
 if($loginObj->PasswordChange($old, $new)) {
   userGoto('변경되었습니다.', 'gallery_list.php');
 }

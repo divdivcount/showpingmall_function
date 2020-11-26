@@ -6,7 +6,8 @@ $sql = " select * from member where mb_id = TRIM('$mb_id') ";
 $result = mysqli_query($conn, $sql);
 $mb = mysqli_fetch_assoc($result);
 mysqli_close($conn); // 데이터베이스 접속 종료
-session_start();
+$num = 0;
+$str = "";
 ?>
 <!doctype html>
 <html>
@@ -81,8 +82,11 @@ session_start();
         삭제
         </th>
         <?php
+        if(empty($_SESSION["cart"])){
+          echo "";
+        }else{
           $d = $_SESSION["cart"];
-
+        }
         if(empty($d)){
           ?>
           <tr>
@@ -142,7 +146,8 @@ session_start();
                     foreach($total as $key => $value) {
                       // echo "$key : $value".'<br />';
                     }
-                    $num+= $value;
+                        $num = $num + $value;
+                    // $num+= $value;
                   // $total= $id_val["price"]*$id_val["qty"];
                   // $num = implode(", ", $total);
                   // $name_array = explode(" ", $total);

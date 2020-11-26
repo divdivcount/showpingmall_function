@@ -78,7 +78,13 @@ if(!$mb['mb_num']){
     						<li class="vertical"><?= $row['pa'] ?>원</li>
     					</ul>
     				<?php endforeach ?>
-            <?php echo "이 주문 건의 총액: ", $priv_total."<br>"; ?>
+            <?php
+            if(empty($priv_total)){
+              echo "";
+            }else{
+              echo "이 주문 건의 총액: ", $priv_total."<br>";
+            }
+             ?>
 			</div>
 		</div>
 		<div id="footer">

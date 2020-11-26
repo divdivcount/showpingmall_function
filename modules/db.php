@@ -81,7 +81,6 @@
 
 		private function Initalization() {
 			if(!$this->session) {
-				session_start();
 				$this->session = true;
 			}
 		}

@@ -101,7 +101,7 @@ $okarr = [];
                   <td><?= $row['dt'] ?></td>
                   <td><?= $row['dtok'] ?></td>
                   <td><?= $row['name'] ?></td>
-                  <td><?= $row['phone'] ?></td>
+                  <td><?= $row['email'] ?></td>
                   <td><button type="button" onclick="contents.showok(<?= $i++ ?>)">보기</button></td>
                 </tr>
               <?php endforeach ?>

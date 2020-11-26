@@ -16,7 +16,7 @@ $ids = Post('id', null);
 
 // Process
 try {
-  $galleryObj = new Gallery($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
+  $galleryObj = new Gallery();
   if($ids) {
     foreach ($ids as $id) {
       $galleryObj->Delete($id);

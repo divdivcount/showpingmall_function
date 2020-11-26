@@ -14,7 +14,7 @@ require_once('modules/db.php');
 // Functions
 
 // Process
-$loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
+$loginObj = new ProLogin();
 ?>
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
