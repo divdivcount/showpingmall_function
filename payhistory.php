@@ -57,13 +57,11 @@ if(!$mb['mb_num']){
               if ($priv_order_id != $row["order_id"]) {
               		if ($priv_order_id != 0) {
               			echo "이 주문 건의 총액: ", $priv_total."<br>";
-                    echo "이상?".$priv_total1."<br>";
               		}
               		echo "새 주문 건 시작"."\t<span class=''>구매 일시:".$row["date_format(pr_now,'%Y-%m')"]."</span>"."<br>";
               	}
                   $priv_order_id = $row["order_id"];
                   $priv_total = $row["pr_num"];
-                  $priv_total1 += $row["pr_num"];
 
                   // echo $row["pr_num"];
                 ?>
