@@ -33,6 +33,7 @@ if(!$mb_id){
 <html>
   <head>
     <?php require_once('modules/form_head.php'); ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   </head>
   <body>
     <table>
@@ -77,6 +78,16 @@ if(!$mb_id){
               </li>
             </ul>
         </div>
+        <div class="u_nav_wrap">
+            <ul>
+              <li>
+                <p style="font-weight:bold; margin-bottom:15px;">나의 문의</p>
+              </li>
+              <li>
+                <a href="./consulting_user.php">상담신청</a>
+              </li>
+            </ul>
+        </div>
       </div>
       <div class="u_gnb">
         <div class="u_gnb_wrap">
@@ -92,6 +103,7 @@ if(!$mb_id){
           <h6>상담 신청</h6>
         </div>
       </div>
+      <h2>123</h2>
     </div>
     <div class"u_iframe">
     </div>

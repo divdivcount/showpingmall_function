@@ -4,10 +4,7 @@
 <!doctype html>
 <html>
 	<head>
-    <link href="css/size1366.css" rel="stylesheet" type="text/css">
-    <link href="css/size600.css" rel="stylesheet" type="text/css">
-    <link href="css/adminstrator.css" rel="stylesheet" type="text/css">
-    <link href="css/size600.css" rel="stylesheet" type="text/css">
+    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="script/js_sub4.js" charset="utf-8"></script>
 </head>
