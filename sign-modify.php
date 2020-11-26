@@ -19,15 +19,10 @@ $loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
-    <?php require_once('modules/form_head.php'); ?>
+
     <title></title>
-    <link rel="stylesheet" href="/css/administrator.css">
   </head>
   <body>
-    <?php require_once('modules/form_navigation.php'); ?>
-	 <header>
-      <h1>비밀번호 변경</h1>
-    </header>
     <main>
       <form class="sign_pw_bg" action="sign-pwchange.php" method="post">
         <div class="sign_pw">

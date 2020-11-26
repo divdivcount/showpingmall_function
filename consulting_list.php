@@ -39,7 +39,7 @@ $okarr = [];
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
-    <?php require_once('modules/form_head.php'); ?>
+    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
     <title></title>
     <style media="screen">
       tr.clicked {
@@ -48,9 +48,6 @@ $okarr = [];
     </style>
   </head>
   <body>
-    <header>
-      <h1>상담 요청 목록</h1>
-    </header>
     <main>
       <div>
         <table id="consulting">
