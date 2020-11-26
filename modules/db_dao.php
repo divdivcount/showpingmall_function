@@ -72,11 +72,9 @@ class ProDAO {
     $this->openDB();
     if($where){
 			$query = $this->db->prepare("select $select from $this->quTable where $where");
-			echo "123";
 		}
     else{
 			$query = $this->db->prepare("select id, name, manufacturer, info, date_format(date,'%Y-%m'), price, file from $this->quTable");
-			echo "날짜가 안나옴";
 		}
     $query->execute();
     $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -271,9 +269,9 @@ if($fname != '') {
 		$this->quTable == "storage" || $this->quTable == "graphicscard"){
 				if($s_value){
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  where name  like  :s_value or manufacturer like :s_value order by $this->quTableId asc limit :start, :viewLen";
-					echo "999";
+
 				}else{
-					echo "888";
+
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{

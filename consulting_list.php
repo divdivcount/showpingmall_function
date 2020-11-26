@@ -60,7 +60,7 @@ $okarr = [];
               <th>등록한 시간</th>
               <th>완료된 시간</th>
               <th>신청자이름</th>
-              <th>전화번호</th>
+              <th>이메일</th>
               <th>내용보기</th>
             </tr>
           </thead>
@@ -76,7 +76,7 @@ $okarr = [];
                     <td onclick="selector.select(<?= $i ?>)"><?= $row['dt'] ?></td>
                     <td onclick="selector.select(<?= $i ?>)"></td>
                     <td onclick="selector.select(<?= $i ?>)"><?= $row['name'] ?></td>
-                    <td onclick="selector.select(<?= $i ?>)"><?= $row['phone'] ?></td>
+                    <td onclick="selector.select(<?= $i ?>)"><?= $row['email'] ?></td>
                     <td><button type="button" onclick="contents.shownok(<?= $i++ ?>)">보기</button></td>
                   </tr>
                 <?php endforeach ?>

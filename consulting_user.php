@@ -1,5 +1,11 @@
 <?php
   require_once('modules/module_protect1.php');
+  require_once('modules/db.php');
+  $mb_id = $_SESSION['ss_mb_id'];
+  $sql = " select * from member where mb_id = TRIM('$mb_id') ";
+  $result = mysqli_query($conn, $sql);
+  $mb = mysqli_fetch_assoc($result);
+  mysqli_close($conn); // 데이터베이스 접속 종료
 ?>
 <!doctype html>
 <html>
@@ -14,11 +20,11 @@
     <form id="sangdam" action="./consulting_upload.php" method="post">
       <div>
         <span>상담자 이름</span>
-        <div><input type="text" name="name" value="" placeholder="성함"></div>
+        <div><input type="text" name="name" value="<?= $mb["mb_name"]?>" readonly></div>
       </div>
       <div>
-        <span>전화번호</span>
-        <div><input type="text" name="phone" value="" placeholder="전화번호"></div>
+        <span>이메일</span>
+        <div><input type="text" name="email" value="<?= $mb["mb_email"]?>"  readonly/></div>
       </div>
       <div>
         <span>상담 내용</span>

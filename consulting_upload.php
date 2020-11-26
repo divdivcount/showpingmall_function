@@ -10,16 +10,16 @@ require_once("modules/db.php");
 
 // Parameter
 $name = Post('name', null);
-$phone = Post('phone', null);
+$email = Post('email', null);
 $content = Post('content', null);
 
 // Functions
 
 // Process
 try {
-  if($name && $phone && $content) {
+  if($name && $email && $content) {
     $consultObj = new Consulting();
-    $consultObj->Upload('', 0, ['phone'=>$phone, 'name'=>$name, 'content'=>$content]);
+    $consultObj->Upload('', 0, ['email'=>$email, 'name'=>$name, 'content'=>$content]);
   }
   else {
     userGoto('모든 입력란을 작성하세요.', '');
