@@ -70,8 +70,14 @@ class ProDAO {
 //제품 출력
 	public function SelectAll($select = '*', $where = null) {
     $this->openDB();
-    if($where) $query = $this->db->prepare("select $select from $this->quTable where $where");
-    else $query = $this->db->prepare("select id, name, manufacturer, info, date_format(date,'%Y-%m'), price, file from $this->quTable");
+    if($where){
+			$query = $this->db->prepare("select $select from $this->quTable where $where");
+			echo "123";
+		}
+    else{
+			$query = $this->db->prepare("select id, name, manufacturer, info, date_format(date,'%Y-%m'), price, file from $this->quTable");
+			echo "날짜가 안나옴";
+		}
     $query->execute();
     $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
     if($fetch) return $fetch;
@@ -129,6 +135,12 @@ class ProDAO {
 public function Delete($id) {
 try{
 $this->openDB();
+
+if($this->quTable == "consulting"){
+	$query = $this->db->prepare("delete from $this->quTable where id=:id");
+	$query->bindValue(":id", $id, PDO::PARAM_INT);
+	$query->execute();
+}else{
 // 파일 삭제
 if( 'file' !=  '') {
 $query = $this->db->prepare("select file from $this->quTable where id=:id");
@@ -145,7 +157,7 @@ if($fname != '') {
 		}
 	}
 }
-
+}
 
 	// 게시글 삭제
 	$sql = "delete from $this->quTable where id=:id";
@@ -159,7 +171,7 @@ if($fname != '') {
 
 
 	//페이지 내이션
-  	public function SelectPageLength($cPage, $viewLen, $s_value, $where=null) {
+  	public function SelectPageLength($cPage, $viewLen, $s_value) {
 		$this->openDB();
 	if (empty($s_value)){
 		$query = $this->db->prepare("select count(*) from $this->quTable");
@@ -259,12 +271,9 @@ if($fname != '') {
 		$this->quTable == "storage" || $this->quTable == "graphicscard"){
 				if($s_value){
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  where name  like  :s_value or manufacturer like :s_value order by $this->quTableId asc limit :start, :viewLen";
-
-				}else if(!$s_value){
-					$sql= "select * from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
-
+					echo "999";
 				}else{
-
+					echo "888";
 					$sql= "select id, name, manufacturer, info, date_format(date,'%Y-%m'),price, file from $this->quTable  order by $this->quTableId asc limit :start, :viewLen";
 				}
 		}else{
@@ -287,7 +296,7 @@ if($fname != '') {
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		try{
 		if(!$fetch){
-			echo "결과 값이 없습니다.";
+			// echo "결과 값이 없습니다.";
 		}
 		return $fetch;
 		}catch(PDOException $e){
@@ -479,7 +488,7 @@ if($fname != '') {
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		try{
 		if(!$fetch){
-			echo "결과 값이 없습니다.";
+			// echo "결과 값이 없습니다.";
 		}
 		return $fetch;
 		}catch(PDOException $e){

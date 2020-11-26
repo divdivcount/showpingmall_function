@@ -6,7 +6,6 @@ Description: 로그인 비밀번호 변경
 */
 
 // Load Modules
-require_once('modules/error.php');
 require_once('modules/notification.php');
 require_once('modules/db.php');
 require_once("modules/admin.php");
@@ -27,7 +26,7 @@ if($new != $newre) {
 }
 $loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'], $DBconfig['dbtable'], $DBconfig['dbtype']);
 if($loginObj->PasswordChange($old, $new)) {
-  userGoto('변경되었습니다.', 'admin_index.php');
+  userGoto('변경되었습니다.', 'gallery_list.php');
 }
 else {
   userGoto('비밀번호 변경 실패', '');

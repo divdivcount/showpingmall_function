@@ -21,15 +21,9 @@ $result = $galleryObj ->SelectGallery();
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
-    <?php require_once('modules/form_head.php'); ?>
-    <link href="css/administrator.css" rel="stylesheet" type="text/css">
     <title></title>
   </head>
   <body>
-
-    <header>
-      <h1>배너 관리</h1>
-    </header>
     <main>
       <div>
         <ul id="sub">

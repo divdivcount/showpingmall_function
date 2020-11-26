@@ -26,5 +26,5 @@ try {
   echo $e->getMessage();
   exit();
 }
-userGoNow('/consulting_list.php');
+userGoNow('consulting_list.php');
 ?>

@@ -19,6 +19,7 @@ nav>div.logo>img {
   margin-top:20px;
 }
 nav>div.list {
+  margin-top: 50px;
   /*display:block;*/
 }
 nav>div.list>a {
@@ -28,6 +29,45 @@ nav>div.list>a {
   border-left: solid 0.5em #444;
   background-color: #444;
   color: #fff;
+}
+nav>div.list > #nv_container > ul > li >a {
+  display: block;
+  font-size: 1.2em;
+  padding: 1em 0.5em;
+  border-left: solid 0.5em #444;
+  background-color: #444;
+  color: #fff;
+  cursor:pointer;
+}
+
+nav>div.list > #nv_container > ul > li >a:hover {
+  border-left-color: #8e8a8a;
+  background-color:#ddd;
+  color:#444;
+}
+.o_down{
+  display: block;
+  font-size: 1.2em;
+  padding: 0em 0.5em;
+  border-left: solid 0.5em #444;
+  background-color: #444;
+  color: #fff;
+}
+
+.o_down > li  {
+  display: none;
+}
+.o_down > li > a{
+  display: block;
+  font-size: 1.1em;
+  border-left: solid 0.5em #444;
+  background-color: #444;
+  color: #fff;
+}
+.o_down > li > a:hover{
+  border-left-color: #8e8a8a;
+  background-color:#ddd;
+  color:#444;
 }
 nav>div.list>a:hover {
   border-left-color: #8e8a8a;

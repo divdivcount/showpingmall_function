@@ -1,40 +1,40 @@
 <?php
-    require_once('modules/db.php');
-    require_once('modules/admin.php');
-?>
-<!doctype html>
-<html>
-	<head>
-		<?php require_once('modules/form_head.php'); ?>
-		<title></title>
-	</head>
-	<body>
-		<div id="header">
+/*
+FileName: consulting_list.php
+Modified Date: 20190906
+Description: 상담 요청 관리 페이지
+*/
 
-		</div>
-		<div id="content_container">
-			<div id="navigation">
-				<?php
-        		$id = $_SESSION['user'];
-				?>
-<table>
-	<tr>
-		<td><?php echo $id.'님 어서오세요'?><a href="./sign-out.php">로그아웃</a></td>
-	</tr>
-</table>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=cpu' "/>admin_Cpulist</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=mainboard' "/>admin_Mainboardlist</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=power' "/>admin_Powerlist</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=case' "/>admin_Caselist</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=cooler' "/>admin_Coolerlist</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=memory' "/>admin_Memory</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=graphicscard' "/>admin_GraphicsCard</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=odd' "/>admin_Odd</button>
-      <button class="btn1"  onclick = "location.href = 'admin_list.php?var=storage' "/>admin_Storage</button>
-      <iframe id="main_frame" src="gallery_list.php" height="800px" width="70%"></iframe>
-			</div>
-		</div>
-		<div id="footer">
-		</div>
-	</body>
+// Load Modules
+require_once('modules/notification.php');
+require_once('modules/db.php');
+require_once("modules/admin.php");
+$id = $_SESSION['user'];
+?>
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
+    <?php require_once('modules/form_head.php'); ?>
+    <title></title>
+    <style media="screen">
+      tr.clicked {
+        background-color: #0df;
+      }
+    </style>
+  </head>
+  <body>
+    <?php require_once('modules/form_navigation.php'); ?>
+    <header>
+      <h1> <span style="float:right; color:#fff;"><?= $id ?>관리자</span></h1>
+    </header>
+    <main>
+      <iframe id="admin_frame" align="right" frameBorder="" src="gallery_list.php" height="800px" width="100%"></iframe>
+    </main>
+    <script>
+    function changeIframeUrl(url){
+      document.getElementById("admin_frame").src = url;
+    }
+    </script>
+  </body>
 </html>

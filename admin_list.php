@@ -2,7 +2,7 @@
 require_once('modules/db.php');
 require_once('modules/notification.php');
 require_once('modules/cat.php');
-$result = $dao ->SelectAll();
+$result1 = $dao ->SelectAll();
 $pid = Get('p', 1);
 
 ?>
@@ -18,10 +18,8 @@ $pid = Get('p', 1);
 		</div>
 		<div id="content_container">
 			<div id="navigation">
-
 			</div>
 					<div>
-						<?php require_once('modules/page_search.php'); ?>
 						<div>
 							<form action="admin_list.php" method="get">
 								<input id="kk" type="hidden"  name="var" value="<?=$link?>">
@@ -48,6 +46,7 @@ $pid = Get('p', 1);
 							  </tr>
 							</thead>
 							<tbody>
+								<?php require_once('modules/page_search.php'); ?>
 							  <?php foreach($list as $row) : ?>
 								<tr>
 									<td class="center"><input type="checkbox" name="id[]" class="hidden" id="<?= $row['id'] ?>" value="<?= $row['id'] ?>"><label for="<?= $row['id'] ?>"></label></td>
