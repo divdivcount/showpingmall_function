@@ -493,7 +493,6 @@ if($fname != '') {
 	}
 
 
-
 	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
     $this->openDB();
     $query = $this->db->prepare("insert into $this->quTable values (:cat_key, :id_key, :pr_img, :pr_name, :pa,:pr_qty,:mb_num,:pr_num,:pr_now,0)");
@@ -507,6 +506,13 @@ if($fname != '') {
 		$query -> bindValue(":pr_num", $num, PDO::PARAM_STR);
 		$query -> bindValue(":pr_now", $now, PDO::PARAM_STR);
     $query->execute();
+		// if($this->quTable == "puhistory"){
+		// 	$this->quTable = "paygo";
+		// 	$query = $this->db->prepare("insert into $this->quTable values (:mb_num,:pr_num)");
+		// 	$query -> bindValue(":mb_num", $mb_num, PDO::PARAM_STR);
+		// 	$query -> bindValue(":pr_num", $num, PDO::PARAM_STR);
+		// 	$query->execute();
+		// }
 		if($last_id == 0){
 			$last_id = $this->db->lastInsertId();//오토 인크리먼트로 가장 최근 값
 		}

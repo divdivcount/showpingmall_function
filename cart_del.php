@@ -39,9 +39,6 @@ $name =$_REQUEST["name"];
 if(!($id && $var && $name)){
   $timestamp = strtotime("Now");
   $now = date("Y-m-d H:i:s", $timestamp);
-echo "현재 일시 : ".$now."<br/>";
-  echo $mb_num;
-  echo $num;
   $d = $_SESSION["cart"];
   $last_id = 0;
   foreach ($d as $cat_key => $cat_arr) {
@@ -82,7 +79,7 @@ echo "현재 일시 : ".$now."<br/>";
         //테이블은 나눠서 하는것인가
       }
     }
-
+    $dao -> Gopay($mb_num,$num);
   unset($_SESSION["cart"]);
   header("Location:basket.php");
 

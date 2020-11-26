@@ -31,7 +31,7 @@ $pid = Get('p', 1);
 				<?php foreach ($list as $row) : ?>
 					<ul class="list">
 					<li class="list-li check_field"><input type="checkbox" name="id[]" class="hidden" id="<?= $row['id'] ?>" value="<?= $row['id'] ?>"><label for="<?= $row['id'] ?>"></label></li>
-					<li class="hdn"><?= $row['id'] ?></li>
+					<li class="hidden"><?= $row['id'] ?></li>
 					<li class="list-li image_box"><img src="<?= $dir.$row['file'] ?>" width="124px" height="124px" /></li>
 					<div class="text_field">
 						<li class="list-li name_field"><?= $row['name'] ?></li>

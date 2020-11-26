@@ -11,7 +11,6 @@ require_once("modules/admin.php");
 
 // Parameter
 $ids = Post('id', null);
-print_r($ids);
 // Functions
 
 // Process
@@ -26,5 +25,5 @@ try {
   echo $e->getMessage();
   exit();
 }
-// userGoNow('consulting_list.php');
+userGoNow('consulting_list.php');
 ?>

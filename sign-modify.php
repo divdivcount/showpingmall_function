@@ -19,8 +19,11 @@ $loginObj = new ProLogin($DBconfig['dburl'], $DBconfig['dbid'], $DBconfig['dbpw'
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
   <head>
-
     <title></title>
+    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
+    <link href="css/admin_cul.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </head>
   <body>
     <main>

@@ -40,6 +40,9 @@ $okarr = [];
 <html lang="ko" dir="ltr">
   <head>
     <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
+    <link href="css/admin_cul.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <title></title>
     <style media="screen">
       tr.clicked {
@@ -71,7 +74,7 @@ $okarr = [];
                 <?php foreach($nokpglist as $row) : ?>
                   <?php array_push($nokarr, $row['content']); ?>
                   <tr>
-                    <td class="hdn"><input type="checkbox" name="id[]" value="<?= $row['id'] ?>"></td>
+                    <td class="hidden"><input type="checkbox" name="id[]" value="<?= $row['id'] ?>"></td>
                     <td onclick="selector.select(<?= $i ?>)"><?= $row['id'] ?></td>
                     <td onclick="selector.select(<?= $i ?>)"><?= $row['dt'] ?></td>
                     <td onclick="selector.select(<?= $i ?>)"></td>

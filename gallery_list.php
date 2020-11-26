@@ -22,6 +22,10 @@ $result = $galleryObj ->SelectGallery();
 <html lang="ko" dir="ltr">
   <head>
     <title></title>
+    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
+    <link href="css/admin_cul.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </head>
   <body>
     <main>
@@ -43,7 +47,7 @@ $result = $galleryObj ->SelectGallery();
                 <div>
                   <input type="checkbox" name="id[]" value="<?= $row['id'] ?>">
                   <label onclick="list.pick(<?= $i ?>)"></label>
-                  <img src="files/gallery/<?= $row['file'] ?>" alt="" width="64px" height="64px">
+                  <img src="files/gallery/<?= $row['file'] ?>" alt="" width="124px" height="124px">
                   <input type="text" name="description" onkeyup="backdoor(<?= $i ?>)" placeholder="<?= $row['description'] ?>">
                   <button type="button" name="button" onclick="list.modify(<?= $i++ ?>)" disabled>설명 수정</button>
                 </div>
