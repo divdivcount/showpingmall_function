@@ -72,6 +72,8 @@ class ProDAO {
     $this->openDB();
     if($where){
 			$query = $this->db->prepare("select $select from $this->quTable where $where");
+		}else if($this->quTable == "member"){
+			$query = $this->db->prepare("select mb_num from $this->quTable");
 		}
     else{
 			$query = $this->db->prepare("select id, name, manufacturer, info, date_format(date,'%Y-%m'), price, file from $this->quTable");
@@ -516,5 +518,14 @@ if($fname != '') {
 		return $last_id;
   }
 
+	public function UserSelectAll($mb_id, $p_num = null) {
+		$this->openDB();
+
+		$query = $this->db->prepare("select m.mem_rating_name, sum(p.pr_num) as p_num from member_rating m, paygo p where m.mem_rating_num = p.mem_rating_num and mb_num = $mb_id group by m.mem_rating_num");
+		$query->execute();
+		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+		if($fetch) return $fetch;
+		else return null;
+	}
 }
 ?>

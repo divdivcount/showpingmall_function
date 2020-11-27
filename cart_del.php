@@ -1,6 +1,7 @@
 <?php
 error_reporting(0);
 require_once('modules/db.php');
+$dao = new Pay_history();
 // print_r($_SESSION["cart"]);
 // $cart = explode(',', $_SESSION["cart"]);
 // for ($i = 0; $i < count($cart); $i+=4) {
@@ -20,7 +21,6 @@ $num = empty($_REQUEST["num"]) ? "" : $_REQUEST["num"];
 $var =empty($_REQUEST["var"]) ? "" : $_REQUEST["var"];
 $id =empty($_REQUEST["id"]) ? "" : $_REQUEST["id"];
 $name = empty($_REQUEST["name"]) ? "" : $_REQUEST["name"];
-
 // unset($d[$var][$id]);
 // $_SESSION["cart"] = "";
 // if(!($id && $var && $name)){
@@ -72,13 +72,14 @@ if(!($id && $var && $name)){
       </table>
         <?php
 
-        $dao = new Pay_history();
         $last_id = $dao -> Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id);
         //구매 이력을 데베로 넣을때 하나씩 들어감
         //문제 1 총 합계가 계속 들어가는 문제
         //테이블은 나눠서 하는것인가
       }
     }
+    echo $mb_num."<br>";
+    echo $num;
     $dao -> Gopay($mb_num,$num);
   unset($_SESSION["cart"]);
   header("Location:basket.php");

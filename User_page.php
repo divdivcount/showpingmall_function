@@ -11,6 +11,10 @@
 
       mysqli_close($conn); // 데이터베이스 접속 종료
     }
+    //회원 등급 표시
+    $m_dao = new ProDAO();
+    $m_result = $m_dao ->UserSelectAll($mb["mb_num"]);
+
 
 if(empty($mb_id)){
 ?>
@@ -60,7 +64,7 @@ if(empty($mb_id)){
                 <p style="font-weight:bold; margin-bottom:10px;">나의 쇼핑</p>
               </li>
               <li>
-              <a href="./register.php?mode=modify">나의 맴버쉽</a>
+              <a href="./User_rating.php?mb=<?=$mb['mb_num']?>">나의 맴버쉽</a>
               </li>
               <li>
                 <a href="./basket.php">장바구니</a>
@@ -97,6 +101,9 @@ if(empty($mb_id)){
       <div class="u_gnb">
         <div class="u_gnb_wrap">
           <h6>나의 등급</h6>
+          <?php foreach ($m_result as $m_row) :?>
+            <h3><?=$m_row["mem_rating_name"]?></h3>
+          <?php endforeach ?>
         </div>
         <div class="u_gnb_wrap">
           <h6>배송중</h6>
