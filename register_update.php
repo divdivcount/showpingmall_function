@@ -15,7 +15,7 @@ switch ($mode) {
     case 'modify' :
         $mb_id = trim($_SESSION['ss_mb_id']);
 		$title = "회원수정";
-        break;
+    break;
 }
 
 $mb_password			= trim($_POST['mb_password']); // 첫번째 입력 패스워드
@@ -90,7 +90,6 @@ if($mode == "insert") { // 신규 등록 상태
 	$result = mysqli_query($conn, $sql);
 
 } else if ($mode == "modify") { // 회원 수정 상태
-
 	$sql = " UPDATE member
 				SET mb_password = '$mb_password',
 					 mb_email = '$mb_email',
