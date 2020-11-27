@@ -38,6 +38,18 @@ if(empty($mb_id)){
 <?php
 }else{
 ?>
+<?php
+if(empty($m_result)){
+  $m_rating="";
+}else{
+  foreach ($m_result as $m_row){
+    $m_rating = $m_row["mem_rating_name"];
+    $m_rating_num = $m_row["mem_rating_num"];
+    $mb_p_num = $m_row["p_num"];
+  }
+}
+
+?>
 <!doctype html>
 <html>
   <head>
@@ -64,7 +76,7 @@ if(empty($mb_id)){
                 <p style="font-weight:bold; margin-bottom:10px;">나의 쇼핑</p>
               </li>
               <li>
-              <a href="./User_rating.php?mb=<?=$mb['mb_num']?>">나의 맴버쉽</a>
+              <a href="./User_rating.php?mb=<?=$mb['mb_num']?>&mb_rating=<?= $m_rating_num ?>&mb_p_num=<?= $mb_p_num ?>">나의 맴버쉽</a>
               </li>
               <li>
                 <a href="./basket.php">장바구니</a>
@@ -101,9 +113,7 @@ if(empty($mb_id)){
       <div class="u_gnb">
         <div class="u_gnb_wrap">
           <h6>나의 등급</h6>
-          <?php foreach ($m_result as $m_row) :?>
-            <h3><?=$m_row["mem_rating_name"]?></h3>
-          <?php endforeach ?>
+            <h3><?=$m_rating?></h3>
         </div>
         <div class="u_gnb_wrap">
           <h6>배송중</h6>

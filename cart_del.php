@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+// error_reporting(0);
 require_once('modules/db.php');
 $dao = new Pay_history();
 // print_r($_SESSION["cart"]);
@@ -17,10 +17,13 @@ $dao = new Pay_history();
 //       }
 //     }
 $mb_num = empty($_REQUEST["mb_num"]) ? "" : $_REQUEST["mb_num"];
+$mb_id = empty($_REQUEST["mb_id"]) ? "" : $_REQUEST["mb_id"];
 $num = empty($_REQUEST["num"]) ? "" : $_REQUEST["num"];
 $var =empty($_REQUEST["var"]) ? "" : $_REQUEST["var"];
 $id =empty($_REQUEST["id"]) ? "" : $_REQUEST["id"];
 $name = empty($_REQUEST["name"]) ? "" : $_REQUEST["name"];
+$m_dao = new ProDAO();
+$m_result = $m_dao ->UserSelectAll($mb_num);
 // unset($d[$var][$id]);
 // $_SESSION["cart"] = "";
 // if(!($id && $var && $name)){
@@ -78,11 +81,29 @@ if(!($id && $var && $name)){
         //테이블은 나눠서 하는것인가
       }
     }
+    ?>
+    <?php foreach($m_result as $m_row) :?>
+      <?= $m_row["mem_rating_name"]."m_등급<br>" ?>
+      <?= $m_row["p_num"]."m_총 값<br>" ?>
+      <?= $m_row["mb_id"]."m_아이디<br>" ?>
+    <?php endforeach ?>
+    <?php
+      if($m_row["p_num"] <= 999999 && $m_row["p_num"] >= 1500000){
+        $rating = 1;
+      }elseif($m_row["p_num"] <= 666666 && $m_row["p_num"] >= 999999){
+        $rating = 2;
+      }elseif($m_row["p_num"] < 50000){
+        $rating = 3;
+      }else{
+        $rating = 4;
+      }
     echo $mb_num."<br>";
-    echo $num;
-    $dao -> Gopay($mb_num,$num);
-  unset($_SESSION["cart"]);
-  header("Location:basket.php");
+    echo $num."<br>";
+    echo $mb_id."<br>";
+    echo "<br>등급".$rating."등급<br>";
+    $dao -> Gopay($mb_num,$num,$rating ,$mb_id);
+    unset($_SESSION["cart"]);
+    header("Location:basket.php");
 
 }else{
   unset($_SESSION["cart"][$var][$id]);

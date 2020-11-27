@@ -9,8 +9,7 @@ require_once("modules/db.php"); // DB연결을 위한 같은 경로의 dbconn.ph
 
 </head>
 <?php
-$mb_id = $_SESSION['ss_mb_id'];
-echo $mb_id;
+$mb_id = empty($_SESSION['ss_mb_id']) ? "" : $_SESSION['ss_mb_id'];
 if($mb_id && isset($_GET['mode']) == 'modify') { // 세션이 있고 회원수정 mode라면 회원 정보를 가져옴
 	$sql = " SELECT * FROM member WHERE mb_id = '$mb_id' "; // 회원 정보를 조회
 	$result = mysqli_query($conn, $sql);
@@ -18,10 +17,13 @@ if($mb_id && isset($_GET['mode']) == 'modify') { // 세션이 있고 회원수�
 	mysqli_close($conn); // 데이터베이스 접속 종료
 	$mode = "modify";
 	$title = "회원수정";
-	echo "123";
 	$modify_mb_info = "readonly";
 } else {
-	echo "123";
+	$mb['mb_id']= "";
+	$modify_mb_info = "";
+	$mb['mb_name'] = "";
+	$mb['mb_email'] = "";
+	$mb['mb_gender'] = "";
 	?>
 <script>
 	$(document).ready(function(e) {

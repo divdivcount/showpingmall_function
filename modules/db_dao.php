@@ -518,14 +518,53 @@ if($fname != '') {
 		return $last_id;
   }
 
-	public function UserSelectAll($mb_id, $p_num = null) {
+	public function UserSelectAll($mb_id, $mb_rating = null, $mb_p_num = null) {
 		$this->openDB();
-
-		$query = $this->db->prepare("select m.mem_rating_name, sum(p.pr_num) as p_num from member_rating m, paygo p where m.mem_rating_num = p.mem_rating_num and mb_num = $mb_id group by m.mem_rating_num");
+		$query = $this->db->prepare("select m.mem_rating_name, m.mem_rating_num, p.mb_id, sum(p.pr_num) AS p_num FROM member_rating m, paygo p WHERE m.mem_rating_num = p.mem_rating_num and mb_num = $mb_id GROUP BY m.mem_rating_num order by m.mem_rating_num desc");
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
-		if($fetch) return $fetch;
+		if($fetch){
+			if($mb_id && $mb_rating && $mb_p_num){
+				echo $mb_id."아이디 쿼리<br>";
+				echo $mb_rating."mb_rating쿼리<br>";
+				echo $mb_p_num."쿼리<br>";
+				echo "go";
+				if($mb_p_num <= 999999 && $mb_p_num >= 1500000){
+					echo "P";
+					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+				}else if($mb_p_num <= 666666 && $mb_p_num >= 999999){
+					echo "G";
+					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+				}else if($mb_p_num < 50000){
+					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+					echo "S";
+				}else if($mb_rating == 4){
+					echo "I";
+					$query = $this->db->prepare("update paygo set mem_rating_num = 4 where mb_num = $mb_id");
+				}
+			}
+			return $fetch;
+		}
 		else return null;
+
 	}
+
+	// public function listModify($id, $name, $manufacturer, $info, $date, $price, $file){
+	// 	try{
+	// 	$this->openDB();
+	// 	$sql = "update $this->quTable set name=:name, manufacturer = :manufacturer, info = :info, date = :date, price=:price, file = :file where id = :id";
+	// 	$query = $this->db->prepare($sql);
+	// 	$query -> bindValue(":id", $id, PDO::PARAM_INT);
+	// 	$query -> bindValue(":name", $name, PDO::PARAM_STR);
+	// 	$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
+	// 	$query -> bindValue(":info", $info, PDO::PARAM_STR);
+	// 	$query -> bindValue(":date", $date, PDO::PARAM_STR);
+	// 	$query -> bindValue(":price", $price, PDO::PARAM_STR);
+	// 	$query -> bindValue(":file", $file, PDO::PARAM_STR);
+	// 	$query->execute();
+	// 	}catch(PDOException $e){
+	// 	exit($e ->getMessage());
+	// 	}
+	// }
 }
 ?>
