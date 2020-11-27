@@ -49,7 +49,6 @@ if(isset($_SESSION['ss_mb_id']) && isset($_POST['mode']) == 'modify') { // ì„¸ì…
 	</script>
 	<?php
 }
-echo $mode;
 ?>
 <body>
 
