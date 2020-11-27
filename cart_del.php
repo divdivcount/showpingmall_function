@@ -1,6 +1,6 @@
 <?php
+error_reporting(0);
 require_once('modules/db.php');
-session_start();
 // print_r($_SESSION["cart"]);
 // $cart = explode(',', $_SESSION["cart"]);
 // for ($i = 0; $i < count($cart); $i+=4) {
@@ -15,11 +15,11 @@ session_start();
 //         $d[$var][$id]["qty"]++;
 //       }
 //     }
-$mb_num = $_REQUEST["mb_num"];
-$num = $_REQUEST["num"];
-$var =$_REQUEST["var"];
-$id =$_REQUEST["id"];
-$name =$_REQUEST["name"];
+$mb_num = empty($_REQUEST["mb_num"]) ? "" : $_REQUEST["mb_num"];
+$num = empty($_REQUEST["num"]) ? "" : $_REQUEST["num"];
+$var =empty($_REQUEST["var"]) ? "" : $_REQUEST["var"];
+$id =empty($_REQUEST["id"]) ? "" : $_REQUEST["id"];
+$name = empty($_REQUEST["name"]) ? "" : $_REQUEST["name"];
 
 // unset($d[$var][$id]);
 // $_SESSION["cart"] = "";
@@ -39,7 +39,7 @@ $name =$_REQUEST["name"];
 if(!($id && $var && $name)){
   $timestamp = strtotime("Now");
   $now = date("Y-m-d H:i:s", $timestamp);
-  $d = $_SESSION["cart"];
+  $d = empty($_SESSION["cart"]) ? "" : $_SESSION["cart"];
   $last_id = 0;
   foreach ($d as $cat_key => $cat_arr) {
       foreach ($cat_arr as $id_key => $id_val) {
