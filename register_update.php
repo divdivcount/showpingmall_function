@@ -1,12 +1,13 @@
 <?php
-require_once("modules/db.php"); // DB연결을 위한 같은 경로의 dbconn.php를 인클루드합니다.
+// Load Modules
+require_once("modules/db.php");
 $mode = empty($_POST['mode']) ? "" : $_POST['mode'];
 
-// if($mode != 'insert' && $mode != 'modify') { // 아무런 모드가 없다면 중단
-// 	echo "<script>alert('mode 값이 제대로 넘어오지 않았습니다.');</script>";
-// 	// echo "<script>location.replace('./register.php');</script>";
-// 	exit;
-// }
+if($mode != 'insert' && $mode != 'modify') { // 아무런 모드가 없다면 중단
+	echo "<script>alert('mode 값이 제대로 넘어오지 않았습니다.');</script>";
+	echo "<script>location.replace('./register.php');</script>";
+	exit;
+}
 switch ($mode) {
     case 'insert' :
         $mb_id = trim($_POST['mb_id']);

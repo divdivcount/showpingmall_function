@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: gallery_upload.php
-Modified Date: 20190905
-Description: 사진 업로드
-*/
 // Load Modules
 require_once("modules/notification.php");
 require_once("modules/db.php");

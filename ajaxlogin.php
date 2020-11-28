@@ -1,5 +1,6 @@
 <?php
 //register_update와 합쳐지지 않아 다른파일로 작성..
+// Load Modules
 require_once("modules/db.php");
 $mb_ids = empty($_POST['mb_ids']) ? "" : $_POST['mb_ids'];
 if(isset($mb_ids) != NULL){

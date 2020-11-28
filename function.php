@@ -2,9 +2,6 @@
 // 메일 전송을 위한 라이브러리
 include_once('./PHPMailer/PHPMailerAutoload.php');
 
-// 네이버 메일 전송
-// 메일 -> 환경설정 -> POP3/IMAP 설정 -> POP3/SMTP & IMAP/SMTP 중에 IMAP/SMTP 사용
-
 // 메일 보내기
 // mailer("보내는 사람 이름", "보내는 사람 메일주소", "받는 사람 메일주소", "제목", "내용");
 function mailer($fname, $fmail, $to, $subject, $content)

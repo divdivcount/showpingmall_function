@@ -1,10 +1,4 @@
 <?php
-/*
-FileName: sign-in.php
-Modified Date: 20190925
-Description: 로그인 실행
-*/
-
 // Load Modules
 require_once('modules/notification.php');
 require_once('modules/db.php');

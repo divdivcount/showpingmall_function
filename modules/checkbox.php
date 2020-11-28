@@ -1,3 +1,4 @@
+<!-- // Process -->
 <script type="text/javascript">
         var allbox = document.getElementById('all');
         var boxes = document.getElementsByName('id[]');

@@ -520,33 +520,33 @@ if($fname != '') {
 
 	public function UserSelectAll($mb_id, $mb_rating = null, $mb_p_num = null) {
 		$this->openDB();
+		if($mb_id && $mb_rating && $mb_p_num){
+			echo $mb_id."아이디 쿼리<br>";
+			echo $mb_rating."mb_rating쿼리<br>";
+			echo $mb_p_num."쿼리<br>";
+			echo "<br>"."go"."<br>";
+			if($mb_p_num >= 1500000){
+				$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+				$query->execute();
+				echo "P";
+			}else if($mb_p_num >= 999999){
+				$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+				$query->execute();
+				echo "G";
+			}else if($mb_p_num > 50000){
+				$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+				$query->execute();
+				echo "S";
+			}else if($mb_rating == 4){
+				$query = $this->db->prepare("update paygo set mem_rating_num = 4 where mb_num = $mb_id");
+				$query->execute();
+				echo "I";
+			}
+		}
 		$query = $this->db->prepare("select m.mem_rating_name, m.mem_rating_num, p.mb_id, sum(p.pr_num) AS p_num FROM member_rating m, paygo p WHERE m.mem_rating_num = p.mem_rating_num and mb_num = $mb_id GROUP BY m.mem_rating_num order by m.mem_rating_num desc");
 		$query->execute();
 		$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 		if($fetch){
-			if($mb_id && $mb_rating && $mb_p_num){
-				echo $mb_id."아이디 쿼리<br>";
-				echo $mb_rating."mb_rating쿼리<br>";
-				echo $mb_p_num."쿼리<br>";
-				echo "go";
-				if($mb_p_num >= 1500000){
-					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-					$query->execute();
-					echo "P";
-				}else if($mb_p_num >= 999999){
-					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-					$query->execute();
-					echo "G";
-				}else if($mb_p_num > 50000){
-					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-					$query->execute();
-					echo "update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id";
-				}else if($mb_rating == 4){
-					$query = $this->db->prepare("update paygo set mem_rating_num = 4 where mb_num = $mb_id");
-					$query->execute();
-					echo "I";
-				}
-			}
 			return $fetch;
 		}
 		else return null;

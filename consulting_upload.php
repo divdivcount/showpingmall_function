@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: consulting_upload.php
-Modified Date: 20190906
-Description: 상담 등록
-*/
 // Load Modules
 require_once("modules/notification.php");
 require_once("modules/db.php");

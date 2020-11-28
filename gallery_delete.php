@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: gallery_delete.php
-Modified Date: 20190905
-Description: 사진 삭제
-*/
 // Load Modules
 require_once("modules/notification.php");
 require_once("modules/db.php");

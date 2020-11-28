@@ -1,7 +1,5 @@
 <?php
 /*
-FileName: admin.php
-Modified Date: 20190923
 Description: 이 모듈이 포함된 페이지는 관리자만 접근 가능
 */
 // Load Modules

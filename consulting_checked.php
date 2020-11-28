@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: consulting_checked.php
-Modified Date: 20190906
-Description: 상담 완료 처리로 변경
-*/
 // Load Modules
 require_once("modules/notification.php");
 require_once("modules/db.php");

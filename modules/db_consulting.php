@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: db_consulting.php
-Modified Date: 20190906
-Description: YoYangConsulting 클래스
-*/
 // Load Modules
 require_once('db_dao.php');
 

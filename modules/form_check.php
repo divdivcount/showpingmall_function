@@ -1,7 +1,5 @@
 <?php
 /*
-FileName: form_check.php
-Modified Date: 20190923
 Description: 폼: 페이지 체커
 */
 

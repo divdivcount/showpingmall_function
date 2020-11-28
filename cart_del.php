@@ -1,5 +1,5 @@
 <?php
-// error_reporting(0);
+// Load Modules
 require_once('modules/db.php');
 $dao = new Pay_history();
 // print_r($_SESSION["cart"]);
@@ -22,8 +22,7 @@ $num = empty($_REQUEST["num"]) ? "" : $_REQUEST["num"];
 $var =empty($_REQUEST["var"]) ? "" : $_REQUEST["var"];
 $id =empty($_REQUEST["id"]) ? "" : $_REQUEST["id"];
 $name = empty($_REQUEST["name"]) ? "" : $_REQUEST["name"];
-$m_dao = new ProDAO();
-$m_result = $m_dao ->UserSelectAll($mb_num);
+
 // unset($d[$var][$id]);
 // $_SESSION["cart"] = "";
 // if(!($id && $var && $name)){
@@ -81,6 +80,9 @@ if(!($id && $var && $name)){
         //테이블은 나눠서 하는것인가
       }
     }
+    $m_dao = new ProDAO();
+    $m_result = $m_dao ->UserSelectAll($mb_num);
+    $rating = 4;
     ?>
     <!-- 결제를 하면 등급이 찍힘 -->
     <?php foreach($m_result as $m_row){
@@ -107,8 +109,8 @@ if(!($id && $var && $name)){
     echo $mb_id."<br>";
     echo "<br>등급".$rating."등급<br>";
     $dao -> Gopay($mb_num,$num,$rating ,$mb_id);
-    // unset($_SESSION["cart"]);
-    // header("Location:basket.php");
+    unset($_SESSION["cart"]);
+    header("Location:basket.php");
 
 }else{
   unset($_SESSION["cart"][$var][$id]);

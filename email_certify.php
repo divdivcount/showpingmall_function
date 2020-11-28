@@ -1,8 +1,9 @@
 <?php
-require_once("modules/db.php");  // DB연결을 위한 같은 경로의 dbconn.php를 인클루드합니다.
+// Load Modules
+require_once("modules/db.php");
 
-$mb_id				= trim($_GET['mb_id']); // 회원 아이디
-$mb_md5				= trim($_GET['mb_md5']); // 인증메일에서 넘어온 인증번호
+$mb_id = trim($_GET['mb_id']); // 회원 아이디
+$mb_md5	= trim($_GET['mb_md5']); // 인증메일에서 넘어온 인증번호
 $mb_email_certify	= date('Y-m-d H:i:s', time()); // 인증일
 
 $sql = " SELECT mb_id, mb_email_certify2 FROM member WHERE mb_id = '$mb_id' ";

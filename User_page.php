@@ -1,4 +1,5 @@
 <?php
+  // Load Modules
     require_once('modules/db.php');
     require_once('modules/notification.php');
     if(empty($_SESSION['ss_mb_id'])){
@@ -46,11 +47,45 @@ if(empty($m_result)){
     $m_rating = $m_row["mem_rating_name"];
     $m_rating_num = $m_row["mem_rating_num"];
     $mb_p_num = $m_row["p_num"];
-    echo $m_rating."<br>";
-    echo $mb_p_num."<br>";
+    echo "<br>".$m_rating."<br>";
+    echo "<br>".$mb_p_num."<br>";
   }
 }
-
+$ms_dao = new Pay_history();
+$ms_result = $ms_dao -> GoSelectAll();
+if(empty($ms_result)){
+  $u_total_rating_name = empty($u_total_rating_name) ? "" : $u_total_rating_name;
+}else{
+foreach ($ms_result as $m_row) {
+	$mbs_num = $m_row["mb_num"];
+	$mbs_rating = $m_row["mem_rating_num"];
+	// $mb_p_num = $m_row["pr_num"];
+}
+// echo $mbs_rating."Goif<br>";
+echo $mbs_num."GoSelectAll<br>";
+echo $mb_p_num."UserSelectAll<br>";
+if($mb_p_num >= 1500000){
+	$mb_ratings = 1;
+	echo "<br>"."P";
+}else if($mb_p_num >= 999999){
+	$mb_ratings = 2;
+	echo "<br>"."G";
+}else if($mb_p_num > 50000){
+	$mb_ratings = 3;
+  echo "<br>"."S";
+}else if($mbs_rating == 4){
+	$mb_ratings = 4;
+	echo "<br>"."I";
+}
+echo "<br>".$mb_ratings."UserSelectAll 들어가는<br>";
+$u_dao = new ProDAO();
+$u_result = $u_dao ->UserSelectAll($mbs_num, $mb_ratings, $mb_p_num);
+foreach($u_result as $u_row){
+  $u_total_rating_name = $u_row["mem_rating_name"];
+  echo "<br>".$u_row["p_num"]."<br>";
+}
+echo  "<br>".$u_total_rating_name."등급";
+}
 ?>
 <!doctype html>
 <html>
@@ -115,7 +150,7 @@ if(empty($m_result)){
       <div class="u_gnb">
         <div class="u_gnb_wrap">
           <h6>나의 등급</h6>
-            <h3><?=$m_rating?></h3>
+            <h3><?=$u_total_rating_name?></h3>
         </div>
         <div class="u_gnb_wrap">
           <h6>배송중</h6>

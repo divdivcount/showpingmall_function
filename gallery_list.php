@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: gallery_list.php
-Modified Date: 20190905
-Description: 갤러리 관리 페이지
-*/
 // Load Modules
 require_once('modules/notification.php');
 require_once('modules/db.php');

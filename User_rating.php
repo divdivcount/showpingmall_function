@@ -1,17 +1,18 @@
 <?php
+// Load Modules
 require_once('modules/db.php');
 require_once('modules/notification.php');
 //유저페이지에서 3개값 받아옴
 // $mb_num = empty($_REQUEST["mb"]) ? "" :  $_REQUEST["mb"];
 // $mb_rating = empty($_REQUEST["mb_rating"]) ? "" :  $_REQUEST["mb_rating"];
 $mb_p_num = empty($_REQUEST["mb_p_num"]) ? "" :  $_REQUEST["mb_p_num"];
-$m_dao = new Pay_history();
-$m_result = $m_dao -> GoSelectAll();
-foreach ($m_result as $m_row) {
-	$mb_num = $m_row["mb_num"];
-	$mb_rating = $m_row["mem_rating_num"];
-	// $mb_p_num = $m_row["pr_num"];
-}
+// $m_dao = new Pay_history();
+// $m_result = $m_dao -> GoSelectAll();
+// foreach ($m_result as $m_row) {
+// 	$mb_num = $m_row["mb_num"];
+// 	$mb_rating = $m_row["mem_rating_num"];
+// 	// $mb_p_num = $m_row["pr_num"];
+// }
 echo $mb_num."GoSelectAll<br>";
 echo $mb_rating."GoSelectAll<br>";
 echo $mb_p_num."GoSelectAll<br>";

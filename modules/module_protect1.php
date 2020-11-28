@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: module_protect.php
-Modified Date: 20190902
-Description: 직접 파일 접근 방지 함수 정의
-*/
 // Load Modules
 require_once('modules/strequ.php');
 

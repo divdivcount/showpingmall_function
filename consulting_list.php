@@ -1,10 +1,4 @@
 <?php
-/*
-FileName: consulting_list.php
-Modified Date: 20190906
-Description: 상담 요청 관리 페이지
-*/
-
 // Load Modules
 require_once('modules/notification.php');
 require_once('modules/db.php');

@@ -1,5 +1,6 @@
 <?php
-require_once("modules/db.php");  // DB연결을 위한 같은 경로의 dbconn.php를 인클루드합니다.
+// Load Modules
+require_once("modules/db.php");
 require_once('modules/notification.php');
 ?>
 

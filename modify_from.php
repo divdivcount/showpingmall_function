@@ -1,14 +1,7 @@
 <?php
+// Load Modules
 require_once('modules/db.php');
-
 require_once('modules/cat.php');
-// $boardObj = new Memory();
-// $boardObj = new Power();
-// $boardObj = new Storage();
-// $boardObj = new Cooler();
-// $boardObj = new Case_board();
-// $boardObj = new GraphicsCard();
-
 $id = Get('id', 0);
 
 ?>

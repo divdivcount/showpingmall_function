@@ -1,9 +1,4 @@
 <?php
-/*
-FileName: form_navigation.php
-Modified Date: 20190902
-Description: 폼: 내비게이션
-*/
 // Load Modules
 require_once('modules/module_protect1.php');
 

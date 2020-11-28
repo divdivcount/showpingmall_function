@@ -1,7 +1,6 @@
 <?php
 /*
 FileName: strequ.php
-Modified Date: 20190923
 Description: 문자열 일치 검사 함수
 reference: https://jhrun.tistory.com/179 [JHRunning]
 */

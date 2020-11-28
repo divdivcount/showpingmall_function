@@ -1,8 +1,9 @@
 <?php
+// Load Modules
 require_once("modules/db.php");
 
-$mb_id			= trim($_POST['mb_id']);
-$mb_password	= trim($_POST['mb_password']);
+$mb_id = trim($_POST['mb_id']);
+$mb_password = trim($_POST['mb_password']);
 
 if (!$mb_id || !$mb_password) {
 	echo "<script>alert('회원아이디나 비밀번호가 공백이면 안됩니다.');</script>";

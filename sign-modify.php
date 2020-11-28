@@ -1,10 +1,4 @@
 <?php
-/*
-FileName: sign-modify.php
-Modified Date: 20190925
-Description: 관리자 비밀번호 변경
-*/
-
 // Load Modules
 require_once('modules/notification.php');
 require_once('modules/db.php');

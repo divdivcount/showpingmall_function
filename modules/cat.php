@@ -1,5 +1,5 @@
 <?php
-
+// Process
 $cat = $_GET['var'];
 if($cat == "cpu"){
 	$dao = new Cpu();
