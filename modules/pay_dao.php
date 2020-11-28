@@ -23,7 +23,19 @@ protected $quTableId = 'pu_id';
     $query -> bindValue(":mb_id", $mb_id, PDO::PARAM_STR);
     $query -> bindValue(":rating", $rating, PDO::PARAM_STR);
     $query->execute();
+  }
 
+  public function GoSelectAll($select = '*', $where = null) {
+    $this->openDB();
+    if($where){
+      $query = $this->db->prepare("select $select from $this->quTable where $where");
+    }else{
+      $query = $this->db->prepare("select * from paygo");
+    }
+    $query->execute();
+    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+    if($fetch) return $fetch;
+    else return null;
   }
 }
 ?>

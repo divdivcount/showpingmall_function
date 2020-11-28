@@ -82,28 +82,33 @@ if(!($id && $var && $name)){
       }
     }
     ?>
-    <?php foreach($m_result as $m_row) :?>
-      <?= $m_row["mem_rating_name"]."m_등급<br>" ?>
-      <?= $m_row["p_num"]."m_총 값<br>" ?>
-      <?= $m_row["mb_id"]."m_아이디<br>" ?>
-    <?php endforeach ?>
-    <?php
-      if($m_row["p_num"] <= 999999 && $m_row["p_num"] >= 1500000){
+    <!-- 결제를 하면 등급이 찍힘 -->
+    <?php foreach($m_result as $m_row){
+      $m_row["mem_rating_name"]."m_등급<br>";
+      $m_row["p_num"]."m_총 값<br>";
+      $m_row["mb_id"]."m_아이디<br>";
+      echo $m_row["mem_rating_name"]."m_등급<br>";
+      echo $m_row["p_num"]."m_총 값<br>";
+      echo $m_row["mb_id"]."m_아이디<br>";
+      if($m_row["p_num"] >= 1500000){
         $rating = 1;
-      }elseif($m_row["p_num"] <= 666666 && $m_row["p_num"] >= 999999){
+      }elseif($m_row["p_num"] >= 999999){
         $rating = 2;
-      }elseif($m_row["p_num"] < 50000){
+      }elseif($m_row["p_num"] > 50000){
         $rating = 3;
       }else{
         $rating = 4;
       }
+    }
+    ?>
+    <?php
     echo $mb_num."<br>";
     echo $num."<br>";
     echo $mb_id."<br>";
     echo "<br>등급".$rating."등급<br>";
     $dao -> Gopay($mb_num,$num,$rating ,$mb_id);
-    unset($_SESSION["cart"]);
-    header("Location:basket.php");
+    // unset($_SESSION["cart"]);
+    // header("Location:basket.php");
 
 }else{
   unset($_SESSION["cart"][$var][$id]);

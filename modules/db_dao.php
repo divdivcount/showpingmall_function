@@ -529,18 +529,22 @@ if($fname != '') {
 				echo $mb_rating."mb_rating쿼리<br>";
 				echo $mb_p_num."쿼리<br>";
 				echo "go";
-				if($mb_p_num <= 999999 && $mb_p_num >= 1500000){
+				if($mb_p_num >= 1500000){
+					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
+					$query->execute();
 					echo "P";
+				}else if($mb_p_num >= 999999){
 					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-				}else if($mb_p_num <= 666666 && $mb_p_num >= 999999){
+					$query->execute();
 					echo "G";
+				}else if($mb_p_num > 50000){
 					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-				}else if($mb_p_num < 50000){
-					$query = $this->db->prepare("update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id");
-					echo "S";
+					$query->execute();
+					echo "update paygo set mem_rating_num = $mb_rating where mb_num = $mb_id";
 				}else if($mb_rating == 4){
-					echo "I";
 					$query = $this->db->prepare("update paygo set mem_rating_num = 4 where mb_num = $mb_id");
+					$query->execute();
+					echo "I";
 				}
 			}
 			return $fetch;

@@ -46,6 +46,8 @@ if(empty($m_result)){
     $m_rating = $m_row["mem_rating_name"];
     $m_rating_num = $m_row["mem_rating_num"];
     $mb_p_num = $m_row["p_num"];
+    echo $m_rating."<br>";
+    echo $mb_p_num."<br>";
   }
 }
 
