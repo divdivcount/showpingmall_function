@@ -31,7 +31,7 @@ function AdminPage() {
     '/ky_project/consulting_checked.php', '/ky_project/consulting_delete.php', '/ky_project/consulting_list.php',
     '/ky_project/consulting_upload.php', '/ky_project/dashboard.php', '/ky_project/gallery_delete.php',
     '/ky_project/gallery_list.php', '/ky_project/gallery_modify.php', '/ky_project/gallery_upload.php',
-    '/ky_project/sign-modify.php', '/ky_project/test.php'
+    '/ky_project/sign-modify.php', '/ky_project/admin_delivery.php'
   ];
   foreach ($list as $file) {
     if($_SERVER['DOCUMENT_ROOT'].$file == $_SERVER['SCRIPT_FILENAME']) {

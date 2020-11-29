@@ -458,17 +458,17 @@ if($fname != '') {
 		$this->openDB();
 		if($this->quTable == "puhistory"){
 			if($s_value && !$start_s_value){
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc";
 			}elseif(!$s_value && $start_s_value){
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc";
 				$s_value ="";
 			}elseif($s_value && $start_s_value){
 				// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
 				//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
-				$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc";
+				$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc";
 				$s_value ="";
 			}else{
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  order by date_format(pr_now,'%Y-%m') asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  order by date_format(pr_now,'%Y-%m') asc";
 			}
 		}else{
 			$sql= "select * from $this->quTable  order by $this->quTableId asc";

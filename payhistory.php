@@ -90,9 +90,9 @@ if(!$mb['mb_num']){
               					<div class="text_field">
               						<li class="list-li name_field"><?= $row['pr_name'] ?></li>
               						<li class="list-li info_text">주문수량 :<?= $row['pr_qty'] ?></li>
-
               					</div>
               						<li class="vertical"><?= $row['pa'] ?>원</li>
+                          <li class="list-li info_text">주문상태 :<?= $row['pu_besong'] ?></li>
               					</ul>
                     <?php  } ?>
                     <?php endforeach; ?>
@@ -109,7 +109,7 @@ if(!$mb['mb_num']){
               alert("로그인이 필요합니다");
             </script>
             <?php
-              // header("Location:login.php");
+              header("Location:login.php");
           }
              ?>
 			</div>

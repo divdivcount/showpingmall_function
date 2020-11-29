@@ -132,14 +132,14 @@ foreach($u_result as $u_row){
               </li>
               <li>
               <?php if(empty($mbss_num)){}else{if($mb["mb_num"] === $mbss_num){ ?>
-              <a href="./User_rating.php?mb=<?=$mb['mb_id']?>&mb_rating=<?= $u_total_rating_name ?>&mb_p_num=<?= $mb_p_nums ?>">나의 맴버쉽</a>
+              <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./User_rating.php?mb=<?=$mb['mb_id']?>&mb_rating=<?= $u_total_rating_name ?>&mb_p_num=<?= $mb_p_nums ?>')">나의 맴버쉽</a>
             <?php }else{} } ?>
               </li>
               <li>
-                <a href="./basket.php">장바구니</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./basket.php')">장바구니</a>
               </li>
               <li>
-                <a href="./payhistory.php">구매목록</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./payhistory.php')">구매목록</a>
               </li>
             </ul>
         </div>
@@ -149,10 +149,10 @@ foreach($u_result as $u_row){
                 <p style="font-weight:bold; margin-bottom:15px;">나의 정보</p>
               </li>
               <li>
-                <a href="./register.php?mode=modify">회원정보수정</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./register.php?mode=modify')">회원정보수정</a>
               </li>
               <li>
-                <a href="./User_leave.php?mb=<?=$mb['mb_id']?>">회원탈퇴</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./User_leave.php?mb=<?=$mb['mb_id']?>')">회원탈퇴</a>
               </li>
             </ul>
         </div>
@@ -162,7 +162,7 @@ foreach($u_result as $u_row){
                 <p style="font-weight:bold; margin-bottom:15px;">나의 문의</p>
               </li>
               <li>
-                <a href="./consulting_user.php">상담신청</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./consulting_user.php')">상담신청</a>
               </li>
             </ul>
         </div>
@@ -184,10 +184,18 @@ foreach($u_result as $u_row){
           <h6>상담 신청</h6>
         </div>
       </div>
-      <h2>123</h2>
     </div>
     <div class"u_iframe">
+      <iframe id="main_frame" frameborder="0" align="left" src="./basket.php" height="800px" width="80%"></iframe>
     </div>
+    <script>
+    function changeIframeUrl(url){
+      document.getElementById("main_frame").src = url;
+    }
+    $(document).ready(function(){
+      $('.slider').slider();
+    });
+    </script>
   </body>
 </html>
 <?php
