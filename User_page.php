@@ -9,13 +9,11 @@
       $sql = " select * from member where mb_id = TRIM('$mb_id') ";
       $result = mysqli_query($conn, $sql);
       $mb = mysqli_fetch_assoc($result);
-
       mysqli_close($conn); // 데이터베이스 접속 종료
     }
     //회원 등급 표시
     $m_dao = new ProDAO();
     $m_result = $m_dao ->UserSelectAll($mb["mb_num"]);
-
 
 if(empty($mb_id)){
 ?>
@@ -47,8 +45,8 @@ if(empty($m_result)){
     $m_rating = $m_row["mem_rating_name"];
     $m_rating_num = $m_row["mem_rating_num"];
     $mb_p_num = $m_row["p_num"];
-    echo "<br>".$m_rating."<br>";
-    echo "<br>".$mb_p_num."<br>";
+    // echo "<br>".$m_rating."<br>";
+    // echo "<br>".$mb_p_num."<br>";
   }
 }
 $ms_dao = new Pay_history();
@@ -62,29 +60,49 @@ foreach ($ms_result as $m_row) {
 	// $mb_p_num = $m_row["pr_num"];
 }
 // echo $mbs_rating."Goif<br>";
-echo $mbs_num."GoSelectAll<br>";
-echo $mb_p_num."UserSelectAll<br>";
-if($mb_p_num >= 1500000){
-	$mb_ratings = 1;
-	echo "<br>"."P";
-}else if($mb_p_num >= 999999){
-	$mb_ratings = 2;
-	echo "<br>"."G";
-}else if($mb_p_num > 50000){
-	$mb_ratings = 3;
-  echo "<br>"."S";
-}else if($mbs_rating == 4){
-	$mb_ratings = 4;
-	echo "<br>"."I";
+//맴버 테이블의 mb_num을 가져옴
+// echo $mb["mb_num"]."mb 넘";
+// echo $mbs_num."GoSelectAll<br>";
+
+//paygo 에 있는 유저 아이디 값을 가져옴
+$mss_dao = new Member();
+// echo $mb["mb_num"];
+$mss_result = $mss_dao ->Member_Search($mb["mb_num"]);
+if($mss_result == ""){
+
+}else{
+  foreach ($mss_result as $mss_row) {
+    $mbss_num = $mss_row["mb_num"];
+  }
 }
-echo "<br>".$mb_ratings."UserSelectAll 들어가는<br>";
+
+// echo $mbss_num."<br>";
+// echo $mb_p_num."UserSelectAll<br>";
+$mb_p_nums = empty($mb_p_num) ? "" : $mb_p_num;
+if($mb_p_nums >= 1500000){
+	$mb_rating = 1;
+	// echo "<br>"."P";
+}else if($mb_p_nums >= 999999){
+	$mb_rating = 2;
+	// echo "<br>"."G";
+}else if($mb_p_nums > 50000){
+	$mb_rating = 3;
+  // echo "<br>"."S";
+}else if($mbs_rating == 4){
+	$mb_rating = 4;
+	// echo "<br>"."I";
+}else{
+
+}
+$mb_ratings = empty($mb_rating) ? "" : $mb_rating;
+// echo "<br>".$mb_ratings."UserSelectAll 들어가는<br>";
 $u_dao = new ProDAO();
-$u_result = $u_dao ->UserSelectAll($mbs_num, $mb_ratings, $mb_p_num);
+$u_result = $u_dao ->UserSelectAll($mbs_num, $mb_ratings, $mb_p_nums);
 foreach($u_result as $u_row){
   $u_total_rating_name = $u_row["mem_rating_name"];
-  echo "<br>".$u_row["p_num"]."<br>";
+  // echo "<br>".$u_row["p_num"]."<br>";
 }
-echo  "<br>".$u_total_rating_name."등급";
+// echo  "<br>".$u_total_rating_name."등급";
 }
 ?>
 <!doctype html>
@@ -113,7 +131,9 @@ echo  "<br>".$u_total_rating_name."등급";
                 <p style="font-weight:bold; margin-bottom:10px;">나의 쇼핑</p>
               </li>
               <li>
-              <a href="./User_rating.php?mb=<?=$mb['mb_num']?>&mb_rating=<?= $m_rating_num ?>&mb_p_num=<?= $mb_p_num ?>">나의 맴버쉽</a>
+              <?php if(empty($mbss_num)){}else{if($mb["mb_num"] === $mbss_num){ ?>
+              <a href="./User_rating.php?mb=<?=$mb['mb_id']?>&mb_rating=<?= $u_total_rating_name ?>&mb_p_num=<?= $mb_p_nums ?>">나의 맴버쉽</a>
+            <?php }else{} } ?>
               </li>
               <li>
                 <a href="./basket.php">장바구니</a>
@@ -132,7 +152,7 @@ echo  "<br>".$u_total_rating_name."등급";
                 <a href="./register.php?mode=modify">회원정보수정</a>
               </li>
               <li>
-                <a href="#">회원탈퇴</a>
+                <a href="./User_leave.php?mb=<?=$mb['mb_id']?>">회원탈퇴</a>
               </li>
             </ul>
         </div>
@@ -150,7 +170,9 @@ echo  "<br>".$u_total_rating_name."등급";
       <div class="u_gnb">
         <div class="u_gnb_wrap">
           <h6>나의 등급</h6>
+          <?php if($mb["mb_num"] === $mbs_num) : ?>
             <h3><?=$u_total_rating_name?></h3>
+          <?php endif ?>
         </div>
         <div class="u_gnb_wrap">
           <h6>배송중</h6>

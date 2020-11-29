@@ -62,4 +62,5 @@ if(isset($_SESSION['ss_mb_id'])) { // 세션이 있다면 로그인 확인 페�
 	echo "<script>alert('로그인 되었습니다.');</script>";
 	echo "<script>location.replace('./login.php');</script>";
 }
+
 ?>
