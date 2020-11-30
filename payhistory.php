@@ -24,6 +24,7 @@ $start_s_value = empty($_REQUEST["start_s_value"]) ? "" : $_REQUEST["start_s_val
 $s_value = empty($_REQUEST["s_value"]) ? "" : $_REQUEST["s_value"];
 $result = $dao ->SelectHistory($s_value, $start_s_value);
 // echo $result["mb_num"];
+$u_delivery = "반품접수됨";
 $pid = Get('p', 1);
 if(!$mb['mb_num']){
 ?>
@@ -74,7 +75,21 @@ if(!$mb['mb_num']){
                         if ($priv_order_id != $row["order_id"]) {
                         		if ($priv_order_id != 0) {
                         			echo "이 주문 건의 총액: ", $priv_total."<br>";
+                              $pu_banpum  = $row["pu_banpum_check"];
                         		}
+
+                            ?>
+
+                            <form action="admin_delivery_ok.php" method="get">
+                              <input type="hidden" name="order_id_sel_rm" value="<?=$row["order_id"]?>">
+                              <input type="hidden" name="mb_num_sel_rm" value="<?=$row["mb_num"]?>">
+                              <input type="hidden" name="mb_sel_rm" value="<?=$u_delivery?>">
+                              <input type="hidden" name="pu_banpum_check" value="<?=$row["pu_banpum_check"]?>">
+
+                              <input class="button_joinus" id="<?=$row["order_id"]?>" onclick="s(this.id)" <?php if($row["pu_banpum_check"] > 0){}else{echo "disabled='' ";} ?> type="submit"  value="반품신청">
+                            </form>
+                            <?php echo $row["pu_banpum_check"];?>
+                            <?php
                         		echo "새 주문 건 시작"."\t<span class=''>구매 일시:".$row["date_format(pr_now,'%Y-%m')"]."</span>"."<br>";
                         	}
                             $priv_order_id = $row["order_id"];
@@ -92,8 +107,10 @@ if(!$mb['mb_num']){
               						<li class="list-li info_text">주문수량 :<?= $row['pr_qty'] ?></li>
               					</div>
               						<li class="vertical"><?= $row['pa'] ?>원</li>
-                          <li class="list-li info_text">주문상태 :<?= $row['pu_besong'] ?></li>
+                          <li class="vertical">주문상태 :<?= $row['pu_besong'] ?></li>
               					</ul>
+                        <?php
+                        ?>
                     <?php  } ?>
                     <?php endforeach; ?>
                       <?php
@@ -101,6 +118,29 @@ if(!$mb['mb_num']){
                         echo "";
                       }else{
                         echo "이 주문 건의 총액: ", $priv_total."<br>";
+                        ?>
+                        <form action="admin_delivery_ok.php" method="get">
+                          <input type="hidden" name="order_id_sel_rm" value="<?=$row["order_id"]?>">
+                          <input type="hidden" name="mb_num_sel_rm" value="<?=$row["mb_num"]?>">
+                          <input type="hidden" name="mb_sel_rm" value="<?=$u_delivery?>">
+                          <input class="button_joinus"id="<?=$row["order_id"]?>" onclick="s(this.id)" <?php if($row["pu_banpum_check"] > 0){}else{echo "disabled='' ";} ?> type="submit" value="반품신청">
+                        </form>
+
+                        <script>
+                        function s(clicked_id){
+                          alert(clicked_id);
+                          var button_joinus = document.getElementById(clicked_id);
+                        }
+                        // $(document).ready(function(){
+                        //   if( == "1"){
+                        //      $('.button_joinus').attr('disabled', true);
+                        //   }else{
+                        //     $('.button_joinus').attr('disabled', false);
+                        //   }
+                        // });
+                        </script>
+
+                        <?php
                       }
 
           }else{

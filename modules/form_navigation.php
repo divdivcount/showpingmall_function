@@ -112,6 +112,7 @@ require_once('modules/module_protect1.php');
       </div>
       <a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('gallery_list.php')">배너 수정</a>
       <a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('consulting_list.php')">상담 목록</a>
+      <a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('admin_delivery.php')">배송 관리</a>
       <a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('sign-modify.php')">비밀번호 변경</a>
       <a style="cursor:pointer;"class ="clicker" href="sign-out.php">로그아웃</a>
     </div>

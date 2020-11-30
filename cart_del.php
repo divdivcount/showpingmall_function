@@ -46,6 +46,7 @@ if(!($id && $var && $name)){
   foreach ($d as $cat_key => $cat_arr) {
       foreach ($cat_arr as $id_key => $id_val) {
          $pr_img = $id_val["img"];
+         echo $pr_img;
          $pr_name = $id_val["name"];
          $pr_qty = $id_val["qty"];
          $pa = $id_val["price"]*$id_val["qty"];

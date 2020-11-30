@@ -2,12 +2,12 @@
 // Load Modules
 require_once('modules/db.php');
 require_once('modules/notification.php');
-
-$mb_id = $_SESSION['ss_mb_id'];
-$sql = " select * from member where mb_id = TRIM('$mb_id') ";
-$result = mysqli_query($conn, $sql);
-$mb = mysqli_fetch_assoc($result);
-mysqli_close($conn); // 데이터베이스 접속 종료
+require_once("modules/admin.php");
+// $mb_id = $_SESSION['ss_mb_id'];
+// $sql = " select * from member where mb_id = TRIM('$mb_id') ";
+// $result = mysqli_query($conn, $sql);
+// $mb = mysqli_fetch_assoc($result);
+// mysqli_close($conn); // 데이터베이스 접속 종료
 
 $link = "admin_delivery";
 $dao = new Pay_history();
@@ -72,6 +72,16 @@ $pid = Get('p', 1);
       		</div>
           <div>
             <!-- 제이쿼리로 두번 클릭시 데이터 값 가져오기 -->
+						<?php
+						// $request_body = file_get_contents('php://input');
+						// $info = json_decode(stripcslashes($request_body), true);
+						//  print_r( $info["mb_num"]);
+
+						$mb_p_num = empty($_POST["mb_p_num"]) ? "" : $_POST["mb_p_num"];
+						echo $mb_p_num;
+						 ?>
+						 <div class="col-lg-12" id="test" ></div>
+						<div class="col-lg-12" id="ex1_Result2" ></div>
           </div>
         <?php $priv_order_id = 0; ?>
     				<?php foreach ($result as $row) : ?>
@@ -87,53 +97,32 @@ $pid = Get('p', 1);
 
                         // echo $row["pr_num"];
                       ?>
-                      <table class="table">
-
-                    <th>
-                      회원 번호
-                    </th>
-                    <th>
-                      주문 번호
-                    </th>
-                    <th>
-                      물품 아이디
-                    </th>
-                    <th>
-                      물품 이름
-                    </th>
-                    <th>
-                      주문 수량
-                    </th>
-                    <th>
-                      구매 가격
-                    </th>
-                    <th>
-                      구매 일시
-                    </th>
-                    <tr>
-                      <td>
-                        <input id="test" type="text" value="<?= $row["mb_num"] ?>" readonly/>
-                      </td>
-                      <td>
-                        <input id="test" type="text" value="<?= $row['order_id'] ?>" readonly/>
-                      </td>
-                      <td>
-                         <input id="test" type="text" value="<?= $row['pu_id'] ?>" readonly/>
-                      </td>
-                      <td>
-                        <input id="test" type="text" value="<?= $row['pr_name'] ?>" readonly/>
-                      </td>
-                      <td>
-                        <input id="test" type="text" value="<?= $row['pr_qty'] ?>" readonly/>
-                      </td>
-                      <td>
-                        <input id="test" type="text" value="<?= $row['pa'] ?>" readonly/>
-                      </td>
-                      <td>
-                        <input id="test" type="text" value="<?= $row["date_format(pr_now,'%Y-%m')"] ?>" readonly/>
-                      </td>
-                    </tr>
-                  </table>
+									<table id="example-table-1" width="100%" class="table table-bordered table-hover text-center">
+										<thead>
+											<tr>
+												<th>회원 번호</th>
+												<th>주문 번호</th>
+												<th>물품 아이디</th>
+												<th>물품 이름</th>
+												<th>주문 수량</th>
+												<th>구매 가격</th>
+												<th>구매 일시</th>
+												<th>배송 현황</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><?= $row["mb_num"] ?></td>
+												<td><?= $row['order_id'] ?></td>
+												<td><?= $row['pu_id'] ?></td>
+												<td><?= $row['pr_name'] ?></td>
+												<td><?= $row['pr_qty'] ?></td>
+												<td><?= $row['pa'] ?></td>
+												<td><?= $row["date_format(pr_now,'%Y-%m')"] ?></td>
+												<td><?= $row["pu_besong"] ?></td>
+											</tr>
+										</tbody>
+									</table>
                     <!-- <ul class="list">
           					<li class="">주문 번호 :<?//= $row['order_id'] ?></li>
                     <li class="">물품 아이디 : <?//= $row['pu_id'] ?></li>
@@ -161,53 +150,21 @@ $pid = Get('p', 1);
 			 ?>
 		</div>
     <div class="row">
-  <table id="example-table-1" width="100%" class="table table-bordered table-hover text-center">
-    <thead>
-      <tr>
-        <th>No. </th>
-        <th>아이디</th>
-        <th>이름</th>
-        <th>이메일</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>user01</td>
-        <td>홍길동</td>
-        <td>hong@gmail.com</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>user02</td>
-        <td>김사부</td>
-        <td>kim@naver.com</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>user03</td>
-        <td>존</td>
-        <td>John@gmail.com</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="col-lg-12" id="ex1_Result1" ></div>
-  <div class="col-lg-12" id="ex1_Result2" ></div>
 </div>
     <script>
 
     // 테이블의 Row 클릭시 값 가져오기
 		$("#example-table-1 tr").click(function(){
 
-			var str = ""
+			var str = "";
 			var tdArr = new Array();	// 배열 선언
 
 			// 현재 클릭된 Row(<tr>)
 			var tr = $(this);
-			var td = tr.children();
+			var td = tr.children("td");
 
 			// tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
-			console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+			// console.log("클릭한 Row의 모든 데이터 : "+tr.text());
 
 			// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
 			td.each(function(i){
@@ -217,20 +174,34 @@ $pid = Get('p', 1);
 			console.log("배열에 담긴 값 : "+tdArr);
 
 			// td.eq(index)를 통해 값을 가져올 수도 있다.
-			var no = td.eq(0).text();
-			var userid = td.eq(1).text();
-			var name = td.eq(2).text();
-			var email = td.eq(3).text();
+			var mb_num = td.eq(0).text();
+			var order_id = td.eq(1).text();
+			var pu_id = td.eq(2).text();
+			var pr_name = td.eq(3).text();
+			var pr_qty = td.eq(4).text();
+			var pa = td.eq(5).text();
+			var date = td.eq(6).text();
+			var be = td.eq(7).text();
 
-
-			str +=	" * 클릭된 Row의 td값 = No. : <font color='red'>" + no + "</font>" +
-					", 아이디 : <font color='red'>" + userid + "</font>" +
-					", 이름 : <font color='red'>" + name + "</font>" +
-					", 이메일 : <font color='red'>" + email + "</font>";
-
-			$("#ex1_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());
+			// str +=	"<table class='table'><th>회원 번호</th><th>주문 번호</th><th>물품 번호</th><th>물품 이름</th><th>주문 수량</th><th>구매 가격</th><th>구매 일시</th><tr><td><font color='red'>" + mb_num + "</font></td>" +
+			// 		"<td><font color='red'>" + order_id + "</font></td>" +
+			// 		"<td><font color='red'>" + pu_id + "</font></td>" +
+			// 		"<td><font color='red'>" + pr_name + "</font></td>" +
+			// 		"<td><font color='red'>" + pr_qty + "</font></td>" +
+			// 		"<td><font color='red'>" + pa + "</font></td>" +
+			// 		"<td><font color='red'>" + date + "</font></td></tr></table>"
+			// $("#ex1_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());
 			$("#ex1_Result2").html(str);
+			console.log("");
+			$.post(
+			 "admin_ajax.php",//
+			 { mb_p_num: mb_num, order_p_id: order_id, pu_p_id : pu_id, pr_p_name : pr_name, pr_p_qty : pr_qty, p_pa : pa, p_date : date, p_be : be},
+			 function(data){
+				 $('#test').html(data);
+			 }
+		 );
 		});
+
 </script>
 	</body>
 </html>

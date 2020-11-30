@@ -458,17 +458,17 @@ if($fname != '') {
 		$this->openDB();
 		if($this->quTable == "puhistory"){
 			if($s_value && !$start_s_value){
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong,pu_banpum_check from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc";
 			}elseif(!$s_value && $start_s_value){
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong,pu_banpum_check from $this->quTable  where pr_now  like  '%$start_s_value%' order by $this->quTableId asc";
 				$s_value ="";
 			}elseif($s_value && $start_s_value){
 				// $sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id from $this->quTable  where pr_now  like  :s_value order by $this->quTableId asc limit :start, :viewLen";
 				//SELECT * FROM puhistory WHERE pr_now IN ( SELECT pr_now FROM puhistory WHERE DATE(pr_now) BETWEEN NOW() - INTERVAL 6 MONTH AND NOW() ); 6개월전 구매 목록 뽑아오기
-				$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc";
+				$sql = "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong,pu_banpum_check from puhistory where date_format(pr_now,'%Y-%m') between '$start_s_value' and '$s_value' order by date_format(pr_now,'%Y-%m') asc";
 				$s_value ="";
 			}else{
-				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong from $this->quTable  order by date_format(pr_now,'%Y-%m') asc";
+				$sql= "select pu_id, id_key, pr_img, pr_name, pa, pr_qty, mb_num,pr_num,date_format(pr_now,'%Y-%m'),order_id,pu_besong,pu_banpum_check from $this->quTable  order by date_format(pr_now,'%Y-%m') asc";
 			}
 		}else{
 			$sql= "select * from $this->quTable  order by $this->quTableId asc";
@@ -490,7 +490,7 @@ if($fname != '') {
 
 	public function Gohistory($cat_key, $id_key, $pr_img, $pr_name, $pa, $pr_qty, $mb_num,$num,$now,$last_id) {
     $this->openDB();
-    $query = $this->db->prepare("insert into $this->quTable values (:cat_key, :id_key, :pr_img, :pr_name, :pa,:pr_qty,:mb_num,:pr_num,:pr_now,0)");
+    $query = $this->db->prepare("insert into $this->quTable values (:cat_key, :id_key, :pr_img, :pr_name, :pa,:pr_qty,:mb_num,:pr_num,:pr_now,0,DEFAULT,DEFAULT)");
 		$query -> bindValue(":cat_key", $cat_key, PDO::PARAM_STR);
 		$query -> bindValue(":id_key", $id_key, PDO::PARAM_STR);
 		$query -> bindValue(":pr_img", $pr_img, PDO::PARAM_STR);
@@ -550,25 +550,17 @@ if($fname != '') {
 			return $fetch;
 		}
 		else return null;
-
 	}
 
-	// public function listModify($id, $name, $manufacturer, $info, $date, $price, $file){
-	// 	try{
-	// 	$this->openDB();
-	// 	$sql = "update $this->quTable set name=:name, manufacturer = :manufacturer, info = :info, date = :date, price=:price, file = :file where id = :id";
-	// 	$query = $this->db->prepare($sql);
-	// 	$query -> bindValue(":id", $id, PDO::PARAM_INT);
-	// 	$query -> bindValue(":name", $name, PDO::PARAM_STR);
-	// 	$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
-	// 	$query -> bindValue(":info", $info, PDO::PARAM_STR);
-	// 	$query -> bindValue(":date", $date, PDO::PARAM_STR);
-	// 	$query -> bindValue(":price", $price, PDO::PARAM_STR);
-	// 	$query -> bindValue(":file", $file, PDO::PARAM_STR);
-	// 	$query->execute();
-	// 	}catch(PDOException $e){
-	// 	exit($e ->getMessage());
-	// 	}
-	// }
+ public function Admin_delivery($mb_num,$p_id,$besong){
+	 $this->openDB();
+	 $query = $this->db->prepare("update puhistory set pu_besong = '$besong' WHERE `mb_num` = $mb_num and `order_id` = $p_id");
+	 $query->execute();
+ }
+ public function User_delivery($order_id_sel_rm,$mb_num_sel_rm,$mb_sel_rm, $pu_banpum_check){
+	 $this->openDB();
+	 $query = $this->db->prepare("update puhistory set pu_besong = '$mb_sel_rm', pu_banpum_check = $pu_banpum_check WHERE `mb_num` = $mb_num_sel_rm and `order_id` = $order_id_sel_rm");
+	 $query->execute();
+ }
 }
 ?>
