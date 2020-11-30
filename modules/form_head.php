@@ -4,7 +4,6 @@
 <?php if(UserPage()) : ?>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="script/navigation.js"></script>
   <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
   <link href="css/index_css.css" rel="stylesheet" type="text/css">
   <link href="css/Userpage.css" rel="stylesheet" type="text/css">
