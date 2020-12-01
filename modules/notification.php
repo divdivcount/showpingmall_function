@@ -30,5 +30,5 @@ function userGoto($msg, $url)
 }
 
 // Process
-// <meta http-equiv="refresh" content="0 url=/page/board/read.php?idx=">
+
 ?>

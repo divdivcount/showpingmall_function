@@ -1,7 +1,7 @@
 <?php
 // Load Modules
 require_once('modules/db.php');
-require_once('modules/notification.php');
+
 //유저페이지에서 1개값 받아옴
 $u_mb_id = empty($_REQUEST["mb"]) ? "" :  $_REQUEST["mb"];
 $sql = " select * from member where mb_id = TRIM('$u_mb_id') ";

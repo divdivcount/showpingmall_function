@@ -1,7 +1,6 @@
 <?php
 // Load Modules
 require_once('modules/db.php');
-require_once('modules/notification.php');
 require_once('modules/cat.php');
 $result = $dao ->SelectAll();
 $pid = Get('p', 1);

@@ -1,5 +1,4 @@
 <?php
-  require_once('modules/notification.php');
   require_once("modules/admin.php");
   $mb_p_num = empty($_POST["mb_p_num"]) ? "1" : $_POST["mb_p_num"];
   $order_p_id = empty($_POST["order_p_id"]) ? "2" : $_POST["order_p_id"];

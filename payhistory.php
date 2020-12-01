@@ -1,7 +1,6 @@
 <?php
 // Load Modules
 require_once('modules/db.php');
-require_once('modules/notification.php');
 // 맴버 전체 출력 dao
 // $m_dao = new Member();
 // $m_result = $m_dao ->SelectAll();

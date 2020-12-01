@@ -1,7 +1,7 @@
 <?php
 // Load Modules
 require_once('modules/db.php');
-require_once('modules/notification.php');
+
 //유저페이지에서 3개값 받아옴
 $mb_p_num = empty($_REQUEST["mb_p_num"]) ? "" :  $_REQUEST["mb_p_num"];
 $mb = empty($_REQUEST["mb"]) ? "" :  $_REQUEST["mb"];

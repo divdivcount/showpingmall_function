@@ -1,7 +1,6 @@
 <?php
 // Load Modules
 require_once('modules/db.php');
-require_once('modules/notification.php');
 require_once("modules/admin.php");
 // $mb_id = $_SESSION['ss_mb_id'];
 // $sql = " select * from member where mb_id = TRIM('$mb_id') ";
