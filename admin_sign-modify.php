@@ -20,7 +20,7 @@ $loginObj = new ProLogin();
   </head>
   <body>
     <main>
-      <form class="sign_pw_bg" action="sign-pwchange.php" method="post">
+      <form class="sign_pw_bg" action="admin_sign-pwchange.php" method="post">
         <div class="sign_pw">
           <div class="sign_box">
         <div class="textbox">

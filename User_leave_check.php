@@ -2,14 +2,18 @@
 // Load Modules
 require_once('modules/db.php');
 
-//유저페이지에서 1개값 받아옴
+//id 값 유저페이지에서 1개값 받아옴
 $u_mb_id = empty($_REQUEST["mb"]) ? "" :  $_REQUEST["mb"];
+
 $sql = " select * from member where mb_id = TRIM('$u_mb_id') ";
 $result = mysqli_query($conn, $sql);
 $mb = mysqli_fetch_assoc($result);
 echo   $mb["mb_num"];
 echo   $mb["mb_id"];
+
+//Password 값 유저페이지에서 1개값 받아옴
 $mb_password = empty($_POST["password"]) ? "" : $_POST["password"];
+
 $sql = " SELECT PASSWORD('$mb_password') AS pass ";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);

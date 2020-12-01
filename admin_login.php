@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/css_login.css">
   </head>
   <body>
-    <form action="sign-in.php" method="post">
+    <form action="admin_sign-in.php" method="post">
       <div class="login-box-bg">
         <div class="login-box">
           <h1>Login</h1>
