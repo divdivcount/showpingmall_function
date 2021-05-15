@@ -11,6 +11,8 @@ require_once('db_dao.php');
 class GraphicsCard extends ProDAO {
 	protected $quTable = 'graphicscard';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/graphicscard';
    }
 
 

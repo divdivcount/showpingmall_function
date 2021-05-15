@@ -1,11 +1,10 @@
 <?php
 /*
-FileName: strequ.php
 Description: 문자열 일치 검사 함수
 reference: https://jhrun.tistory.com/179 [JHRunning]
 */
 // Load Modules
-require_once('modules/module_protect1.php');
+
 
 // Parameter
 

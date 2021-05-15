@@ -11,5 +11,7 @@ require_once('db_dao.php');
 
 	protected $quTable = 'memory';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/memory';
   }
   ?>

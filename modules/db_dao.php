@@ -17,29 +17,6 @@ class ProDAO {
 	protected $fdir = 'files';
   protected $fsize_limit = 50 * 1024 * 1024;
 
-  public function __construct() {
-    $argv = array();
-    $size = func_num_args();
-    for($i=0; $i<$size; $i++) {
-        $argv[] = func_get_arg($i);
-    }
-
-    if(!empty($argv[0]) && is_string($argv[0])) {
-      $this->dburl = $argv[0];
-    }
-    if(!empty($argv[1]) && is_string($argv[1])) {
-      $this->dbid = $argv[1];
-    }
-    if(!empty($argv[2]) && is_string($argv[2])) {
-      $this->dbpw = $argv[2];
-    }
-    if(!empty($argv[3]) && is_string($argv[3])) {
-      $this->dbtable = $argv[3];
-    }
-    if(!empty($argv[4]) && is_string($argv[4])) {
-      $this->dbtype = $argv[4];
-    }
-  }
 
   protected function openDB() {
     /*
@@ -83,24 +60,28 @@ class ProDAO {
     if($fetch) return $fetch;
     else return null;
   }
+
 // 제품 추가
-	public function listAdd($product, $name, $manufacturer, $info, $date, $price, $file){
-		$this->openDB();
-		try{
-			$sql1 = "insert into {$product} values (null, :name, :manufacturer, :info, :date,:price,:file)";
-		$sql = str_replace('"','',$sql1);
-			$query = $this->db->prepare($sql);
-		$query -> bindValue(":name", $name, PDO::PARAM_STR);
-		$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
-		$query -> bindValue(":info", $info, PDO::PARAM_STR);
-		$query -> bindValue(":date", $date, PDO::PARAM_STR);
-		$query -> bindValue(":price", $price, PDO::PARAM_STR);
-		$query -> bindValue(":file", $file, PDO::PARAM_STR);
-			$query->execute();
-		}catch(PDOException $e){
-			exit($e ->getMessage());
-		}
-	}
+	// public function listAdd($product, $name, $manufacturer, $info, $date, $price, $file){
+	// 	$this->openDB();
+	// 	try{
+	// 		$sql1 = "insert into {$product} values (null, :name, :manufacturer, :info, :date,:price,:file)";
+	// 	$sql = str_replace('"','',$sql1);
+	// 		$query = $this->db->prepare($sql);
+	// 	$query -> bindValue(":name", $name, PDO::PARAM_STR);
+	// 	$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
+	// 	$query -> bindValue(":info", $info, PDO::PARAM_STR);
+	// 	$query -> bindValue(":date", $date, PDO::PARAM_STR);
+	// 	$query -> bindValue(":price", $price, PDO::PARAM_STR);
+	// 	$query -> bindValue(":file", $file, PDO::PARAM_STR);
+	// 		$query->execute();
+	// 	}catch(PDOException $e){
+	// 		exit($e ->getMessage());
+	// 	}
+	// }
+
+
+
 	// 특정 아이디의 값 모두 불러오기
 	public function SelectId($id) {
 		$this->openDB();
@@ -113,24 +94,168 @@ class ProDAO {
 		return $fetch;
 	}
 	// 제품 수정
-	public function listModify($id, $name, $manufacturer, $info, $date, $price, $file){
-		try{
-		$this->openDB();
-		$sql = "update $this->quTable set name=:name, manufacturer = :manufacturer, info = :info, date = :date, price=:price, file = :file where id = :id";
-		$query = $this->db->prepare($sql);
-		$query -> bindValue(":id", $id, PDO::PARAM_INT);
-		$query -> bindValue(":name", $name, PDO::PARAM_STR);
-		$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
-		$query -> bindValue(":info", $info, PDO::PARAM_STR);
-		$query -> bindValue(":date", $date, PDO::PARAM_STR);
-		$query -> bindValue(":price", $price, PDO::PARAM_STR);
-		$query -> bindValue(":file", $file, PDO::PARAM_STR);
-		$query->execute();
-		}catch(PDOException $e){
-		exit($e ->getMessage());
+	// public function listModify($product, $id, $name, $manufacturer, $info, $date, $price, $file){
+	// 	try{
+	// 	$this->openDB();
+	// 	$sql = "update $product set name=:name, manufacturer = :manufacturer, info = :info, date = :date, price=:price, file = :file where id = :id";
+	// 	$query = $this->db->prepare($sql);
+	// 	$query -> bindValue(":id", $id, PDO::PARAM_INT);
+	// 	$query -> bindValue(":name", $name, PDO::PARAM_STR);
+	// 	$query -> bindValue(":manufacturer", $manufacturer, PDO::PARAM_STR);
+	// 	$query -> bindValue(":info", $info, PDO::PARAM_STR);
+	// 	$query -> bindValue(":date", $date, PDO::PARAM_STR);
+	// 	$query -> bindValue(":price", $price, PDO::PARAM_STR);
+	// 	$query -> bindValue(":file", $file, PDO::PARAM_STR);
+	// 	$query->execute();
+	// 	}catch(PDOException $e){
+	// 	exit($e ->getMessage());
+	// 	}
+	// }
+	//겔러리, 컨설팅, 제품 modify
+	public function Modify($product=null,$fparam,$fnum,$id, $datArray) {
+		if($product){
+			if(!is_array($datArray)) throw new CommonException('잘못된 인수');//is_array($datArray) 배열검사
+			$farray = null;
+			if(is_string($fparam) && ($fparam != '')) {
+				if(isset($_FILES[$fparam]) && $this->quTableFname != '') {
+					if(is_array($_FILES[$fparam]['name'])) {
+						$farray = $this->fileUploader([ //객체배열로 넣기
+							'name' => $_FILES[$fparam]['name'][$fnum],
+							'tmp_name' => $_FILES[$fparam]['tmp_name'][$fnum],
+							'size' => $_FILES[$fparam]['size'][$fnum],
+							'type' => $_FILES[$fparam]['type'][$fnum],
+							'error' => $_FILES[$fparam]['error'][$fnum]
+						]);
+					}
+					else {
+						$farray = $this->fileUploader([
+							'name' => $_FILES[$fparam]['name'],
+							'tmp_name' => $_FILES[$fparam]['tmp_name'],
+							'size' => $_FILES[$fparam]['size'],
+							'type' => $_FILES[$fparam]['type'],
+							'error' => $_FILES[$fparam]['error']
+						]);
+					}
+				}
+			}
+			if($farray === null) {
+	      $farray = array(); //배열선언
+	    }
+	  else{
+		    $dfield = '';
+				$dvalue = '';
+		    $first = true;
+				// array_push($datArray,"file");
+		    foreach($datArray as $key => $val) {
+
+		      $dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
+		      // echo $dfield."datArray<br>";
+					// echo $key."key<br>";
+					// echo $val."<br>";
+		      $first = false;
+		    }
+				foreach($farray as $key => $val) {
+					$first = true;
+					$dvalue = ($first)?($dvalue.':'.$key):($dvalue.',:'.$key);
+					// echo $dvalue."datArray<br>";
+					// echo $val."<br>";
+					$first = false;
+				}
 		}
+	// 			:namedatArray
+	// name=:name,manufacturer=:manufacturerdatArray
+	// :name,:manufacturerdatArray
+	// name=:name,manufacturer=:manufacturer,info=:infodatArray
+	// :name,:manufacturer,:infodatArray
+	// name=:name,manufacturer=:manufacturer,info=:info,date=:datedatArray
+	// :name,:manufacturer,:info,:datedatArray
+	// name=:name,manufacturer=:manufacturer,info=:info,date=:date,price=:pricedatArray
+	// :name,:manufacturer,:info,:date,:pricedatArray
+			if(empty($dvalue)){
+				$dfield = '';
+				$first = true;
+				$file='';
+				foreach($datArray as $key => $val) {
+
+					$dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
+					// echo $dfield."datArray<br>";
+					// echo $key."key<br>";
+					// echo $val."<br>";
+					$first = false;
+				}
+			}else{
+				$file=", file=$dvalue";
+			}
+			$this->openDB();
+			$query = $this->db->prepare("update $this->quTable set $dfield $file where $this->quTableId=:id");
+			print_r($query);
+			$query->bindValue(':id', $id);
+			foreach($datArray as $key => $val) {
+				print_r($datArray);
+				if(is_string($val)) {
+					$query->bindValue(":$key", $val);
+					// echo $val."<br>";
+				}
+				else if(is_int($val)) {
+					$query->bindValue(":$key", $val, PDO::PARAM_INT);
+					// echo $val."<br>";
+				}
+				else {
+						$files = implode('', $val);
+						$query->bindValue(":$key", $files);
+				}
+			}
+			foreach($farray as $key => $val) {
+				if(is_string($val)) {
+					$query->bindValue(":$key", $val);
+					// echo $key,$val."<br>";
+					// print_r($query);
+				}
+				else if(is_int($val)) {
+					$query->bindValue(":$key", $val, PDO::PARAM_INT);
+					// echo $val."<br>";
+					// print_r($query);
+				}
+				else {
+					$query->bindValue(":$key", $val);
+					// print_r($query);
+				}
+			}
+			$query->execute();
+		}else{
+			$dfield = '';
+			$first = true;
+			foreach($datArray as $key => $val) {
+				$dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
+				$first = false;
+			}
+		}
+		$this->openDB();
+		$query = $this->db->prepare("update $this->quTable set $dfield where $this->quTableId=:id");
+		// print_r( $query)."<br>";
+		$query->bindValue(':id', $id);
+		foreach($datArray as $key => $val) {
+			if(is_string($val)) {
+				$query->bindValue(":$key", $val);
+				// echo $key,$val."<br>";
+			}
+			else if(is_int($val)) {
+				$query->bindValue(":$key", $val, PDO::PARAM_INT);
+				// echo $key,$val."<br>";
+			}
+			else {
+				if($this->quTable == "consulting"){
+					$query->bindValue(":$key", $val);
+				}else{
+						$files = implode('', $val);
+						$query->bindValue(":$key", $files);
+						// print_r( $val)."<br>";
+					}
+			}
+		}
+		$query->execute();
 	}
-//제품 삭제
+//제품, 컨설팅, 겔러리 삭제
 
 public function Delete($id) {
 try{
@@ -138,23 +263,22 @@ $this->openDB();
 
 if($this->quTable == "consulting"){
 	$query = $this->db->prepare("delete from $this->quTable where id=:id");
+	// print_r($query);
+	// echo "delete from $this->quTableFname where id=:id";
 	$query->bindValue(":id", $id, PDO::PARAM_INT);
 	$query->execute();
 }else{
 // 파일 삭제
-if( 'file' !=  '') {
+if( $this->quTableFname !=  '') {
 $query = $this->db->prepare("select file from $this->quTable where id=:id");
 $query->bindValue(":id", $id, PDO::PARAM_INT);
 $query->execute();
 $fetch = $query->fetch(PDO::FETCH_ASSOC);
 $fname = $fetch['file'];
 if($fname != '') {
-	if($this->quTable == "cpu" or $this->quTable == "mainboard" or $this->quTable == "cases" or $this->quTable == "power" or $this->quTable == "memory" or $this->quTable == "odd" or $this->quTable == "storage" or $this->quTable == "graphicscard" or $this->quTable == "cooler" or $this->quTable == "gallery")
-		{
 		if(file_exists("files/$this->quTable/".$fname)) {
 			unlink("files/$this->quTable/".$fname);
 			}
-		}
 	}
 }
 }
@@ -234,30 +358,6 @@ if($fname != '') {
 
 	}
 
-	public function Modify($id, $datArray) {
-		$dfield = '';
-		$first = true;
-		foreach($datArray as $key => $val) {
-			$dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
-			$first = false;
-		}
-
-		$this->openDB();
-		$query = $this->db->prepare("update $this->quTable set $dfield where $this->quTableId=:id");
-		$query->bindValue(':id', $id);
-		foreach($datArray as $key => $val) {
-			if(is_string($val)) {
-				$query->bindValue(":$key", $val);
-			}
-			else if(is_int($val)) {
-				$query->bindValue(":$key", $val, PDO::PARAM_INT);
-			}
-			else {
-				$query->bindValue(":$key", $val);
-			}
-		}
-		$query->execute();
-	}
 	public function SelectPageList($cPage, $viewLen,$s_value, $where = null) {
 		$start = ($cPage * $viewLen) - $viewLen;
 		if($this->quTable == "cpu" || $this->quTable == "mainboard" || $this->quTable == "cases" || $this->quTable == "power" || $this->quTable == "memory" || $this->quTable == "odd" ||  $this->quTable == "cooler" ||
@@ -305,42 +405,21 @@ if($fname != '') {
     else return null;
   }
 
-	public function ModifyGallery($id, $datArray) {
-		$dfield = '';
-		$first = true;
-		foreach($datArray as $key => $val) {
-			$dfield = ($first)?($dfield.$key.'=:'.$key):($dfield.','.$key.'=:'.$key);
-			$first = false;
-		}
 
-		$this->openDB();
-		$query = $this->db->prepare("update $this->quTable set $dfield where $this->quTableId=:id");
-		$query->bindValue(':id', $id);
-		foreach($datArray as $key => $val) {
-			if(is_string($val)) {
-				$query->bindValue(":$key", $val);
-			}
-			else if(is_int($val)) {
-				$query->bindValue(":$key", $val, PDO::PARAM_INT);
-			}
-			else {
-				$query->bindValue(":$key", $val);
-			}
-		}
-		$query->execute();
-	}
 
-	protected function fileUploader($fdat) {
-		//$ftime
+
+
+	public function fileUploader($fdat) {
+		//$ftime파일명에 붙이기 위해
 		$ftime = time();
-		$fnslice = explode('.', $fdat['name']);
-		$ftype = end($fnslice);
-		$ftslice = explode('/', $fdat['tmp_name']);
+		$fnslice = explode('.', $fdat['name']); // 파일의 확장자를 알기위해 . 으로 나눈다 ex)[123.jpg]
+		$ftype = end($fnslice);// 이제 확장자를 알기위해 마지막 배열의 값을 가져온다.
+		$ftslice = explode('/', $fdat['tmp_name']);// tmp_name을 / 로 끊어서 배열로 만든다.
 		if(count($ftslice) <= 1) {
 			$ftslice = explode('\\', $fdat['tmp_name']);
 		}
-		$ftemp = end($ftslice);
-		$fname_save = "file$ftime$ftemp.$ftype";
+		$ftemp = end($ftslice); // 가져오면 php6999이런식으로 나옵니다.
+		$fname_save = "file$ftime$ftemp.$ftype"; //file1604987763php6999.tmp.확장자
 		if($fdat['name'] != '' && $fdat['error'] == 0) {
 			// 업로드 파일 확장자 검사 (필요시 확장자 추가)
 			if($ftype=="html" ||
@@ -369,28 +448,29 @@ if($fname != '') {
 			}
 
 			// 리턴값 만들기
-			$farray = array();
-			if($this->quTableFname) {
-				$farray[$this->quTableFname] = $fname_save;
+			$farray = array();//farray배열 선언
+			if($this->quTableFname) { //$this->quTableFname이 있으면 farray[파일이름필드의 이름] = 임시파일명
+				$farray[$this->quTableFname] = $fname_save; //farray[파일이름필드의 이름] = 임시파일명
 			}
-			if($this->quTableFrname) {
-				$farray[$this->quTableFrname] = $fdat['name'];
+			if($this->quTableFrname) {//quTableFrname이 있으면
+				$farray[$this->quTableFrname] = $fdat['name'];//quTableFrname을
 			}
-			if($this->quTableFdate) {
-				$farray[$this->quTableFdate] = date('Y-m-d');
+			if($this->quTableFdate) {//파일 저장 시간 테이블이 있으면
+				$farray[$this->quTableFdate] = date('Y-m-d'); //파일 저당한 날짜를 현재시간으로
 			}
-			return $farray;
+			return $farray; //리턴
 		}
 		return null;
 	}
 
-	public function Upload($fparam, $fnum, $datArray) {
-		if(!is_array($datArray)) throw new CommonException('잘못된 인수');
+//겔러리, 상담, 제품 등록
+	public function Upload($product=null,$fparam, $fnum, $datArray) {//$fnum 다중업로드 처리를 위해 id값
+		if(!is_array($datArray)) throw new CommonException('잘못된 인수');//is_array($datArray) 배열검사
 		$farray = null;
 		if(is_string($fparam) && ($fparam != '')) {
 			if(isset($_FILES[$fparam]) && $this->quTableFname != '') {
 				if(is_array($_FILES[$fparam]['name'])) {
-					$farray = $this->fileUploader([
+					$farray = $this->fileUploader([ //객체배열로 넣기
 						'name' => $_FILES[$fparam]['name'][$fnum],
 						'tmp_name' => $_FILES[$fparam]['tmp_name'][$fnum],
 						'size' => $_FILES[$fparam]['size'][$fnum],
@@ -410,29 +490,44 @@ if($fname != '') {
 			}
 		}
 		if($farray === null) {
-			$farray = array();
+			$farray = array(); //배열선언
 		}
 		$dfield = '';
 		$dvalue = '';
 		$first = true;
 		foreach($datArray as $key => $val) {
 			$dfield = ($first)?($dfield.$key):($dfield.','.$key);
+			// echo $dfield."<br>"; //값을 뽑아서
 			$dvalue = ($first)?($dvalue.':'.$key):($dvalue.',:'.$key);
+			// echo $dvalue."<br>";//바인드처리
 			$first = false;
 		}
+// name
+// :name
+// name,manufacturer
+// :name,:manufacturer
+// name,manufacturer,info
+// :name,:manufacturer,:info
+// name,manufacturer,info,date
+// :name,:manufacturer,:info,:date
+// name,manufacturer,info,date,price
+// :name,:manufacturer,:info,:date,:price
 		foreach($farray as $key => $val) {
+			// print_r($val);
 			$dfield = ($first)?($dfield.$key):($dfield.','.$key);
+			// echo $dfield."<br>";
 			$dvalue = ($first)?($dvalue.':'.$key):($dvalue.',:'.$key);
+			// echo $dfield."<br>";
 			$first = false;
 		}
 
 		$this->openDB();
-		$query = $this->db->prepare("insert into $this->quTable ($dfield) values ($dvalue)");
+		$query = $this->db->prepare("insert into $this->quTable ($dfield) values ($dvalue)"); //글 올리는 로직
 		foreach($datArray as $key => $val) {
-			if(is_string($val)) {
+			if(is_string($val)) { //변수 유형이 문자열인지 확인
 				$query->bindValue(":$key", $val);
 			}
-			else if(is_int($val)) {
+			else if(is_int($val)) {//변수 유형이 숫자인지 확인
 				$query->bindValue(":$key", $val, PDO::PARAM_INT);
 			}
 			else {
@@ -452,8 +547,8 @@ if($fname != '') {
 		}
 		$query->execute();
 	}
-
-
+///3개 합치는거 완성!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//왜 테이블 여러개로 만들었지..테이블 낭비..
 	public function SelectHistory($s_value,$start_s_value) {
 		$this->openDB();
 		if($this->quTable == "puhistory"){
@@ -552,14 +647,23 @@ if($fname != '') {
 		else return null;
 	}
 
- public function Admin_delivery($mb_num,$p_id,$besong){
+ public function Admin_delivery($mb_num,$p_id,$besong,$p_id_key=null){
 	 $this->openDB();
+	 if(empty($p_id_key)){
 	 $query = $this->db->prepare("update puhistory set pu_besong = '$besong' WHERE `mb_num` = $mb_num and `order_id` = $p_id");
+ }else{
+	 // echo "<br>"."$p_id_key"."123<br>";
+	 $query = $this->db->prepare("update puhistory set pu_besong = '$besong' WHERE `mb_num` = $mb_num and `order_id` = $p_id and `id_key` = $p_id_key");
+ }
 	 $query->execute();
  }
- public function User_delivery($order_id_sel_rm,$mb_num_sel_rm,$mb_sel_rm, $pu_banpum_check){
+ public function User_delivery($order_id_sel_rm,$mb_num_sel_rm,$mb_sel_rm, $pu_banpum_check,$id_key=null){
 	 $this->openDB();
+	if($id_key){
+	 $query = $this->db->prepare("update puhistory set pu_besong = '$mb_sel_rm', pu_banpum_check = $pu_banpum_check WHERE `mb_num` = $mb_num_sel_rm and `order_id` = $order_id_sel_rm and `id_key` = $id_key");
+ }else{
 	 $query = $this->db->prepare("update puhistory set pu_besong = '$mb_sel_rm', pu_banpum_check = $pu_banpum_check WHERE `mb_num` = $mb_num_sel_rm and `order_id` = $order_id_sel_rm");
+ }
 	 $query->execute();
  }
 }

@@ -11,5 +11,7 @@ require_once('db_dao.php');
  class Cooler extends ProDAO {
 	protected $quTable = 'cooler';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/cooler';
  }
   ?>

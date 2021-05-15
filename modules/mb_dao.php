@@ -18,9 +18,8 @@ require_once('db_dao.php');
 				$this->openDB();
 				$sql = "delete from member where mb_num=$mb_num";
 				$query = $this->db->prepare($sql);
+				$query = $this->db->prepare($sql);
 				$query->execute();
-				session_unset(); // 모든 세션변수를 언레지스터 시켜줌
-				session_destroy(); // 세션해제함
 				?>
 				<script>
 					alert("아이디가 삭제되었습니다.");
@@ -31,10 +30,15 @@ require_once('db_dao.php');
 				exit($e ->getMessage());
 				}
 			}
-			public function Member_Search($mb_num) {
-				// 회원 번호 찾기
+
+			public function Member_Search($mb_num, $mb_id=null) {
+				// 회원 번호 찾기 User_page 회원번호 찾는데 사용합니다.
 				$this->openDB();
-				$query = $this->db->prepare("select * from paygo where mb_num like $mb_num");
+				if($mb_id){
+					$query = $this->db->prepare("select * from member where mb_id like '$mb_id'");
+				}else{
+					$query = $this->db->prepare("select * from paygo where mb_num like $mb_num");
+				}
 				$query->execute();
 				$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 				if($fetch){
@@ -43,6 +47,35 @@ require_once('db_dao.php');
 				else return null;
 			}
 
+			// public function Member_Select($mb_id) {
+			// 	// 회원 정보 1명 찾기
+			// 	$this->openDB();
+			// 	$query = $this->db->prepare("select * from member where mb_id like '$mb_id'");
+			// 	$query->execute();
+			// 	$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+			// 	if($fetch){
+			// 		return $fetch;
+			// 	}
+			// 	else return null;
+			// }
 
+			// public function Member_Join($mb_id, $mb_password, $mb_name, $mb_email, $mb_gender, $mb_datetime) {
+			// 	// 회원 번호 찾기
+			// 	$this->openDB();
+			// 	$query = $this->db->prepare("");
+			// 	$query->execute();
+			// }
+
+			public function Member_Rating() {
+				// 회원 등급 출력
+				$this->openDB();
+				$query = $this->db->prepare("select * from member_rating");
+				$query->execute();
+				$fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+				if($fetch){
+					return $fetch;
+				}
+				else return null;
+			}
 }
 ?>

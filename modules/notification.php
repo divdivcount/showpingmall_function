@@ -1,6 +1,5 @@
 <?php
 // Load Modules
-require_once('modules/module_protect1.php');
 
 // Parameter
 

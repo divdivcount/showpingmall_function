@@ -9,7 +9,7 @@
         );
         var checked = 0;
         for(var i=0;i<boxes.length; i++) {
-          boxes[i].addEventListener('change', (e) => {
+          boxes[i].addEventListener('change', (e) => {//addEventListener() 메서드는 지정한 이벤트가 대상에 전달될 때마다 호출할 함수 change는 폼 컨트롤(value의 값)의 `값이 변경 되었을 때 발생하는 이벤트다.
             if(e.target.checked) {
               checked++;
               if(checked == 15) {

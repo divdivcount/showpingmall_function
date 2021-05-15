@@ -11,5 +11,7 @@ require_once('db_dao.php');
   class Odd extends ProDAO {
 	protected $quTable = 'odd';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/odd';
   }
   ?>

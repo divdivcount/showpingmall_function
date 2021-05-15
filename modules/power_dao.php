@@ -11,5 +11,7 @@ require_once('db_dao.php');
  class Power extends ProDAO {
 	protected $quTable = 'power';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/power';
  }
   ?>

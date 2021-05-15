@@ -11,6 +11,8 @@ require_once('db_dao.php');
  class Storage extends ProDAO {
 	protected $quTable = 'storage';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/storage';
 
  }
   ?>

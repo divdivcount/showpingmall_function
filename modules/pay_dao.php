@@ -25,13 +25,25 @@ protected $quTableId = 'pu_id';
     $query->execute();
   }
 
-  public function GoSelectAll($select = '*', $where = null) {
+  public function GoSelectAll($mb_num) {
     $this->openDB();
-    if($where){
-      $query = $this->db->prepare("select $select from $this->quTable where $where");
-    }else{
-      $query = $this->db->prepare("select * from paygo");
-    }
+    $query = $this->db->prepare("select * from paygo where mb_num = $mb_num");
+    $query->execute();
+    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+    if($fetch) return $fetch;
+    else return null;
+  }
+  public function Pu_SelectAll($mb_num) {
+    $this->openDB();
+    $query = $this->db->prepare("select * from puhistory where mb_num = $mb_num");
+    $query->execute();
+    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+    if($fetch) return $fetch;
+    else return null;
+  }
+  public function BesongSelectAll($mb_num) {
+    $this->openDB();
+    $query = $this->db->prepare("select COUNT(DISTINCT(order_id)) from puhistory where mb_num = $mb_num  and pu_besong = '배송중'");
     $query->execute();
     $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
     if($fetch) return $fetch;

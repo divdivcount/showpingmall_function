@@ -1,13 +1,15 @@
 *{
   list-style: none;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
+  text-decoration:none;
+
 }
 .center{
   text-align: center;
 }
 .click_box{
-  width:80%;
+  width:100%;
 
 }
 .click_box2{
@@ -31,8 +33,8 @@
   float: left;
 }
 .button{
-  width:50px;
-  height: 25px;
+
+  height: 50px;
 }
 .image_box{
   float: left;
@@ -40,10 +42,11 @@
 
 
 .list{
-  margin-top: 30px;
+  margin-top: 50px;
   display: flex;
   flex-direction: row;
   height: 200px;
+  border-bottom: solid 3px #ddd;
 }
 .list-li{
   margin: 0 0 0 0;
@@ -52,6 +55,7 @@
   float: left;
 }
 .info_text{
+  margin-top: 5px;
   padding-left: 10%;
   width:80%;
   font-size: 13px;
@@ -96,3 +100,13 @@ a.abtn.current {
 .hidden {
   display: none;
 }
+.over{background: #222328; color:#ffffff; transition:all 0.4s;}
+.dheader{width: 20%; height: 650px; float: left;}
+.gnb_wrap .gnb{width: 100%; text-align: center; position: relative; float:left;}
+.gnb_wrap > .nav > .gnb > li{width: 100%; position: relative; transition: all 0.4s; background-color:rgba(147,194,14,0.8);}
+.gnb_wrap > .nav > .gnb > li > a{display: block; font-size: 20px; padding:10px 0; color:#000; text-decoration:none;}
+.gnb_wrap > .nav > .gnb > li > .submenu{text-align: center; font-size: 17px;}
+.gnb_wrap > .nav > .gnb > li > .submenu > li{width: 100%; padding: 10px 0;}
+.gnb_wrap > .nav > .gnb > li > .submenu > li > a{width: 100%; padding: 10px 0; color:#000; text-decoration:none;}
+.gnb_wrap > .nav > .gnb > li > .submenu > li:hover{background: #86b00e; font-weight: bold; transition: all 0.4s;}
+.over{background:#93c20e; color:#ffffff; transition: all 0.4s;}

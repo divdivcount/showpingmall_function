@@ -12,5 +12,7 @@ require_once('db_dao.php');
 
 	protected $quTable = 'cases';
 	protected $quTableId = 'id';
+  protected $quTableFname = 'file';
+  protected $fdir = 'files/cases';
   }
   ?>
