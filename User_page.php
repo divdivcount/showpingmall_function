@@ -10,10 +10,18 @@
       $mb = mysqli_fetch_assoc($result);
       mysqli_close($conn); // 데이터베이스 접속 종료
     }
-    //회원 등급 표시
-    $m_dao = new ProDAO();
-    $m_result = $m_dao ->UserSelectAll($mb["mb_num"]);
-
+    // //회원 등급 표시
+    // $m_dao = new ProDAO();
+    // $m_result = $m_dao ->UserSelectAll($mb["mb_num"]);
+    // //회원 배송 카운트
+    // $b_dao = new Pay_history();
+    // $b_result = $b_dao->BesongSelectAll($mb["mb_num"]);
+    // foreach ($b_result as $b_row) {
+    // }
+    // $c_dao = new Consulting();
+    // $c_result=$c_dao->Consulting_Member_Search($mb["mb_num"]);
+    // foreach ($c_result as $row) {
+    // }
 if(empty($mb_id)){
 ?>
 <script type="text/javascript">
@@ -37,21 +45,32 @@ if(empty($mb_id)){
 }else{
 ?>
 <?php
+//회원 등급 표시
+$m_dao = new ProDAO();
+$m_result = $m_dao ->UserSelectAll($mb["mb_num"]);
+//회원 배송 카운트
+$b_dao = new Pay_history();
+$b_result = $b_dao->BesongSelectAll($mb["mb_num"]);
+foreach ($b_result as $b_row) {
+}
+$c_dao = new Consulting();
+$c_result=$c_dao->Consulting_Member_Search($mb["mb_num"]);
+foreach ($c_result as $row) {
+}
 if(empty($m_result)){
   $m_rating="";
 }else{
   foreach ($m_result as $m_row){
-    $m_rating = $m_row["mem_rating_name"];
-    $m_rating_num = $m_row["mem_rating_num"];
     $mb_p_num = $m_row["p_num"];
     // echo "<br>".$m_rating."<br>";
     // echo "<br>".$mb_p_num."<br>";
   }
 }
 $ms_dao = new Pay_history();
-$ms_result = $ms_dao -> GoSelectAll();
+$ms_result = $ms_dao -> GoSelectAll($mb["mb_num"]);
 if(empty($ms_result)){
-  $u_total_rating_name = empty($u_total_rating_name) ? "" : $u_total_rating_name;
+  $u_total_rating_name = empty($u_total_rating_name) ? "12" : $u_total_rating_name;
+  $mbs_num = empty($mbs_num) ? "" : $mbs_num;
 }else{
 foreach ($ms_result as $m_row) {
 	$mbs_num = $m_row["mb_num"];
@@ -135,10 +154,10 @@ foreach($u_result as $u_row){
             <?php }else{} } ?>
               </li>
               <li>
-                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./basket.php')">장바구니</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./User_basket.php')">장바구니</a>
               </li>
               <li>
-                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./payhistory.php')">구매목록</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./User_payhistory.php')">구매목록</a>
               </li>
             </ul>
         </div>
@@ -161,7 +180,7 @@ foreach($u_result as $u_row){
                 <p style="font-weight:bold; margin-bottom:15px;">나의 문의</p>
               </li>
               <li>
-                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./consulting_user.php')">상담신청</a>
+                <a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('./User_consulting_user.php')">상담신청</a>
               </li>
             </ul>
         </div>
@@ -175,17 +194,19 @@ foreach($u_result as $u_row){
         </div>
         <div class="u_gnb_wrap">
           <h6>배송중</h6>
+          <h3><?=$b_row["COUNT(DISTINCT(order_id))"]?></h3>
         </div>
         <div class="u_gnb_wrap">
           <h6>할인쿠폰</h6>
         </div>
         <div class="u_gnb_wrap">
           <h6>상담 신청</h6>
+          <h3><?=$row["count(`statok`)"]?></h3>
         </div>
       </div>
     </div>
     <div class"u_iframe">
-      <iframe id="main_frame" frameborder="0" align="left" src="./basket.php" height="800px" width="80%"></iframe>
+      <iframe id="main_frame" frameborder="0" align="left" src="./User_basket.php" height="800px" width="80%"></iframe>
     </div>
     <script>
     function changeIframeUrl(url){

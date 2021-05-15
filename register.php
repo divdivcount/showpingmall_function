@@ -5,19 +5,20 @@ require_once("modules/db.php");
 <html>
 <head>
 	<title>Register</title>
-	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/css_login.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <?php
 $mb_id = empty($_SESSION['ss_mb_id']) ? "" : $_SESSION['ss_mb_id'];
 if($mb_id && isset($_GET['mode']) == 'modify') { // 세션이 있고 회원수정 mode라면 회원 정보를 가져옴
-	$sql = " SELECT * FROM member WHERE mb_id = '$mb_id' "; // 회원 정보를 조회
-	$result = mysqli_query($conn, $sql);
-	$mb = mysqli_fetch_assoc($result);
-	mysqli_close($conn); // 데이터베이스 접속 종료
+	$dao = new Member();
+	$result = $dao->Member_Search("",$mb_id);
+	foreach ($result as $mb) {
+
+	}
 	$mode = "modify";
-	$title = "회원수정";
+	$title = "Modify";
 	$modify_mb_info = "readonly";
 } else {
 	$mb['mb_id']= "";
@@ -25,76 +26,67 @@ if($mb_id && isset($_GET['mode']) == 'modify') { // 세션이 있고 회원수�
 	$mb['mb_name'] = "";
 	$mb['mb_email'] = "";
 	$mb['mb_gender'] = "";
+
+	$mode = "insert";
+	$title = "register";
+	$modify_mb_info = '';
+
 	?>
 <script>
 	$(document).ready(function(e) {
-		$(".check").on("keyup", function(){ //check라는 클래스에 입력을 감지
-			var self = $(this);
+		$(".id_checking").on("keyup", function(){ //id_checking 라는 클래스에 입력을 감지(keyup이벤트)
+			var id_checking = $(this); //id_checking 클래스 자기자신
 			var mb_id;
-			if(self.attr("id") === "mb_id"){
-				mb_id = self.val();
+			if(id_checking.attr("id") === "mb_id"){ //id_checking.attr("id") -> mb_id === mb_id
+				mb_id = id_checking.val();//id_checking 벨류값을 mb_id에 담김
 			}
 			$.post( //post방식으로 register_update.php에 입력한 userid값을 넘깁니다
-				<?php
-				$mode = "insert";
-				$title = "회원가입";
-				$modify_mb_info = '';
-				?>
 				"ajaxlogin.php",
 				{ mb_ids : mb_id},
 				function(data){
 					if(data){ //만약 data값이 전송되면
-
-						self.parent().parent().find("div").html(data); //div태그를 찾아 html방식으로 data를 뿌려줍니다.
-						self.parent().parent().find("div").css("color", "#F00"); //div 태그를 찾아 css효과로 빨간색을 설정합니다
+						$('#id_check').html(data); //id_check에 값을 넣음
 					}
 				}
 			);
 		});
 	});
+
 	</script>
 	<?php
 }
 ?>
 <body>
-
-<h1><?php echo $title; ?></h1>
-
 <form action="./register_update.php" onsubmit="return fregisterform_submit(this);" method="post">
 	<input type="hidden" name="mode" value="<?php echo $mode; ?>">
+	<div style="height:600px;" class="login-box-bg">
+		<div class="login-box">
+			<h1><?php echo $title; ?></h1>
+			<div class="textbox">
+				<input type="text" placeholder="UserId" name="mb_id" id="mb_id"  class="id_checking" value="<?php echo $mb['mb_id']; ?>" <?php echo $modify_mb_info; ?>/>
+			</div>
+			<p id='id_check'></p>
+			<div class="textbox">
+				<input type="password" placeholder="Password" name="mb_password">
+			</div>
+			<div class="textbox">
+				<input type="password" placeholder="Password_Re" name="mb_password_re">
+			</div>
+			<div class="textbox">
+				<input type="text" name="mb_name" placeholder="Name" value="<?php echo $mb['mb_name'] ?>" <?php echo $modify_mb_info ?>>
+			</div>
+			<div class="textbox">
+				<input type="text" name="mb_email" placeholder="E-Mail" value="<?php echo $mb['mb_email'] ?>">
+			</div>
+			<div style="text-align:center;" >
+				<label style="margin-right:15px;"><input type="radio" name="mb_gender" value="남자" <?php echo ($mb['mb_gender'] == "남자") ? "checked" : "";?> >남자</label>
+				<label style="margin-left:100px;"><input type="radio" name="mb_gender" value="여자" <?php echo ($mb['mb_gender'] == "여자") ? "checked" : "";?> >여자</label>
+			</div>
 
-	<table>
-		<tr>
-			<th>아이디</th>
-			<td><input type="text" name="mb_id" id="mb_id"  class="check" value="<?php echo $mb['mb_id']; ?>" <?php echo $modify_mb_info; ?>><div id="id_check"></div></td>
-		</tr>
-		<tr>
-			<th>비밀번호</th>
-			<td><input type="password" name="mb_password"></td>
-		</tr>
-		<tr>
-			<th>비밀번호 확인</th>
-			<td><input type="password" name="mb_password_re"></td>
-		</tr>
-		<tr>
-			<th>이름</th>
-			<td><input type="text" name="mb_name" value="<?php echo $mb['mb_name'] ?>" <?php echo $modify_mb_info ?>></td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td><input type="text" name="mb_email" value="<?php echo $mb['mb_email'] ?>"></td>
-		</tr>
-		<tr>
-			<th>성별</th>
-			<td>
-				<label><input type="radio" name="mb_gender" value="남자" <?php echo ($mb['mb_gender'] == "남자") ? "checked" : "";?> >남자</label>
-				<label><input type="radio" name="mb_gender" value="여자" <?php echo ($mb['mb_gender'] == "여자") ? "checked" : "";?> >여자</label>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="td_center"><input type="submit" value="<?php echo $title ?>"> <a href="./login.php">취소</a></td>
-		</tr>
-	</table>
+			<input type="submit" class="btn" value="<?php echo $title ?>">
+			<div style="width:96%; text-align:center;"class="btn"><a style="font-size: 19px;text-decoration:none; color:#fff;" href="./login.php">Cancel</a></div>
+			</div>
+	</div>
 </form>
 
 <script>

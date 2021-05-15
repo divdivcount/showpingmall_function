@@ -20,7 +20,7 @@ if($new != $newre) {
 }
 $loginObj = new ProLogin();
 if($loginObj->PasswordChange($old, $new)) {
-  userGoto('변경되었습니다.', 'gallery_list.php');
+  userGoto('변경되었습니다.', 'admin_gallery_list.php');
 }
 else {
   userGoto('비밀번호 변경 실패', '');

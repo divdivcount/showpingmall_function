@@ -7,31 +7,25 @@ require_once('modules/notification.php');
 <html>
 <head>
 	<title>Login</title>
-	<link href="./tyle.css" rel="stylesheet" type="text/css">
+	<link href="css/css_login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
 <?php if(!isset($_SESSION['ss_mb_id'])) { // 로그인 세션이 있을 경우 로그인 화면 ?>
-
-<h1>로그인</h1>
-
 	<form action="./login_check.php" method="post">
-		<table>
-			<tr>
-				<th>아이디</th>
-				<td><input type="text" name="mb_id"></td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td><input type="password" name="mb_password"></td>
-			</tr>
-			<tr>
-				<td colspan="2" class="td_center">
-					<input type="submit" value="로그인">
-					<a href="./register.php">회원가입</a>
-				</td>
-			</tr>
-		</table>
+		<div class="login-box-bg">
+			<div class="login-box">
+				<h1>Login</h1>
+				<div class="textbox">
+				<td><input type="text" placeholder="Username" name="mb_id"></td>
+				</div>
+			<div class="textbox">
+				<input type="password" placeholder="Password" name="mb_password">
+			</div>
+					<button type="submit" class="btn" value="">Sign in</button>
+					<div style="text-align:center; width:95%" class="btn"><a style="font-size: 19px;text-decoration:none; color:#fff;" href="./register.php">register</a></div>
+				</div>
+      </div>
 	</form>
 
 <?php } else { // 로그인 세션이 없을 경우 로그인 완료 화면 ?>

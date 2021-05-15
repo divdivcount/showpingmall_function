@@ -1,6 +1,5 @@
 <?php
 // Load Modules
-require_once('modules/db.php');
 require_once("modules/admin.php");
 // $mb_id = $_SESSION['ss_mb_id'];
 // $sql = " select * from member where mb_id = TRIM('$mb_id') ";
@@ -49,7 +48,7 @@ $pid = Get('p', 1);
       text-align: center;
     }
     .table caption{caption-side: bottom; display: none;}
-    #test{text-align:center; border:none; margin: 0; padding: 0; font-size:16px;}
+    #mb_imp3{text-align:center; border:none; margin: 0; padding: 0; font-size:16px;}
       </style>
 	</head>
 	<body>
@@ -76,11 +75,11 @@ $pid = Get('p', 1);
 						// $info = json_decode(stripcslashes($request_body), true);
 						//  print_r( $info["mb_num"]);
 
-						$mb_p_num = empty($_POST["mb_p_num"]) ? "" : $_POST["mb_p_num"];
+						$mb_p_num = Post("mb_p_num",null);//empty($_POST["mb_p_num"]) ? "" : $_POST["mb_p_num"];
 						echo $mb_p_num;
 						 ?>
-						 <div class="col-lg-12" id="test" ></div>
-						<div class="col-lg-12" id="ex1_Result2" ></div>
+						 <div class="col-lg-12" id="mb_imp3" ></div>
+						<div class="col-lg-12" id="mb_imp2" ></div>
           </div>
         <?php $priv_order_id = 0; ?>
     				<?php foreach ($result as $row) : ?>
@@ -96,11 +95,12 @@ $pid = Get('p', 1);
 
                         // echo $row["pr_num"];
                       ?>
-									<table id="example-table-1" width="100%" class="table table-bordered table-hover text-center">
+									<table id="mb_imp" width="100%" class="table table-bordered table-hover text-center">
 										<thead>
 											<tr>
 												<th>회원 번호</th>
 												<th>주문 번호</th>
+												<th>제품 번호</th>
 												<th>물품 아이디</th>
 												<th>물품 이름</th>
 												<th>주문 수량</th>
@@ -113,6 +113,7 @@ $pid = Get('p', 1);
 											<tr>
 												<td><?= $row["mb_num"] ?></td>
 												<td><?= $row['order_id'] ?></td>
+												<td><?= $row['id_key'] ?></td>
 												<td><?= $row['pu_id'] ?></td>
 												<td><?= $row['pr_name'] ?></td>
 												<td><?= $row['pr_qty'] ?></td>
@@ -153,7 +154,7 @@ $pid = Get('p', 1);
     <script>
 
     // 테이블의 Row 클릭시 값 가져오기
-		$("#example-table-1 tr").click(function(){
+		$("#mb_imp tr").click(function(){
 
 			var str = "";
 			var tdArr = new Array();	// 배열 선언
@@ -175,12 +176,13 @@ $pid = Get('p', 1);
 			// td.eq(index)를 통해 값을 가져올 수도 있다.
 			var mb_num = td.eq(0).text();
 			var order_id = td.eq(1).text();
-			var pu_id = td.eq(2).text();
-			var pr_name = td.eq(3).text();
-			var pr_qty = td.eq(4).text();
-			var pa = td.eq(5).text();
-			var date = td.eq(6).text();
-			var be = td.eq(7).text();
+			var id_key = td.eq(2).text();
+			var pu_id = td.eq(3).text();
+			var pr_name = td.eq(4).text();
+			var pr_qty = td.eq(5).text();
+			var pa = td.eq(6).text();
+			var date = td.eq(7).text();
+			var be = td.eq(8).text();
 
 			// str +=	"<table class='table'><th>회원 번호</th><th>주문 번호</th><th>물품 번호</th><th>물품 이름</th><th>주문 수량</th><th>구매 가격</th><th>구매 일시</th><tr><td><font color='red'>" + mb_num + "</font></td>" +
 			// 		"<td><font color='red'>" + order_id + "</font></td>" +
@@ -190,15 +192,26 @@ $pid = Get('p', 1);
 			// 		"<td><font color='red'>" + pa + "</font></td>" +
 			// 		"<td><font color='red'>" + date + "</font></td></tr></table>"
 			// $("#ex1_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());
-			$("#ex1_Result2").html(str);
-			console.log("");
-			$.post(
-			 "admin_ajax.php",//
-			 { mb_p_num: mb_num, order_p_id: order_id, pu_p_id : pu_id, pr_p_name : pr_name, pr_p_qty : pr_qty, p_pa : pa, p_date : date, p_be : be},
-			 function(data){
-				 $('#test').html(data);
-			 }
-		 );
+			$("#mb_imp2").html(str);
+			
+			$.ajax({
+				url: 'admin_delivery_ajax.php',
+				type:'post',
+				data :{ mb_p_num: mb_num, order_p_id: order_id, pu_p_id : pu_id, p_id_key : id_key ,pr_p_name : pr_name, pr_p_qty : pr_qty, p_pa : pa, p_date : date, p_be : be},
+				success :function(data){
+					$('#mb_imp3').html(data);
+				},
+				error: function(err) {
+						alert();
+				}
+			});
+			// $.post(
+			//  "admin_delivery_ajax.php",//
+			//  { mb_p_num: mb_num, order_p_id: order_id, pu_p_id : pu_id, p_id_key : id_key ,pr_p_name : pr_name, pr_p_qty : pr_qty, p_pa : pa, p_date : date, p_be : be},
+			//  function(data){
+			// 	 $('#mb_imp3').html(data);
+			//  }
+		 // );
 		});
 
 </script>

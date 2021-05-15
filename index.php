@@ -34,11 +34,7 @@
 		<title></title>
 	</head>
 	<body>
-		<div id="header">
-
-		</div>
 		<div id="content_container">
-			<div id="navigation">
 					<?php
 							if(empty($_SESSION['ss_mb_id'])){
 								echo "";
@@ -90,14 +86,11 @@
 							 </li>
 						 <?php endif ?>
 				     </ul>
-				   </div>
+				  </div>
+					<?php require_once('modules/form_navigation.php'); ?>
 					<div class="click_box">
-						<div>
-							<iframe id="main_frame" src="list.php?var=cpu" height="800px" width="70%"></iframe>
-						</div>
-						<div class="gnb_wrap">
-							<div class="nav">
-								<ul class="gnb">
+							<iframe style="float:left;" frameborder="0"  id="main_frame" src="User_list.php?var=cpu" height="800px" width="80%"></iframe>
+					</div>
 									<!--세션, 코드번호 담기,
 										if (empty($_SESSION["cart"])) {
 										    $_SESSION["cart"] = "";
@@ -115,21 +108,6 @@
 										    }
 										}
 									-->
-										<li><a style="cursor:pointer;" class="clicker" onclick="changeIframeUrl('list.php?var=cpu')">cpu</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=mainboard')">mainboard</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=power')">power</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=case')">case</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=cooler')">cooler</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=odd')">Odd</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=memory')">memory</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=graphicscard')">graphicscard</a></li>
-										<li><a style="cursor:pointer;"class ="clicker" onclick="changeIframeUrl('list.php?var=storage')">storage</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-			</div>
-		</div>
 		<div id="footer">
 		</div>
 		<script>

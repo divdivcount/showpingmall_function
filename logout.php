@@ -3,7 +3,6 @@
 session_start(); // 세션의 시작
 unset($_SESSION['ss_mb_id']); // 모든 세션변수를 언레지스터 시켜줌
 if(empty($_SESSION['ss_mb_id'])){
-	echo "세션이 없다.";
 }else{
 	session_destroy($_SESSION['ss_mb_id']); // 세션파괴
 }

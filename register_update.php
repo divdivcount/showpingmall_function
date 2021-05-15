@@ -10,22 +10,21 @@ if($mode != 'insert' && $mode != 'modify') { // 아무런 모드가 없다면 �
 }
 switch ($mode) {
     case 'insert' :
-        $mb_id = trim($_POST['mb_id']);
+        $mb_id = $_POST['mb_id'];
 		$title = "회원가입";
         break;
     case 'modify' :
-        $mb_id = trim($_SESSION['ss_mb_id']);
+        $mb_id = $_SESSION['ss_mb_id'];
 		$title = "회원수정";
     break;
 }
 
-$mb_password			= trim($_POST['mb_password']); // 첫번째 입력 패스워드
-$mb_password_re		= trim($_POST['mb_password_re']); // 두번째 입력 패스워드
-$mb_name				= trim($_POST['mb_name']); // 이름
-$mb_email				= trim($_POST['mb_email']); // 이메일
-$mb_gender				= $_POST['mb_gender']; // 성별
-$mb_ip					= $_SERVER['REMOTE_ADDR']; // 접속 아이피
-$mb_datetime			= date('Y-m-d H:i:s', time()); // 가입일
+$mb_password = $_POST['mb_password']; // 첫번째 입력 패스워드
+$mb_password_re	= $_POST['mb_password_re']; // 두번째 입력 패스워드
+$mb_name = $_POST['mb_name']; // 이름
+$mb_email	= $_POST['mb_email']; // 이메일
+$mb_gender = $_POST['mb_gender']; // 성별
+$mb_datetime = date('Y-m-d H:i:s', time()); // 가입일
 $mb_modify_datetime	= date('Y-m-d H:i:s', time()); // 수정일
 
 if (!$mb_id) {
@@ -86,7 +85,6 @@ if($mode == "insert") { // 신규 등록 상태
 					 mb_name = '$mb_name',
 					 mb_email = '$mb_email',
 					 mb_gender = '$mb_gender',
-					 mb_ip = '$mb_ip',
 					 mb_datetime = '$mb_datetime' ";
 	$result = mysqli_query($conn, $sql);
 
@@ -101,6 +99,7 @@ if($mode == "insert") { // 신규 등록 상태
 
 if ($result) {
 
+
 	if($mode == "insert") { // 신규 가입의 경우 무조건 메일 인증확인 메일 발송
 		include_once('./function.php'); // 메일 전송을 위한 파일을 인클루드합니다.
 
@@ -114,19 +113,23 @@ if ($result) {
 
 		$subject = '인증확인 메일입니다.'; // 메일 제목
 
-		ob_start();
+		ob_start(); //ob_start — 출력 버퍼링 켜기
 		include_once ('./register_update_mail.php');
 		$content = ob_get_contents(); // 메일 내용
-		ob_end_clean();
+		ob_end_clean(); //출력 버퍼를 정리 (지우기)하고 출력 버퍼링을 종료.
 
 		$mail_from = "dame502030@naver.com"; // 보내는 이메일 주소
 		$mail_to = $mb_email; // 받을 이메일 주소
 
 		mailer('관리자', $mail_from, $mail_to, $subject, $content); // 메일 전송
+		echo "<script>alert('".$title."이 완료 되었습니다.\\n신규가입의 경우 메일인증을 받으셔야 로그인 가능합니다.');</script>";
+		echo "<script>location.replace('./login.php');</script>";
 	}
-
+if($mode == "modify") {
 	echo "<script>alert('".$title."이 완료 되었습니다.\\n신규가입의 경우 메일인증을 받으셔야 로그인 가능합니다.');</script>";
-	echo "<script>location.replace('./login.php');</script>";
+	echo "<script>location.replace('./User_basket.php');</script>";
+}
+
 	exit;
 } else {
 	echo "생성 실패: " . mysqli_error($conn);

@@ -1,6 +1,5 @@
 <?php
 // Load Modules
-require_once('modules/db.php');
 require_once("modules/admin.php");
 require_once('modules/cat.php');
 $result1 = $dao ->SelectAll();
@@ -12,6 +11,19 @@ $pid = Get('p', 1);
 	<head>
 		<?php require_once('modules/form_head.php'); ?>
 		<title></title>
+		<style>
+			.navbar-inverse{
+				background-color:#86b00e;
+				border-color:#86b00e;
+				width:100%;
+			}
+			.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+		border-color: #86b00e;
+		}
+		.navbar-form > div{
+			border:none;
+		}
+		</style>
 	</head>
 	<body>
 		<div id="header">
@@ -20,26 +32,34 @@ $pid = Get('p', 1);
 		<div id="content_container">
 			<div id="navigation">
 			</div>
-					<div>
-						<div>
-							<form action="admin_list.php" method="get">
-								<input id="kk" type="hidden"  name="var" value="<?=$link?>">
-								<input id="kk" type="text"  name="s_value">
-								<input type="submit" value="검색">
-						  </form>
-						</div>
-						<form class="" action="listdel.php?var=<?= $link ?>" method="post">
+			<div>
+					<nav class="navbar navbar-inverse">
+						  <div class="container-fluid">
+							<form class="navbar-form navbar-left" action="admin_list.php" method="get">
+								<div class="input-group">
+									<input id="kk" type="hidden"  name="var" value="<?=$link?>">
+									<input id="kk" class="form-control" type="text"  name="s_value" placeholder="Search">
+								<div class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+								 <i class="glyphicon glyphicon-search"></i>
+								 </button>
+							 </div>
+						 </div>
+					 </div>
+				 </nav>
+							</form>
+						<form class="" action="admin_listdel.php?var=<?= $link ?>" method="post">
 						  <table id="board">
 							<thead>
 							  <tr id="field">
-								<th><input type="checkbox" class="hidden" id="all" value="all"><label for="all"></label></th>
-								<th>번호</th>
-								<th>이미지</th>
-								<th>이름</th>
-								<th>제조사</th>
-								<th>제품 정보</th>
-								<th>등록 날짜</th>
-								<th>가격</th>
+								<th class="text-center"><input type="checkbox" class="hidden" id="all" value="all"><label for="all"></label></th>
+								<th class="text-center">번호</th>
+								<th class="text-center">이미지</th>
+								<th class="text-center">이름</th>
+								<th class="text-center">제조사</th>
+								<th class="text-center">제품 정보</th>
+								<th class="text-center">등록 날짜</th>
+								<th class="text-center">가격</th>
 								<th colspan="7">
 								  <button type="submit" name="button">삭제</button>
 								  <span></span>
@@ -68,7 +88,7 @@ $pid = Get('p', 1);
 						  <?php for($i=$result['start']; $i<=$result['end']; $i++): ?>
 							<a class="abtn <?php if($i === (int)$result['current']) echo 'current' ?>" href="?var=<?=$link?>&p=<?= $i ?>&s_value=<?=$s_value?>"><?= $i ?></a>
 						  <?php endfor ?>
-						  <button type="button" name="button" onclick="location.href='ProductWrite.php'">글 작성</button>
+						  <button type="button" name="button" onclick="location.href='admin_ProductWrite.php'">상품 등록</button>
 						</div>
 					</div>
 		</div>

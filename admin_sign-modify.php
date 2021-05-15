@@ -1,7 +1,7 @@
 <?php
 // Load Modules
-require_once('modules/db.php');
 
+require_once("modules/admin.php");
 // Parameter
 
 // Functions
@@ -13,10 +13,7 @@ $loginObj = new ProLogin();
 <html lang="ko" dir="ltr">
   <head>
     <title></title>
-    <link href="css/css_sub2.css" rel="stylesheet" type="text/css">
-    <link href="css/admin_cul.css" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <?php require_once('modules/form_head.php'); ?>
   </head>
   <body>
     <main>
@@ -35,7 +32,7 @@ $loginObj = new ProLogin();
           <input type="password" placeholder="새 비밀번호 확인" name="newre">
         </div>
           <br>
-        <button type="submit" class="btn" value="">변경하기</button>
+        <button type="submit" class="" value="">변경하기</button>
         </div>
       </div>
       </form>
